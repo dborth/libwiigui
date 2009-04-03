@@ -16,16 +16,14 @@
 
 #include "input.h"
 
-/*** 2D Video ***/
+#define DEFAULT_FIFO_SIZE 256 * 1024
 static unsigned int *xfb[2] = { NULL, NULL }; // Double buffered
 static int whichfb = 0; // Switch
 static GXRModeObj *vmode; // Menu video mode
-int screenheight;
-int screenwidth;
-
-#define DEFAULT_FIFO_SIZE 256 * 1024
 static unsigned char gp_fifo[DEFAULT_FIFO_SIZE] ATTRIBUTE_ALIGN (32);
 static Mtx GXmodelView2D;
+int screenheight;
+int screenwidth;
 
 /****************************************************************************
  * UpdatePadsCB
@@ -167,8 +165,8 @@ InitVideo ()
 	// widescreen fix
 	if(CONF_GetAspectRatio() == CONF_ASPECT_16_9)
 	{
-		vmode->viWidth = 688;
-		vmode->viXOrigin = (VI_MAX_WIDTH_PAL - 688) / 2;
+		vmode->viWidth = VI_MAX_WIDTH_PAL-12;
+		vmode->viXOrigin = ((VI_MAX_WIDTH_PAL - vmode->viWidth) / 2) + 2;
 	}
 
 	VIDEO_Configure (vmode);

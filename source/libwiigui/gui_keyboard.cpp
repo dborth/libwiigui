@@ -84,7 +84,7 @@ GuiKeyboard::GuiKeyboard(char * t, u16 max)
 	keyTextboxImg->SetPosition(0, 0);
 	this->Append(keyTextboxImg);
 
-	kbText = new GuiText(kbtextstr, 22, (GXColor){0, 0, 0, 0xff});
+	kbText = new GuiText(kbtextstr, 20, (GXColor){0, 0, 0, 0xff});
 	kbText->SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
 	kbText->SetPosition(0, 13);
 	this->Append(kbText);
@@ -103,7 +103,7 @@ GuiKeyboard::GuiKeyboard(char * t, u16 max)
 
 	keyBackImg = new GuiImage(keyMedium);
 	keyBackOverImg = new GuiImage(keyMediumOver);
-	keyBackText = new GuiText("Back", 22, (GXColor){0, 0, 0, 0xff});
+	keyBackText = new GuiText("Back", 20, (GXColor){0, 0, 0, 0xff});
 	keyBack = new GuiButton(keyMedium->GetWidth(), keyMedium->GetHeight());
 	keyBack->SetImage(keyBackImg);
 	keyBack->SetImageOver(keyBackOverImg);
@@ -116,7 +116,7 @@ GuiKeyboard::GuiKeyboard(char * t, u16 max)
 
 	keyCapsImg = new GuiImage(keyMedium);
 	keyCapsOverImg = new GuiImage(keyMediumOver);
-	keyCapsText = new GuiText("Caps", 22, (GXColor){0, 0, 0, 0xff});
+	keyCapsText = new GuiText("Caps", 20, (GXColor){0, 0, 0, 0xff});
 	keyCaps = new GuiButton(keyMedium->GetWidth(), keyMedium->GetHeight());
 	keyCaps->SetImage(keyCapsImg);
 	keyCaps->SetImageOver(keyCapsOverImg);
@@ -129,7 +129,7 @@ GuiKeyboard::GuiKeyboard(char * t, u16 max)
 
 	keyShiftImg = new GuiImage(keyMedium);
 	keyShiftOverImg = new GuiImage(keyMediumOver);
-	keyShiftText = new GuiText("Shift", 22, (GXColor){0, 0, 0, 0xff});
+	keyShiftText = new GuiText("Shift", 20, (GXColor){0, 0, 0, 0xff});
 	keyShift = new GuiButton(keyMedium->GetWidth(), keyMedium->GetHeight());
 	keyShift->SetImage(keyShiftImg);
 	keyShift->SetImageOver(keyShiftOverImg);
@@ -158,7 +158,7 @@ GuiKeyboard::GuiKeyboard(char * t, u16 max)
 		{
 			keyImg[i][j] = new GuiImage(key);
 			keyImgOver[i][j] = new GuiImage(keyOver);
-			keyTxt[i][j] = new GuiText(NULL, 22, (GXColor){0, 0, 0, 0xff});
+			keyTxt[i][j] = new GuiText(NULL, 20, (GXColor){0, 0, 0, 0xff});
 			keyTxt[i][j]->SetAlignment(ALIGN_CENTRE, ALIGN_BOTTOM);
 			keyTxt[i][j]->SetPosition(0, -10);
 			keyBtn[i][j] = new GuiButton(key->GetWidth(), key->GetHeight());
