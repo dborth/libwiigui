@@ -1,8 +1,10 @@
 /****************************************************************************
  * libwiigui
+ *
  * Tantric 2009
  *
  * gui_keyboard.cpp
+ *
  * GUI class definitions
  ***************************************************************************/
 
@@ -11,7 +13,7 @@
  * Constructor for the GuiKeyboard class.
  */
 
-GuiKeyboard::GuiKeyboard(char * t, u16 max)
+GuiKeyboard::GuiKeyboard(char * t, u32 max)
 {
 	width = 540;
 	height = 400;
@@ -21,11 +23,11 @@ GuiKeyboard::GuiKeyboard(char * t, u16 max)
 	focus = 0; // allow focus
 	alignmentHor = ALIGN_CENTRE;
 	alignmentVert = ALIGN_MIDDLE;
-	strncpy(kbtextstr, t, 100);
-	kbtextstr[100] = 0;
+	strncpy(kbtextstr, t, max);
+	kbtextstr[max] = 0;
 	kbtextmaxlen = max;
 
-	Key thekeys[4][10] = {
+	Key thekeys[4][11] = {
 	{
 		{'1','!'},
 		{'2','@'},
@@ -36,7 +38,8 @@ GuiKeyboard::GuiKeyboard(char * t, u16 max)
 		{'7','&'},
 		{'8','*'},
 		{'9','('},
-		{'0',')'}
+		{'0',')'},
+		{'\0','\0'}
 	},
 	{
 		{'q','Q'},
@@ -48,7 +51,8 @@ GuiKeyboard::GuiKeyboard(char * t, u16 max)
 		{'u','U'},
 		{'i','I'},
 		{'o','O'},
-		{'p','P'}
+		{'p','P'},
+		{'-','_'}
 	},
 	{
 		{'a','A'},
@@ -60,7 +64,8 @@ GuiKeyboard::GuiKeyboard(char * t, u16 max)
 		{'j','J'},
 		{'k','K'},
 		{'l','L'},
-		{':',';'}
+		{':',';'},
+		{'\'','"'}
 	},
 
 	{
@@ -73,7 +78,8 @@ GuiKeyboard::GuiKeyboard(char * t, u16 max)
 		{'m','M'},
 		{',','<'},
 		{'.','>'},
-		{'/','?'}
+		{'/','?'},
+		{'\0','\0'}
 	}
 	};
 	memcpy(keys, thekeys, sizeof(thekeys));
@@ -154,22 +160,25 @@ GuiKeyboard::GuiKeyboard(char * t, u16 max)
 
 	for(int i=0; i<4; i++)
 	{
-		for(int j=0; j<10; j++)
+		for(int j=0; j<11; j++)
 		{
-			keyImg[i][j] = new GuiImage(key);
-			keyImgOver[i][j] = new GuiImage(keyOver);
-			keyTxt[i][j] = new GuiText(NULL, 20, (GXColor){0, 0, 0, 0xff});
-			keyTxt[i][j]->SetAlignment(ALIGN_CENTRE, ALIGN_BOTTOM);
-			keyTxt[i][j]->SetPosition(0, -10);
-			keyBtn[i][j] = new GuiButton(key->GetWidth(), key->GetHeight());
-			keyBtn[i][j]->SetImage(keyImg[i][j]);
-			keyBtn[i][j]->SetImageOver(keyImgOver[i][j]);
-			keyBtn[i][j]->SetSoundOver(keySoundOver);
-			keyBtn[i][j]->SetTrigger(trigA);
-			keyBtn[i][j]->SetLabel(keyTxt[i][j]);
-			keyBtn[i][j]->SetPosition(j*42+21*i+40, i*42+80);
-			keyBtn[i][j]->SetEffectGrow();
-			this->Append(keyBtn[i][j]);
+			if(keys[i][j].ch != '\0')
+			{
+				keyImg[i][j] = new GuiImage(key);
+				keyImgOver[i][j] = new GuiImage(keyOver);
+				keyTxt[i][j] = new GuiText(NULL, 20, (GXColor){0, 0, 0, 0xff});
+				keyTxt[i][j]->SetAlignment(ALIGN_CENTRE, ALIGN_BOTTOM);
+				keyTxt[i][j]->SetPosition(0, -10);
+				keyBtn[i][j] = new GuiButton(key->GetWidth(), key->GetHeight());
+				keyBtn[i][j]->SetImage(keyImg[i][j]);
+				keyBtn[i][j]->SetImageOver(keyImgOver[i][j]);
+				keyBtn[i][j]->SetSoundOver(keySoundOver);
+				keyBtn[i][j]->SetTrigger(trigA);
+				keyBtn[i][j]->SetLabel(keyTxt[i][j]);
+				keyBtn[i][j]->SetPosition(j*42+21*i+40, i*42+80);
+				keyBtn[i][j]->SetEffectGrow();
+				this->Append(keyBtn[i][j]);
+			}
 		}
 	}
 }
@@ -208,12 +217,15 @@ GuiKeyboard::~GuiKeyboard()
 
 	for(int i=0; i<4; i++)
 	{
-		for(int j=0; j<10; j++)
+		for(int j=0; j<11; j++)
 		{
-			delete keyImg[i][j];
-			delete keyImgOver[i][j];
-			delete keyTxt[i][j];
-			delete keyBtn[i][j];
+			if(keys[i][j].ch != '\0')
+			{
+				delete keyImg[i][j];
+				delete keyImgOver[i][j];
+				delete keyTxt[i][j];
+				delete keyBtn[i][j];
+			}
 		}
 	}
 }
@@ -259,31 +271,34 @@ void GuiKeyboard::Update(GuiTrigger * t)
 
 	for(int i=0; i<4; i++)
 	{
-		for(int j=0; j<10; j++)
+		for(int j=0; j<11; j++)
 		{
-			if(shift || caps)
-				txt[0] = keys[i][j].chShift;
-			else
-				txt[0] = keys[i][j].ch;
-
-			keyTxt[i][j]->SetText(txt);
-
-			if(keyBtn[i][j]->GetState() == STATE_CLICKED)
+			if(keys[i][j].ch != '\0')
 			{
-				if(strlen(kbtextstr) < kbtextmaxlen)
+				if(shift || caps)
+					txt[0] = keys[i][j].chShift;
+				else
+					txt[0] = keys[i][j].ch;
+
+				keyTxt[i][j]->SetText(txt);
+
+				if(keyBtn[i][j]->GetState() == STATE_CLICKED)
 				{
-					if(shift || caps)
+					if(strlen(kbtextstr) < kbtextmaxlen)
 					{
-						kbtextstr[strlen(kbtextstr)] = keys[i][j].chShift;
-						if(shift) shift ^= 1;
+						if(shift || caps)
+						{
+							kbtextstr[strlen(kbtextstr)] = keys[i][j].chShift;
+							if(shift) shift ^= 1;
+						}
+						else
+						{
+							kbtextstr[strlen(kbtextstr)] = keys[i][j].ch;
+						}
 					}
-					else
-					{
-						kbtextstr[strlen(kbtextstr)] = keys[i][j].ch;
-					}
+					kbText->SetText(kbtextstr);
+					keyBtn[i][j]->SetState(STATE_SELECTED);
 				}
-				kbText->SetText(kbtextstr);
-				keyBtn[i][j]->SetState(STATE_SELECTED);
 			}
 		}
 	}
