@@ -26,6 +26,9 @@ GuiOptionBrowser::GuiOptionBrowser(int w, int h, OptionList * l)
 	trigA = new GuiTrigger;
 	trigA->SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
 
+	btnSoundOver = new GuiSound(button_over_pcm, button_over_pcm_size, SOUND_PCM);
+	btnSoundClick = new GuiSound(button_click_pcm, button_click_pcm_size, SOUND_PCM);
+
 	bgOptions = new GuiImageData(bg_options_png);
 	bgOptionsImg = new GuiImage(bgOptions);
 	bgOptionsImg->SetParent(this);
@@ -59,6 +62,8 @@ GuiOptionBrowser::GuiOptionBrowser(int w, int h, OptionList * l)
 	arrowUpBtn->SetAlignment(ALIGN_RIGHT, ALIGN_TOP);
 	arrowUpBtn->SetSelectable(false);
 	arrowUpBtn->SetTrigger(trigA);
+	arrowUpBtn->SetSoundOver(btnSoundOver);
+	arrowUpBtn->SetSoundClick(btnSoundClick);
 
 	arrowDownBtn = new GuiButton(arrowDownImg->GetWidth(), arrowDownImg->GetHeight());
 	arrowDownBtn->SetParent(this);
@@ -67,6 +72,8 @@ GuiOptionBrowser::GuiOptionBrowser(int w, int h, OptionList * l)
 	arrowDownBtn->SetAlignment(ALIGN_RIGHT, ALIGN_BOTTOM);
 	arrowDownBtn->SetSelectable(false);
 	arrowDownBtn->SetTrigger(trigA);
+	arrowDownBtn->SetSoundOver(btnSoundOver);
+	arrowDownBtn->SetSoundClick(btnSoundClick);
 
 	scrollbarBoxBtn = new GuiButton(scrollbarBoxImg->GetWidth(), scrollbarBoxImg->GetHeight());
 	scrollbarBoxBtn->SetParent(this);
@@ -94,6 +101,7 @@ GuiOptionBrowser::GuiOptionBrowser(int w, int h, OptionList * l)
 		optionBtn[i]->SetImageOver(optionBg[i]);
 		optionBtn[i]->SetPosition(0,30*i+3);
 		optionBtn[i]->SetTrigger(trigA);
+		optionBtn[i]->SetSoundClick(btnSoundClick);
 	}
 }
 
@@ -126,6 +134,8 @@ GuiOptionBrowser::~GuiOptionBrowser()
 	delete scrollbarBoxOver;
 
 	delete trigA;
+	delete btnSoundOver;
+	delete btnSoundClick;
 
 	for(int i=0; i<PAGESIZE; i++)
 	{
@@ -156,7 +166,10 @@ void GuiOptionBrowser::SetFocus(int f)
 void GuiOptionBrowser::ResetState()
 {
 	if(state != STATE_DISABLED)
+	{
 		state = STATE_DEFAULT;
+		stateChan = -1;
+	}
 
 	for(int i=0; i<PAGESIZE; i++)
 	{
@@ -276,7 +289,7 @@ void GuiOptionBrowser::Update(GuiTrigger * t)
 			if(i != selectedItem && optionBtn[i]->GetState() == STATE_SELECTED)
 				optionBtn[i]->ResetState();
 			else if(i == selectedItem && optionBtn[i]->GetState() == STATE_DEFAULT)
-				optionBtn[selectedItem]->SetState(STATE_SELECTED);
+				optionBtn[selectedItem]->SetState(STATE_SELECTED, t->chan);
 		}
 
 		optionBtn[i]->Update(t);
@@ -305,7 +318,7 @@ void GuiOptionBrowser::Update(GuiTrigger * t)
 			else if(optionBtn[selectedItem+1]->IsVisible())
 			{
 				optionBtn[selectedItem]->ResetState();
-				optionBtn[selectedItem+1]->SetState(STATE_SELECTED);
+				optionBtn[selectedItem+1]->SetState(STATE_SELECTED, t->chan);
 				selectedItem++;
 			}
 		}
@@ -325,7 +338,7 @@ void GuiOptionBrowser::Update(GuiTrigger * t)
 			else
 			{
 				optionBtn[selectedItem]->ResetState();
-				optionBtn[selectedItem-1]->SetState(STATE_SELECTED);
+				optionBtn[selectedItem-1]->SetState(STATE_SELECTED, t->chan);
 				selectedItem--;
 			}
 		}

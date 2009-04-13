@@ -15,6 +15,7 @@
 #include <wiiuse/wpad.h>
 
 #include "input.h"
+#include "libwiigui/gui.h"
 
 #define DEFAULT_FIFO_SIZE 256 * 1024
 static unsigned int *xfb[2] = { NULL, NULL }; // Double buffered
