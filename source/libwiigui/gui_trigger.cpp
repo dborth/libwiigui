@@ -1,10 +1,8 @@
 /****************************************************************************
  * libwiigui
- *
  * Tantric 2009
  *
  * gui_trigger.cpp
- *
  * GUI class definitions
  ***************************************************************************/
 
@@ -40,19 +38,6 @@ void GuiTrigger::SetSimpleTrigger(s32 ch, u32 wiibtns, u16 gcbtns)
 	chan = ch;
 	wpad.btns_d = wiibtns;
 	pad.btns_d = gcbtns;
-}
-
-/**
- * Sets a held trigger. Requires:
- * - Element is selected
- * - Trigger button is pressed and held
- */
-void GuiTrigger::SetHeldTrigger(s32 ch, u32 wiibtns, u16 gcbtns)
-{
-	type = TRIGGER_HELD;
-	chan = ch;
-	wpad.btns_h = wiibtns;
-	pad.btns_h = gcbtns;
 }
 
 /**
@@ -160,8 +145,7 @@ bool GuiTrigger::Left()
 		}
 		else
 		{
-			if(scrollDelay > 0)
-				scrollDelay--;
+			scrollDelay--;
 		}
 	}
 	return false;
@@ -189,8 +173,7 @@ bool GuiTrigger::Right()
 		}
 		else
 		{
-			if(scrollDelay > 0)
-				scrollDelay--;
+			scrollDelay--;
 		}
 	}
 	return false;
@@ -218,8 +201,7 @@ bool GuiTrigger::Up()
 		}
 		else
 		{
-			if(scrollDelay > 0)
-				scrollDelay--;
+			scrollDelay--;
 		}
 	}
 	return false;
@@ -247,8 +229,7 @@ bool GuiTrigger::Down()
 		}
 		else
 		{
-			if(scrollDelay > 0)
-				scrollDelay--;
+			scrollDelay--;
 		}
 	}
 	return false;

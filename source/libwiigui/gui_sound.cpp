@@ -1,10 +1,8 @@
 /****************************************************************************
  * libwiigui
- *
  * Tantric 2009
  *
  * gui_sound.cpp
- *
  * GUI class definitions
  ***************************************************************************/
 
@@ -20,7 +18,6 @@ GuiSound::GuiSound(const u8 * snd, s32 len, int t)
 	type = t;
 	voice = -1;
 	volume = 100;
-	loop = false;
 }
 
 /**
@@ -28,8 +25,6 @@ GuiSound::GuiSound(const u8 * snd, s32 len, int t)
  */
 GuiSound::~GuiSound()
 {
-	if(type == SOUND_OGG)
-		StopOgg();
 }
 
 void GuiSound::Play()
@@ -42,16 +37,13 @@ void GuiSound::Play()
 		vol = 255*(volume/100.0);
 		voice = ASND_GetFirstUnusedVoice();
 		if(voice >= 0)
-			ASND_SetVoice(voice, VOICE_STEREO_16BIT, 48000, 0,
+			ASND_SetVoice(voice, VOICE_MONO_8BIT, 8000, 0,
 				(u8 *)sound, length, vol, vol, NULL);
 		break;
 
 		case SOUND_OGG:
 		voice = 0;
-		if(loop)
-			PlayOgg(mem_open((char *)sound, length), 0, OGG_INFINITE_TIME);
-		else
-			PlayOgg(mem_open((char *)sound, length), 0, OGG_ONE_TIME);
+		PlayOgg(mem_open((char *)sound, length), 0, OGG_INFINITE_TIME);
 		SetVolumeOgg(255*(volume/100.0));
 		break;
 	}
@@ -108,14 +100,6 @@ void GuiSound::Resume()
 	}
 }
 
-bool GuiSound::IsPlaying()
-{
-	if(ASND_StatusVoice(voice) == SND_WORKING || ASND_StatusVoice(voice) == SND_WAITING)
-		return true;
-	else
-		return false;
-}
-
 void GuiSound::SetVolume(int vol)
 {
 	volume = vol;
@@ -135,9 +119,4 @@ void GuiSound::SetVolume(int vol)
 		SetVolumeOgg(255*(volume/100.0));
 		break;
 	}
-}
-
-void GuiSound::SetLoop(bool l)
-{
-	loop = l;
 }

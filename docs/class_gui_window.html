@@ -80,7 +80,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_window.html#f3e45ba4ecde5bf4a1581a4e7b4caa82">ChangeFocus</a> (<a class="el" href="class_gui_element.html">GuiElement</a> *e)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_window.html#91dadd56a44d66d9c015312447c12e67">ToggleFocus</a> (<a class="el" href="class_gui_trigger.html">GuiTrigger</a> *t)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_window.html#91dadd56a44d66d9c015312447c12e67">ToggleFocus</a> (GuiTrigger *t)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_window.html#a8369d0cb037ce7afa703ed1ca184942">MoveSelectionHor</a> (int d)</td></tr>
 
@@ -90,7 +90,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_window.html#b9fd76e04205e7d429a3f207787d92f9">Draw</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Draws all the elements in this <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a>. <br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_window.html#a716a9cd528dfa4a3b77db76292b718a">Update</a> (<a class="el" href="class_gui_trigger.html">GuiTrigger</a> *t)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_window.html#a716a9cd528dfa4a3b77db76292b718a">Update</a> (GuiTrigger *t)</td></tr>
 
 <tr><td colspan="2"><br><h2>Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d6d88018db4433d8477bbe8d564ebc49"></a><!-- doxytag: member="GuiWindow::_elements" ref="d6d88018db4433d8477bbe8d564ebc49" args="" -->
@@ -153,9 +153,9 @@ This is an overloaded member function, provided for convenience. It differs from
 <div class="memdoc">
 
 <p>
-Appends a <a class="el" href="class_gui_element.html" title="Primary GUI class. Most other classes inherit from this class.">GuiElement</a> to the <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a> <dl compact><dt><b>Parameters:</b></dt><dd>
+Appends a <a class="el" href="class_gui_element.html" title="Primary Gui class.">GuiElement</a> to the <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a> <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>e</em>&nbsp;</td><td>The <a class="el" href="class_gui_element.html" title="Primary GUI class. Most other classes inherit from this class.">GuiElement</a> to append. If it is already in the <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a>, it is removed first </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>e</em>&nbsp;</td><td>The <a class="el" href="class_gui_element.html" title="Primary Gui class.">GuiElement</a> to append. If it is already in the <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a>, it is removed first </td></tr>
   </table>
 </dl>
 
@@ -180,7 +180,7 @@ Appends a <a class="el" href="class_gui_element.html" title="Primary GUI class. 
 <p>
 Change the focus to the specified element This is intended for the primary <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a> only <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>e</em>&nbsp;</td><td><a class="el" href="class_gui_element.html" title="Primary GUI class. Most other classes inherit from this class.">GuiElement</a> that should have focus </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>e</em>&nbsp;</td><td><a class="el" href="class_gui_element.html" title="Primary Gui class.">GuiElement</a> that should have focus </td></tr>
   </table>
 </dl>
 
@@ -203,7 +203,7 @@ Change the focus to the specified element This is intended for the primary <a cl
 <div class="memdoc">
 
 <p>
-Returns the <a class="el" href="class_gui_element.html" title="Primary GUI class. Most other classes inherit from this class.">GuiElement</a> at the specified index <dl compact><dt><b>Parameters:</b></dt><dd>
+Returns the <a class="el" href="class_gui_element.html" title="Primary Gui class.">GuiElement</a> at the specified index <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>index</em>&nbsp;</td><td>The index of the element </td></tr>
   </table>
@@ -228,7 +228,7 @@ Returns the <a class="el" href="class_gui_element.html" title="Primary GUI class
 <div class="memdoc">
 
 <p>
-Gets the index of the <a class="el" href="class_gui_element.html" title="Primary GUI class. Most other classes inherit from this class.">GuiElement</a> inside the window that is currently selected <dl class="return" compact><dt><b>Returns:</b></dt><dd>index of selected <a class="el" href="class_gui_element.html" title="Primary GUI class. Most other classes inherit from this class.">GuiElement</a> </dd></dl>
+Gets the index of the <a class="el" href="class_gui_element.html" title="Primary Gui class.">GuiElement</a> inside the window that is currently selected <dl class="return" compact><dt><b>Returns:</b></dt><dd>index of selected <a class="el" href="class_gui_element.html" title="Primary Gui class.">GuiElement</a> </dd></dl>
 
 <p>Reimplemented from <a class="el" href="class_gui_element.html#34fde914c8381f69037bd8f8f10b1fd2">GuiElement</a>.</p>
 
@@ -280,9 +280,9 @@ Returns the size of the list of elements <dl class="return" compact><dt><b>Retur
 <div class="memdoc">
 
 <p>
-Inserts a <a class="el" href="class_gui_element.html" title="Primary GUI class. Most other classes inherit from this class.">GuiElement</a> into the <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a> at the specified index <dl compact><dt><b>Parameters:</b></dt><dd>
+Inserts a <a class="el" href="class_gui_element.html" title="Primary Gui class.">GuiElement</a> into the <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a> at the specified index <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>e</em>&nbsp;</td><td>The <a class="el" href="class_gui_element.html" title="Primary GUI class. Most other classes inherit from this class.">GuiElement</a> to insert. If it is already in the <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a>, it is removed first </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>e</em>&nbsp;</td><td>The <a class="el" href="class_gui_element.html" title="Primary Gui class.">GuiElement</a> to insert. If it is already in the <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a>, it is removed first </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>i</em>&nbsp;</td><td>Index in which to insert the element </td></tr>
   </table>
 </dl>
@@ -356,9 +356,9 @@ Moves the selected element to the element above or below <dl compact><dt><b>Para
 <div class="memdoc">
 
 <p>
-Removes the specified <a class="el" href="class_gui_element.html" title="Primary GUI class. Most other classes inherit from this class.">GuiElement</a> from the <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a> <dl compact><dt><b>Parameters:</b></dt><dd>
+Removes the specified <a class="el" href="class_gui_element.html" title="Primary Gui class.">GuiElement</a> from the <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a> <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>e</em>&nbsp;</td><td><a class="el" href="class_gui_element.html" title="Primary GUI class. Most other classes inherit from this class.">GuiElement</a> to be removed </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>e</em>&nbsp;</td><td><a class="el" href="class_gui_element.html" title="Primary Gui class.">GuiElement</a> to be removed </td></tr>
   </table>
 </dl>
 
@@ -401,7 +401,7 @@ Sets the window focus <dl compact><dt><b>Parameters:</b></dt><dd>
           <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>s</em>          </td>
           <td>&nbsp;)&nbsp;</td>
-          <td></td>
+          <td><code> [virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -413,6 +413,8 @@ Sets the window's state <dl compact><dt><b>Parameters:</b></dt><dd>
     <tr><td valign="top"></td><td valign="top"><em>s</em>&nbsp;</td><td>State </td></tr>
   </table>
 </dl>
+
+<p>Reimplemented from <a class="el" href="class_gui_element.html#911dd4c3e56831fa8eb18cfc37a54a28">GuiElement</a>.</p>
 
 </div>
 </div><p>
@@ -450,7 +452,7 @@ Sets the visibility of the window <dl compact><dt><b>Parameters:</b></dt><dd>
         <tr>
           <td class="memname">void GuiWindow::ToggleFocus           </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_gui_trigger.html">GuiTrigger</a> *&nbsp;</td>
+          <td class="paramtype">GuiTrigger *&nbsp;</td>
           <td class="paramname"> <em>t</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td></td>
@@ -462,7 +464,7 @@ Sets the visibility of the window <dl compact><dt><b>Parameters:</b></dt><dd>
 <p>
 Changes window focus to the next focusable window or element If no element is in focus, changes focus to the first available element If B or 1 button is pressed, changes focus to the next available element This is intended for the primary <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a> only <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>t</em>&nbsp;</td><td>Pointer to a <a class="el" href="class_gui_trigger.html" title="Menu input trigger management. Determine if action is neccessary based on input data...">GuiTrigger</a>, containing the current input data from PAD/WPAD </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>t</em>&nbsp;</td><td>Pointer to a GuiTrigger, containing the current input data from PAD/WPAD </td></tr>
   </table>
 </dl>
 
@@ -475,7 +477,7 @@ Changes window focus to the next focusable window or element If no element is in
         <tr>
           <td class="memname">void GuiWindow::Update           </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_gui_trigger.html">GuiTrigger</a> *&nbsp;</td>
+          <td class="paramtype">GuiTrigger *&nbsp;</td>
           <td class="paramname"> <em>t</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td><code> [virtual]</code></td>
@@ -487,7 +489,7 @@ Changes window focus to the next focusable window or element If no element is in
 <p>
 Updates the window and all elements contains within Allows the <a class="el" href="class_gui_window.html" title="Allows GuiElements to be grouped together into a &quot;window&quot;.">GuiWindow</a> and all elements to respond to the input data specified <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>t</em>&nbsp;</td><td>Pointer to a <a class="el" href="class_gui_trigger.html" title="Menu input trigger management. Determine if action is neccessary based on input data...">GuiTrigger</a>, containing the current input data from PAD/WPAD </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>t</em>&nbsp;</td><td>Pointer to a GuiTrigger, containing the current input data from PAD/WPAD </td></tr>
   </table>
 </dl>
 
@@ -500,7 +502,7 @@ Updates the window and all elements contains within Allows the <a class="el" hre
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="gui_8h-source.html">gui.h</a><li>gui_window.cpp</ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 13 13:50:34 2009 for libwiigui by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 3 16:27:40 2009 for libwiigui by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

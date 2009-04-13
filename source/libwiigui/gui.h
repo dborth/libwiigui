@@ -13,8 +13,9 @@
  * added to the project!
  *
  * \section Quickstart
- * Start from the supplied template example. For more advanced uses, see the
- * source code for Snes9x GX, FCE Ultra GX, and Visual Boy Advance GX.
+ * Start from the supplied template example. For more advanced uses, and more
+ * extensions, see the source code for Snes9x GX, FCE Ultra GX, and
+ * Visual Boy Advance GX.
 
  * \section Contact
  * If you have any suggestions for the library or documentation, or want to
@@ -35,18 +36,17 @@
 #include <malloc.h>
 #include <stdlib.h>
 #include <string.h>
+#include <exception>
 #include <vector>
 #include <math.h>
 #include <asndlib.h>
-#include <wiiuse/wpad.h>
 #include "pngu/pngu.h"
 #include "FreeTypeGX.h"
 #include "video.h"
-#include "filelist.h"
 #include "input.h"
+#include "filelist.h"
+#include "menu.h"
 #include "oggplayer.h"
-
-extern FreeTypeGX *fontSystem;
 
 #define SCROLL_INITIAL_DELAY 	20
 #define SCROLL_LOOP_DELAY 		3
@@ -70,7 +70,6 @@ enum
 	STATE_DEFAULT,
 	STATE_SELECTED,
 	STATE_CLICKED,
-	STATE_HELD,
 	STATE_DISABLED
 };
 
@@ -87,26 +86,6 @@ enum
 	IMAGE_DATA
 };
 
-enum
-{
-	TRIGGER_SIMPLE,
-	TRIGGER_HELD,
-	TRIGGER_BUTTON_ONLY,
-	TRIGGER_BUTTON_ONLY_IN_FOCUS
-};
-
-typedef struct _paddata {
-	u16 btns_d;
-	u16 btns_u;
-	u16 btns_h;
-	s8 stickX;
-	s8 stickY;
-	s8 substickX;
-	s8 substickY;
-	u8 triggerL;
-	u8 triggerR;
-} PADData;
-
 #define EFFECT_SLIDE_TOP			1
 #define EFFECT_SLIDE_BOTTOM			2
 #define EFFECT_SLIDE_RIGHT			4
@@ -116,6 +95,8 @@ typedef struct _paddata {
 #define EFFECT_FADE					64
 #define EFFECT_SCALE				128
 #define EFFECT_COLOR_TRANSITION		256
+
+extern FreeTypeGX *fontSystem;
 
 //!Sound conversion and playback. A wrapper for other sound libraries - ASND, libmad, ltremor, etc
 class GuiSound
@@ -136,79 +117,18 @@ class GuiSound
 		void Pause();
 		//!Resume sound playback
 		void Resume();
-		//!Checks if the sound is currently playing
-		//!\return true if sound is playing, false otherwise
-		bool IsPlaying();
 		//!Set sound volume
 		//!\param v Sound volume (0-100)
 		void SetVolume(int v);
-		//!Set the sound to loop playback (only applies to OGG)
-		//!\param l Loop (true to loop)
-		void SetLoop(bool l);
 	protected:
 		const u8 * sound; //!< Pointer to the sound data
 		int type; //!< Sound format type (SOUND_PCM or SOUND_OGG)
 		s32 length; //!< Length of sound data
 		s32 voice; //!< Currently assigned ASND voice channel
 		s32 volume; //!< Sound volume (0-100)
-		bool loop; //!< Loop sound playback
 };
 
-//!Menu input trigger management. Determine if action is neccessary based on input data by comparing controller input data to a specific trigger element.
-class GuiTrigger
-{
-	public:
-		//!Constructor
-		GuiTrigger();
-		//!Destructor
-		~GuiTrigger();
-		//!Sets a simple trigger. Requires: element is selected, and trigger button is pressed
-		//!\param ch Controller channel number
-		//!\param wiibtns Wii controller trigger button(s) - classic controller buttons are considered separately
-		//!\param gcbtns GameCube controller trigger button(s)
-		void SetSimpleTrigger(s32 ch, u32 wiibtns, u16 gcbtns);
-		//!Sets a held trigger. Requires: element is selected, and trigger button is pressed
-		//!\param ch Controller channel number
-		//!\param wiibtns Wii controller trigger button(s) - classic controller buttons are considered separately
-		//!\param gcbtns GameCube controller trigger button(s)
-		void SetHeldTrigger(s32 ch, u32 wiibtns, u16 gcbtns);
-		//!Sets a button-only trigger. Requires: Trigger button is pressed
-		//!\param ch Controller channel number
-		//!\param wiibtns Wii controller trigger button(s) - classic controller buttons are considered separately
-		//!\param gcbtns GameCube controller trigger button(s)
-		void SetButtonOnlyTrigger(s32 ch, u32 wiibtns, u16 gcbtns);
-		//!Sets a button-only trigger. Requires: trigger button is pressed and parent window of element is in focus
-		//!\param ch Controller channel number
-		//!\param wiibtns Wii controller trigger button(s) - classic controller buttons are considered separately
-		//!\param gcbtns GameCube controller trigger button(s)
-		void SetButtonOnlyInFocusTrigger(s32 ch, u32 wiibtns, u16 gcbtns);
-		//!Get X/Y value from Wii Joystick (classic, nunchuk) input
-		//!\param right Controller stick (left = 0, right = 1)
-		//!\param axis Controller stick axis (x-axis = 0, y-axis = 1)
-		//!\return Stick value
-		s8 WPAD_Stick(u8 right, int axis);
-		//!Move menu selection left (via pad/joystick). Allows scroll delay and button overriding
-		//!\return true if selection should be moved left, false otherwise
-		bool Left();
-		//!Move menu selection right (via pad/joystick). Allows scroll delay and button overriding
-		//!\return true if selection should be moved right, false otherwise
-		bool Right();
-		//!Move menu selection up (via pad/joystick). Allows scroll delay and button overriding
-		//!\return true if selection should be moved up, false otherwise
-		bool Up();
-		//!Move menu selection down (via pad/joystick). Allows scroll delay and button overriding
-		//!\return true if selection should be moved down, false otherwise
-		bool Down();
-
-		u8 type; //!< trigger type (TRIGGER_SIMPLE,	TRIGGER_HELD, TRIGGER_BUTTON_ONLY, TRIGGER_BUTTON_ONLY_IN_FOCUS)
-		s32 chan; //!< Trigger controller channel (0-3, -1 for all)
-		WPADData wpad; //!< Wii controller trigger data
-		PADData pad; //!< GameCube controller trigger data
-};
-
-extern GuiTrigger userInput[4];
-
-//!Primary GUI class. Most other classes inherit from this class.
+//!Primary Gui class
 class GuiElement
 {
 	public:
@@ -227,30 +147,6 @@ class GuiElement
 		//!Considers vertical alignment, y offset, height, and parent element's GetTop() / GetHeight() values
 		//!\return top coordinate
 		int GetTop();
-		//!Sets the minimum y offset of the element
-		//!\param y Y offset
-		void SetMinY(int y);
-		//!Gets the minimum y offset of the element
-		//!\return Minimum Y offset
-		int GetMinY();
-		//!Sets the maximum y offset of the element
-		//!\param y Y offset
-		void SetMaxY(int y);
-		//!Gets the maximum y offset of the element
-		//!\return Maximum Y offset
-		int GetMaxY();
-		//!Sets the minimum x offset of the element
-		//!\param x X offset
-		void SetMinX(int x);
-		//!Gets the minimum x offset of the element
-		//!\return Minimum X offset
-		int GetMinX();
-		//!Sets the maximum x offset of the element
-		//!\param x X offset
-		void SetMaxX(int x);
-		//!Gets the maximum x offset of the element
-		//!\return Maximum X offset
-		int GetMaxX();
 		//!Gets the current width of the element. Does not currently consider the scale
 		//!\return width
 		int GetWidth();
@@ -270,24 +166,15 @@ class GuiElement
 		//!Checks whether or not the element is clickable
 		//!\return true if clickable, false otherwise
 		bool IsClickable();
-		//!Checks whether or not the element is holdable
-		//!\return true if holdable, false otherwise
-		bool IsHoldable();
 		//!Sets whether or not the element is selectable
 		//!\param s Selectable
 		void SetSelectable(bool s);
 		//!Sets whether or not the element is clickable
 		//!\param c Clickable
 		void SetClickable(bool c);
-		//!Sets whether or not the element is holdable
-		//!\param c Holdable
-		void SetHoldable(bool d);
 		//!Gets the element's current state
 		//!\return state
 		int GetState();
-		//!Gets the controller channel that last changed the element's state
-		//!\return Channel number (0-3, -1 = no channel)
-		int GetStateChan();
 		//!Sets the element's alpha value
 		//!\param a alpha value
 		void SetAlpha(int a);
@@ -351,12 +238,11 @@ class GuiElement
 		//!\param v Visibility (true = visible)
 		virtual void SetVisible(bool v);
 		//!Sets the element's focus
-		//!\param f Focus (true = in focus)
+		//!\param v Focus (true = in focus)
 		virtual void SetFocus(int f);
 		//!Sets the element's state
-		//!\param s State (STATE_DEFAULT, STATE_SELECTED, STATE_CLICKED, STATE_DISABLED)
-		//!\param c Controller channel (0-3, -1 = none)
-		virtual void SetState(int s, int c = -1);
+		//!\param v State (STATE_DEFAULT, STATE_SELECTED, STATE_CLICKED, STATE_DISABLED)
+		virtual void SetState(int s);
 		//!Resets the element's state to STATE_DEFAULT
 		virtual void ResetState();
 		//!Gets whether or not the element is in STATE_SELECTED
@@ -378,10 +264,6 @@ class GuiElement
 		int height; //!< Element height
 		int xoffset; //!< Element X offset
 		int yoffset; //!< Element Y offset
-		int ymin; //!< Element's min Y offset allowed
-		int ymax; //!< Element's max Y offset allowed
-		int xmin; //!< Element's min X offset allowed
-		int xmax; //!< Element's max X offset allowed
 		int xoffsetDyn; //!< Element X offset, dynamic (added to xoffset value for animation effects)
 		int yoffsetDyn; //!< Element Y offset, dynamic (added to yoffset value for animation effects)
 		int alpha; //!< Element alpha value (0-255)
@@ -398,10 +280,8 @@ class GuiElement
 		int alignmentHor; //!< Horizontal element alignment, respective to parent element (LEFT, RIGHT, CENTRE)
 		int alignmentVert; //!< Horizontal element alignment, respective to parent element (TOP, BOTTOM, MIDDLE)
 		int state; //!< Element state (DEFAULT, SELECTED, CLICKED, DISABLED)
-		int stateChan; //!< Which controller channel is responsible for the last change in state
 		bool selectable; //!< Whether or not this element selectable (can change to SELECTED state)
 		bool clickable; //!< Whether or not this element is clickable (can change to CLICKED state)
-		bool holdable; //!< Whether or not this element is holdable (can change to HELD state)
 		GuiTrigger * trigger[2]; //!< GuiTriggers (input actions) that this element responds to
 		GuiElement * parentElement; //!< Parent element
 		UpdateCallback updateCB; //!< Callback function to call when this element is updated
@@ -478,7 +358,8 @@ class GuiWindow : public GuiElement
 		std::vector<GuiElement*> _elements; //!< Contains all elements within the GuiWindow
 };
 
-//!Converts image data into GX-useable RGBA8. Currently designed for use only with PNG files
+//!Converts image data into GX-useable RGBA8
+//!Currently designed for use only with PNG files
 class GuiImageData
 {
 	public:
@@ -503,13 +384,11 @@ class GuiImageData
 		int width; //!< Width of image
 };
 
-//!Display, manage, and manipulate images in the GUI
+//!Display, manage, and manipulate images in the Gui
 class GuiImage : public GuiElement
 {
 	public:
 		//!Constructor
-		GuiImage();
-		//!\overload
 		//!\param img Pointer to GuiImageData element
 		GuiImage(GuiImageData * img);
 		//!\overload
@@ -570,7 +449,7 @@ class GuiImage : public GuiElement
 		int stripe; //!< Alpha value (0-255) to apply a stripe effect to the texture
 };
 
-//!Display, manage, and manipulate text in the GUI
+//!Display, manage, and manipulate text in the Gui
 class GuiText : public GuiElement
 {
 	public:
@@ -624,7 +503,8 @@ class GuiText : public GuiElement
 		GXColor color; //!< Font color
 };
 
-//!Display, manage, and manipulate buttons in the GUI. Buttons can have images, icons, text, and sound set (all of which are optional)
+//!Display, manage, and manipulate buttons in the Gui
+//!Buttons can have images, icons, text, and sound set (all of which are optional)
 class GuiButton : public GuiElement
 {
 	public:
@@ -640,46 +520,29 @@ class GuiButton : public GuiElement
 		//!Sets the button's image on over
 		//!\param i Pointer to GuiImage object
 		void SetImageOver(GuiImage* i);
-		//!Sets the button's image on hold
-		//!\param i Pointer to GuiImage object
-		void SetImageHold(GuiImage* i);
-		//!Sets the button's image on click
-		//!\param i Pointer to GuiImage object
-		void SetImageClick(GuiImage* i);
 		//!Sets the button's icon
 		//!\param i Pointer to GuiImage object
 		void SetIcon(GuiImage* i);
 		//!Sets the button's icon on over
 		//!\param i Pointer to GuiImage object
 		void SetIconOver(GuiImage* i);
-		//!Sets the button's icon on hold
-		//!\param i Pointer to GuiImage object
-		void SetIconHold(GuiImage* i);
-		//!Sets the button's icon on click
-		//!\param i Pointer to GuiImage object
-		void SetIconClick(GuiImage* i);
 		//!Sets the button's label
 		//!\param t Pointer to GuiText object
-		//!\param n Index of label to set (optional, default is 0)
-		void SetLabel(GuiText* t, int n = 0);
+		void SetLabel(GuiText* t);
+		//!\overload
+		//!\param t Pointer to GuiText object
+		//!\param n Index of label to set
+		void SetLabel(GuiText* t, int n);
 		//!Sets the button's label on over (eg: different colored text)
 		//!\param t Pointer to GuiText object
-		//!\param n Index of label to set (optional, default is 0)
-		void SetLabelOver(GuiText* t, int n = 0);
-		//!Sets the button's label on hold
+		void SetLabelOver(GuiText* t);
+		//!\overload
 		//!\param t Pointer to GuiText object
-		//!\param n Index of label to set (optional, default is 0)
-		void SetLabelHold(GuiText* t, int n = 0);
-		//!Sets the button's label on click
-		//!\param t Pointer to GuiText object
-		//!\param n Index of label to set (optional, default is 0)
-		void SetLabelClick(GuiText* t, int n = 0);
+		//!\param n Index of label to set
+		void SetLabelOver(GuiText* t, int n);
 		//!Sets the sound to play on over
 		//!\param s Pointer to GuiSound object
 		void SetSoundOver(GuiSound * s);
-		//!Sets the sound to play on hold
-		//!\param s Pointer to GuiSound object
-		void SetSoundHold(GuiSound * s);
 		//!Sets the sound to play on click
 		//!\param s Pointer to GuiSound object
 		void SetSoundClick(GuiSound * s);
@@ -689,22 +552,16 @@ class GuiButton : public GuiElement
 		//!\param t Pointer to a GuiTrigger, containing the current input data from PAD/WPAD
 		void Update(GuiTrigger * t);
 	protected:
-		GuiImage * image; //!< Button image (default)
-		GuiImage * imageOver; //!< Button image for STATE_SELECTED
-		GuiImage * imageHold; //!< Button image for STATE_HELD
-		GuiImage * imageClick; //!< Button image for STATE_CLICKED
+		GuiImage * image; //!< Button image
+		GuiImage * imageOver; //!< Button image on wiimote cursor over
 		GuiImage * icon; //!< Button icon (drawn after button image)
-		GuiImage * iconOver; //!< Button icon for STATE_SELECTED
-		GuiImage * iconHold; //!< Button icon for STATE_HELD
-		GuiImage * iconClick; //!< Button icon for STATE_CLICKED
-		GuiText * label[3]; //!< Label(s) to display (default)
-		GuiText * labelOver[3]; //!< Label(s) to display for STATE_SELECTED
-		GuiText * labelHold[3]; //!< Label(s) to display for STATE_HELD
-		GuiText * labelClick[3]; //!< Label(s) to display for STATE_CLICKED
-		GuiSound * soundOver; //!< Sound to play for STATE_SELECTED
-		GuiSound * soundHold; //!< Sound to play for STATE_HELD
-		GuiSound * soundClick; //!< Sound to play for STATE_CLICKED
+		GuiImage * iconOver; //!< Button icon on wiimote cursor over
+		GuiText * label[3]; //!< Label(s) to display
+		GuiText * labelOver[3]; //!< Label(s) to display on wiimote cursor over
+		GuiSound * soundOver; //!< Sound to play on wiimote cursor over
+		GuiSound * soundClick; //!< Sound to play on click
 };
+
 
 typedef struct _keytype {
 	char ch, chShift;
@@ -714,13 +571,13 @@ typedef struct _keytype {
 class GuiKeyboard : public GuiWindow
 {
 	public:
-		GuiKeyboard(char * t, u32 m);
+		GuiKeyboard(char * t, u16 m);
 		~GuiKeyboard();
 		void Update(GuiTrigger * t);
-		char kbtextstr[256];
+		char kbtextstr[100];
 	protected:
-		u32 kbtextmaxlen;
-		Key keys[4][11];
+		u16 kbtextmaxlen;
+		Key keys[4][10];
 		int shift;
 		int caps;
 		GuiText * kbText;
@@ -740,10 +597,10 @@ class GuiKeyboard : public GuiWindow
 		GuiImage * keySpaceImg;
 		GuiImage * keySpaceOverImg;
 		GuiButton * keySpace;
-		GuiButton * keyBtn[4][11];
-		GuiImage * keyImg[4][11];
-		GuiImage * keyImgOver[4][11];
-		GuiText * keyTxt[4][11];
+		GuiButton * keyBtn[4][10];
+		GuiImage * keyImg[4][10];
+		GuiImage * keyImgOver[4][10];
+		GuiText * keyTxt[4][10];
 		GuiImageData * keyTextbox;
 		GuiImageData * key;
 		GuiImageData * keyOver;
@@ -752,7 +609,6 @@ class GuiKeyboard : public GuiWindow
 		GuiImageData * keyLarge;
 		GuiImageData * keyLargeOver;
 		GuiSound * keySoundOver;
-		GuiSound * keySoundClick;
 		GuiTrigger * trigA;
 };
 
@@ -809,8 +665,7 @@ class GuiOptionBrowser : public GuiElement
 		GuiImageData * scrollbarBox;
 		GuiImageData * scrollbarBoxOver;
 
-		GuiSound * btnSoundOver;
-		GuiSound * btnSoundClick;
 		GuiTrigger * trigA;
 };
+
 #endif
