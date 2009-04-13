@@ -62,7 +62,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_option_browser.html#ab5b8cbdcf76dab28c044f173401d906">Draw</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_option_browser.html#9a7b42ad59ae31fa2f913368271ba857">Update</a> (<a class="el" href="class_gui_trigger.html">GuiTrigger</a> *t)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_option_browser.html#9a7b42ad59ae31fa2f913368271ba857">Update</a> (GuiTrigger *t)</td></tr>
 
 <tr><td colspan="2"><br><h2>Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1d47cbbd2a12c90cfa8427d9b3dc61ea"></a><!-- doxytag: member="GuiOptionBrowser::optionVal" ref="1d47cbbd2a12c90cfa8427d9b3dc61ea" args="[PAGESIZE]" -->
@@ -150,14 +150,8 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>optionIndex</b> [PAGES
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7b8494ab7ab1fa40f21f93289fe78cd7"></a><!-- doxytag: member="GuiOptionBrowser::scrollbarBoxOver" ref="7b8494ab7ab1fa40f21f93289fe78cd7" args="" -->
 <a class="el" href="class_gui_image_data.html">GuiImageData</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>scrollbarBoxOver</b></td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1db8645bfd44436ee88b246ab6ff94a3"></a><!-- doxytag: member="GuiOptionBrowser::btnSoundOver" ref="1db8645bfd44436ee88b246ab6ff94a3" args="" -->
-<a class="el" href="class_gui_sound.html">GuiSound</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>btnSoundOver</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="88a099d996909c23c12626735f98265d"></a><!-- doxytag: member="GuiOptionBrowser::btnSoundClick" ref="88a099d996909c23c12626735f98265d" args="" -->
-<a class="el" href="class_gui_sound.html">GuiSound</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>btnSoundClick</b></td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="98b17f1cfd6f41b5d5d01cb885c3ac0e"></a><!-- doxytag: member="GuiOptionBrowser::trigA" ref="98b17f1cfd6f41b5d5d01cb885c3ac0e" args="" -->
-<a class="el" href="class_gui_trigger.html">GuiTrigger</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>trigA</b></td></tr>
+GuiTrigger *&nbsp;</td><td class="memItemRight" valign="bottom"><b>trigA</b></td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -257,7 +251,7 @@ Draw the button on screen
 <p>
 Sets the element's focus <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>f</em>&nbsp;</td><td>Focus (true = in focus) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>v</em>&nbsp;</td><td>Focus (true = in focus) </td></tr>
   </table>
 </dl>
 
@@ -272,7 +266,7 @@ Sets the element's focus <dl compact><dt><b>Parameters:</b></dt><dd>
         <tr>
           <td class="memname">void GuiOptionBrowser::Update           </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_gui_trigger.html">GuiTrigger</a> *&nbsp;</td>
+          <td class="paramtype">GuiTrigger *&nbsp;</td>
           <td class="paramname"> <em>t</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td><code> [virtual]</code></td>
@@ -284,7 +278,7 @@ Sets the element's focus <dl compact><dt><b>Parameters:</b></dt><dd>
 <p>
 Called constantly to allow the element to respond to the current input data <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>t</em>&nbsp;</td><td>Pointer to a <a class="el" href="class_gui_trigger.html" title="Menu input trigger management. Determine if action is neccessary based on input data...">GuiTrigger</a>, containing the current input data from PAD/WPAD </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>t</em>&nbsp;</td><td>Pointer to a GuiTrigger, containing the current input data from PAD/WPAD </td></tr>
   </table>
 </dl>
 
@@ -295,7 +289,7 @@ Called constantly to allow the element to respond to the current input data <dl 
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="gui_8h-source.html">gui.h</a><li>gui_optionbrowser.cpp</ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 13 13:50:33 2009 for libwiigui by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 3 16:27:40 2009 for libwiigui by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

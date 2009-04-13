@@ -1,10 +1,8 @@
 /****************************************************************************
  * libwiigui
- *
  * Tantric 2009
  *
  * gui_element.cpp
- *
  * GUI class definitions
  ***************************************************************************/
 
@@ -17,23 +15,17 @@ GuiElement::GuiElement()
 {
 	xoffset = 0;
 	yoffset = 0;
-	xmin = 0;
-	xmax = 0;
-	ymin = 0;
-	ymax = 0;
 	width = 0;
 	height = 0;
 	alpha = 255;
 	scale = 1;
 	state = STATE_DEFAULT;
-	stateChan = -1;
 	trigger[0] = NULL;
 	trigger[1] = NULL;
 	parentElement = NULL;
 	rumble = true;
 	selectable = false;
 	clickable = false;
-	holdable = false;
 	visible = true;
 	focus = -1; // cannot be focused
 	updateCB = NULL;
@@ -134,46 +126,6 @@ int GuiElement::GetTop()
 	return y + yoffset;
 }
 
-void GuiElement::SetMinX(int x)
-{
-	xmin = x;
-}
-
-int GuiElement::GetMinX()
-{
-	return xmin;
-}
-
-void GuiElement::SetMaxX(int x)
-{
-	xmax = x;
-}
-
-int GuiElement::GetMaxX()
-{
-	return xmax;
-}
-
-void GuiElement::SetMinY(int y)
-{
-	ymin = y;
-}
-
-int GuiElement::GetMinY()
-{
-	return ymin;
-}
-
-void GuiElement::SetMaxY(int y)
-{
-	ymax = y;
-}
-
-int GuiElement::GetMaxY()
-{
-	return ymax;
-}
-
 /**
  * Get the width of the GuiElement.
  * @see SetWidth()
@@ -268,24 +220,15 @@ int GuiElement::GetState()
 	return state;
 }
 
-int GuiElement::GetStateChan()
-{
-	return stateChan;
-}
-
-void GuiElement::SetState(int s, int c)
+void GuiElement::SetState(int s)
 {
 	state = s;
-	stateChan = c;
 }
 
 void GuiElement::ResetState()
 {
 	if(state != STATE_DISABLED)
-	{
 		state = STATE_DEFAULT;
-		stateChan = -1;
-	}
 }
 
 void GuiElement::SetClickable(bool c)
@@ -298,11 +241,6 @@ void GuiElement::SetSelectable(bool s)
 	selectable = s;
 }
 
-void GuiElement::SetHoldable(bool d)
-{
-	holdable = d;
-}
-
 bool GuiElement::IsSelectable()
 {
 	if(state == STATE_DISABLED || state == STATE_CLICKED)
@@ -313,20 +251,10 @@ bool GuiElement::IsSelectable()
 
 bool GuiElement::IsClickable()
 {
-	if(state == STATE_DISABLED ||
-		state == STATE_CLICKED ||
-		state == STATE_HELD)
+	if(state == STATE_DISABLED || state == STATE_CLICKED)
 		return false;
 	else
 		return clickable;
-}
-
-bool GuiElement::IsHoldable()
-{
-	if(state == STATE_DISABLED)
-		return false;
-	else
-		return holdable;
 }
 
 void GuiElement::SetFocus(int f)

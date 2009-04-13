@@ -22,7 +22,7 @@
   </div>
 </div>
 <div class="contents">
-<h1>GuiImage Class Reference</h1><!-- doxytag: class="GuiImage" --><!-- doxytag: inherits="GuiElement" -->Display, manage, and manipulate images in the GUI.  
+<h1>GuiImage Class Reference</h1><!-- doxytag: class="GuiImage" --><!-- doxytag: inherits="GuiElement" -->Display, manage, and manipulate images in the Gui.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="gui_8h-source.html">gui.h</a>&gt;</code>
@@ -41,9 +41,6 @@ Inheritance diagram for GuiImage:</div>
 <a href="class_gui_image-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_image.html#9c8df909259dae3649be7e0e63bd266d">GuiImage</a> ()</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constructor.  <a href="#9c8df909259dae3649be7e0e63bd266d"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_image.html#2e281aa734e080162d24ccc13c1a254f">GuiImage</a> (<a class="el" href="class_gui_image_data.html">GuiImageData</a> *img)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_image.html#7b61dcd6fb2f02469d311216b76efecc">GuiImage</a> (u8 *img, int w, int h)</td></tr>
@@ -82,7 +79,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="96ae4b5d115260bd86b12df438819321"></a><!-- doxytag: member="GuiImage::image" ref="96ae4b5d115260bd86b12df438819321" args="" -->
 u8 *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_image.html#96ae4b5d115260bd86b12df438819321">image</a></td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Poiner to image data. May be shared with <a class="el" href="class_gui_image_data.html" title="Converts image data into GX-useable RGBA8. Currently designed for use only with PNG...">GuiImageData</a> data. <br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Poiner to image data. May be shared with <a class="el" href="class_gui_image_data.html">GuiImageData</a> data. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d5e3894666d8fc5cbe786f80f5996b20"></a><!-- doxytag: member="GuiImage::imageangle" ref="d5e3894666d8fc5cbe786f80f5996b20" args="" -->
 f32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_image.html#d5e3894666d8fc5cbe786f80f5996b20">imageangle</a></td></tr>
 
@@ -97,28 +94,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Alpha value (0-255) to apply a stripe effect to the texture. <br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-Display, manage, and manipulate images in the GUI. <hr><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" name="9c8df909259dae3649be7e0e63bd266d"></a><!-- doxytag: member="GuiImage::GuiImage" ref="9c8df909259dae3649be7e0e63bd266d" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">GuiImage::GuiImage           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Constructor. 
-<p>
-Constructor for the <a class="el" href="class_gui_image.html" title="Display, manage, and manipulate images in the GUI.">GuiImage</a> class. 
-</div>
-</div><p>
+Display, manage, and manipulate images in the Gui. <hr><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" name="2e281aa734e080162d24ccc13c1a254f"></a><!-- doxytag: member="GuiImage::GuiImage" ref="2e281aa734e080162d24ccc13c1a254f" args="(GuiImageData *img)" -->
 <div class="memitem">
 <div class="memproto">
@@ -136,12 +112,12 @@ Constructor for the <a class="el" href="class_gui_image.html" title="Display, ma
 <div class="memdoc">
 
 <p>
-This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. <dl compact><dt><b>Parameters:</b></dt><dd>
+Constructor <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>img</em>&nbsp;</td><td>Pointer to <a class="el" href="class_gui_image_data.html" title="Converts image data into GX-useable RGBA8. Currently designed for use only with PNG...">GuiImageData</a> element </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>img</em>&nbsp;</td><td>Pointer to <a class="el" href="class_gui_image_data.html">GuiImageData</a> element</td></tr>
   </table>
 </dl>
-
+Constructor for the <a class="el" href="class_gui_image.html" title="Display, manage, and manipulate images in the Gui.">GuiImage</a> class. 
 </div>
 </div><p>
 <a class="anchor" name="7b61dcd6fb2f02469d311216b76efecc"></a><!-- doxytag: member="GuiImage::GuiImage" ref="7b61dcd6fb2f02469d311216b76efecc" args="(u8 *img, int w, int h)" -->
@@ -246,7 +222,7 @@ This is an overloaded member function, provided for convenience. It differs from
 <p>
 Destructor. 
 <p>
-Destructor for the <a class="el" href="class_gui_image.html" title="Display, manage, and manipulate images in the GUI.">GuiImage</a> class. 
+Destructor for the <a class="el" href="class_gui_image.html" title="Display, manage, and manipulate images in the Gui.">GuiImage</a> class. 
 </div>
 </div><p>
 <hr><h2>Member Function Documentation</h2>
@@ -437,9 +413,9 @@ This is an overloaded member function, provided for convenience. It differs from
 <div class="memdoc">
 
 <p>
-Sets up a new image using the <a class="el" href="class_gui_image_data.html" title="Converts image data into GX-useable RGBA8. Currently designed for use only with PNG...">GuiImageData</a> object specified <dl compact><dt><b>Parameters:</b></dt><dd>
+Sets up a new image using the <a class="el" href="class_gui_image_data.html">GuiImageData</a> object specified <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>img</em>&nbsp;</td><td>Pointer to <a class="el" href="class_gui_image_data.html" title="Converts image data into GX-useable RGBA8. Currently designed for use only with PNG...">GuiImageData</a> object </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>img</em>&nbsp;</td><td>Pointer to <a class="el" href="class_gui_image_data.html">GuiImageData</a> object </td></tr>
   </table>
 </dl>
 
@@ -540,7 +516,7 @@ Sets the number of times to draw the image horizontally <dl compact><dt><b>Param
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="gui_8h-source.html">gui.h</a><li>gui_image.cpp</ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 13 13:50:33 2009 for libwiigui by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 3 16:27:40 2009 for libwiigui by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

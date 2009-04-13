@@ -53,11 +53,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_sound.html#62dffc4fa22e7f75394093ddc22607fc">Resume</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Resume sound playback. <br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_sound.html#007e1d75007e0baa4ad35ce881f9d9ff">IsPlaying</a> ()</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_sound.html#9dc771c90a1dea97c75705f90c529fce">SetVolume</a> (int v)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_sound.html#5a10e68c04ea1a6e56d49fbf7b9f0c63">SetLoop</a> (bool l)</td></tr>
 
 <tr><td colspan="2"><br><h2>Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="cedf5025a8d52cfc45bb1942d619644d"></a><!-- doxytag: member="GuiSound::sound" ref="cedf5025a8d52cfc45bb1942d619644d" args="" -->
@@ -80,10 +76,6 @@ s32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 s32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_sound.html#412ed993f3c37bc3a421542e4b214ee7">volume</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sound volume (0-100). <br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="31745c372a083b9d9b3b6b8181f07642"></a><!-- doxytag: member="GuiSound::loop" ref="31745c372a083b9d9b3b6b8181f07642" args="" -->
-bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_sound.html#31745c372a083b9d9b3b6b8181f07642">loop</a></td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Loop sound playback. <br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Sound conversion and playback. A wrapper for other sound libraries - ASND, libmad, ltremor, etc. <hr><h2>Constructor &amp; Destructor Documentation</h2>
@@ -151,51 +143,6 @@ Destructor for the <a class="el" href="class_gui_sound.html" title="Sound conver
 </div>
 </div><p>
 <hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="007e1d75007e0baa4ad35ce881f9d9ff"></a><!-- doxytag: member="GuiSound::IsPlaying" ref="007e1d75007e0baa4ad35ce881f9d9ff" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool GuiSound::IsPlaying           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Checks if the sound is currently playing <dl class="return" compact><dt><b>Returns:</b></dt><dd>true if sound is playing, false otherwise </dd></dl>
-
-</div>
-</div><p>
-<a class="anchor" name="5a10e68c04ea1a6e56d49fbf7b9f0c63"></a><!-- doxytag: member="GuiSound::SetLoop" ref="5a10e68c04ea1a6e56d49fbf7b9f0c63" args="(bool l)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void GuiSound::SetLoop           </td>
-          <td>(</td>
-          <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>l</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Set the sound to loop playback (only applies to OGG) <dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>l</em>&nbsp;</td><td>Loop (true to loop) </td></tr>
-  </table>
-</dl>
-
-</div>
-</div><p>
 <a class="anchor" name="9dc771c90a1dea97c75705f90c529fce"></a><!-- doxytag: member="GuiSound::SetVolume" ref="9dc771c90a1dea97c75705f90c529fce" args="(int v)" -->
 <div class="memitem">
 <div class="memproto">
@@ -224,7 +171,7 @@ Set sound volume <dl compact><dt><b>Parameters:</b></dt><dd>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="gui_8h-source.html">gui.h</a><li>gui_sound.cpp</ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 13 13:50:33 2009 for libwiigui by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 3 16:27:40 2009 for libwiigui by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
