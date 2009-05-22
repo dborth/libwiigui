@@ -1,5 +1,5 @@
 ×—–­—–­—–­—–­ –­—–­—–­—–­—–­—–­—–­—–­—–­—–­— ­—–­—–­—–­—–­—–­—–­—–­—-­—–­-–•¬
-|0O×øo·                      libwiigui 1.02                           ·oø×O0|
+|0O×øo·                      libwiigui 1.03                           ·oø×O0|
 |                   http://code.google.com/p/libwiigui                      |
 |                          (Under GPL License)                              |
 `¨•¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨'
@@ -35,10 +35,17 @@ Credits
 This library was wholly designed and written by Tantric. Thanks to the
 authors of PNGU and FreeTypeGX, of which this library makes use. Thanks
 also to the authors of GRRLIB and libwiisprite for laying the foundations.
+Thanks to mvit for the artwork and Peter de Man for the music used in the
+template.
 
 •˜———–—––-- - —————————––––– ———–—––-- - —————————––––– ———–—––-- - ————————•
 |                                                          UPDATE HISTORY  |
 •˜———–—––-- - —————————––––– ———–—––-- - —————————––––– ———–—––-- - ————————•
+
+[1.03 - May 21, 2009]
+* Add file browser class to template - browses your SD card
+* New images for the template (thanks mvit!)
+* Add a function to get the parent element
 
 [1.02 - April 13, 2009]
 * Fixed letterboxing on PAL
