@@ -19,6 +19,9 @@
 #include "demo.h"
 #include "input.h"
 #include "filelist.h"
+#include "filebrowser.h"
+
+#define THREAD_SLEEP 100
 
 static GuiImageData * pointer[4];
 static GuiImage * bgImg = NULL;
@@ -56,7 +59,7 @@ HaltGui()
 
 	// wait for thread to finish
 	while(!LWP_ThreadIsSuspended(guithread))
-		usleep(50);
+		usleep(THREAD_SLEEP);
 }
 
 /****************************************************************************
@@ -144,7 +147,7 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 
 	while(choice == -1)
 	{
-		VIDEO_WaitVSync();
+		usleep(THREAD_SLEEP);
 
 		if(btn1.GetState() == STATE_CLICKED)
 			choice = 1;
@@ -153,7 +156,7 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 	}
 
 	promptWindow.SetEffect(EFFECT_SLIDE_TOP | EFFECT_SLIDE_OUT, 50);
-	while(promptWindow.GetEffect() > 0) usleep(50);
+	while(promptWindow.GetEffect() > 0) usleep(THREAD_SLEEP);
 	HaltGui();
 	mainWindow->Remove(&promptWindow);
 	mainWindow->SetState(STATE_DEFAULT);
@@ -278,7 +281,7 @@ static void OnScreenKeyboard(char * var, u16 maxlen)
 
 	while(save == -1)
 	{
-		VIDEO_WaitVSync();
+		usleep(THREAD_SLEEP);
 
 		if(okBtn.GetState() == STATE_CLICKED)
 			save = 1;
@@ -295,6 +298,113 @@ static void OnScreenKeyboard(char * var, u16 maxlen)
 	mainWindow->Remove(&keyboard);
 	mainWindow->SetState(STATE_DEFAULT);
 	ResumeGui();
+}
+
+/****************************************************************************
+ * MenuBrowseDevice
+ ***************************************************************************/
+static int MenuBrowseDevice()
+{
+	char title[100];
+
+	ShutoffRumble();
+
+	// populate initial directory listing
+	if(BrowseDevice() <= 0)
+	{
+		int choice = WindowPrompt(
+		"Error",
+		"Unable to display files on selected load device.",
+		"Retry",
+		"Check Settings");
+
+		if(choice)
+			return MENU_BROWSE_DEVICE;
+		else
+			return MENU_SETTINGS;
+	}
+
+	int menu = MENU_NONE;
+
+	sprintf(title, "Browse Files");
+
+	GuiText titleTxt(title, 28, (GXColor){255, 255, 255, 255});
+	titleTxt.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
+	titleTxt.SetPosition(100,50);
+
+	GuiTrigger trigA;
+	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
+
+	GuiFileBrowser fileBrowser(552, 248);
+	fileBrowser.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	fileBrowser.SetPosition(0, 100);
+
+	GuiImageData btnOutline(button_png);
+	GuiImageData btnOutlineOver(button_over_png);
+	GuiText backBtnTxt("Go Back", 24, (GXColor){0, 0, 0, 255});
+	GuiImage backBtnImg(&btnOutline);
+	GuiImage backBtnImgOver(&btnOutlineOver);
+	GuiButton backBtn(btnOutline.GetWidth(), btnOutline.GetHeight());
+	backBtn.SetAlignment(ALIGN_LEFT, ALIGN_BOTTOM);
+	backBtn.SetPosition(30, -35);
+	backBtn.SetLabel(&backBtnTxt);
+	backBtn.SetImage(&backBtnImg);
+	backBtn.SetImageOver(&backBtnImgOver);
+	backBtn.SetTrigger(&trigA);
+	backBtn.SetEffectGrow();
+
+	GuiWindow buttonWindow(screenwidth, screenheight);
+	buttonWindow.Append(&backBtn);
+
+	HaltGui();
+	mainWindow->Append(&titleTxt);
+	mainWindow->Append(&fileBrowser);
+	mainWindow->Append(&buttonWindow);
+	ResumeGui();
+
+	while(menu == MENU_NONE)
+	{
+		usleep(THREAD_SLEEP);
+
+		// update file browser based on arrow buttons
+		// set MENU_EXIT if A button pressed on a file
+		for(int i=0; i<PAGESIZE; i++)
+		{
+			if(fileBrowser.fileList[i]->GetState() == STATE_CLICKED)
+			{
+				fileBrowser.fileList[i]->ResetState();
+				// check corresponding browser entry
+				if(browserList[browser.selIndex].isdir)
+				{
+					if(BrowserChangeFolder())
+					{
+						fileBrowser.ResetState();
+						fileBrowser.fileList[0]->SetState(STATE_SELECTED);
+						fileBrowser.TriggerUpdate();
+					}
+					else
+					{
+						menu = MENU_BROWSE_DEVICE;
+						break;
+					}
+				}
+				else
+				{
+					ShutoffRumble();
+					mainWindow->SetState(STATE_DISABLED);
+					// load file
+					mainWindow->SetState(STATE_DEFAULT);
+				}
+			}
+		}
+		if(backBtn.GetState() == STATE_CLICKED)
+			menu = MENU_SETTINGS;
+	}
+	HaltGui();
+	mainWindow->Remove(&titleTxt);
+	mainWindow->Remove(&buttonWindow);
+	mainWindow->Remove(&fileBrowser);
+	return menu;
 }
 
 /****************************************************************************
@@ -319,19 +429,19 @@ static int MenuSettings()
 	GuiTrigger trigHome;
 	trigHome.SetButtonOnlyTrigger(-1, WPAD_BUTTON_HOME | WPAD_CLASSIC_BUTTON_HOME, 0);
 
-	GuiText mappingBtnTxt("Button Mappings", 22, (GXColor){0, 0, 0, 255});
-	mappingBtnTxt.SetMaxWidth(btnLargeOutline.GetWidth()-30);
-	GuiImage mappingBtnImg(&btnLargeOutline);
-	GuiImage mappingBtnImgOver(&btnLargeOutlineOver);
-	GuiButton mappingBtn(btnLargeOutline.GetWidth(), btnLargeOutline.GetHeight());
-	mappingBtn.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
-	mappingBtn.SetPosition(50, 120);
-	mappingBtn.SetLabel(&mappingBtnTxt);
-	mappingBtn.SetImage(&mappingBtnImg);
-	mappingBtn.SetImageOver(&mappingBtnImgOver);
-	mappingBtn.SetSoundOver(&btnSoundOver);
-	mappingBtn.SetTrigger(&trigA);
-	mappingBtn.SetEffectGrow();
+	GuiText fileBtnTxt("File Browser", 22, (GXColor){0, 0, 0, 255});
+	fileBtnTxt.SetMaxWidth(btnLargeOutline.GetWidth()-30);
+	GuiImage fileBtnImg(&btnLargeOutline);
+	GuiImage fileBtnImgOver(&btnLargeOutlineOver);
+	GuiButton fileBtn(btnLargeOutline.GetWidth(), btnLargeOutline.GetHeight());
+	fileBtn.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
+	fileBtn.SetPosition(50, 120);
+	fileBtn.SetLabel(&fileBtnTxt);
+	fileBtn.SetImage(&fileBtnImg);
+	fileBtn.SetImageOver(&fileBtnImgOver);
+	fileBtn.SetSoundOver(&btnSoundOver);
+	fileBtn.SetTrigger(&trigA);
+	fileBtn.SetEffectGrow();
 
 	GuiText videoBtnTxt("Video", 22, (GXColor){0, 0, 0, 255});
 	videoBtnTxt.SetMaxWidth(btnLargeOutline.GetWidth()-30);
@@ -424,7 +534,7 @@ static int MenuSettings()
 	HaltGui();
 	GuiWindow w(screenwidth, screenheight);
 	w.Append(&titleTxt);
-	w.Append(&mappingBtn);
+	w.Append(&fileBtn);
 	w.Append(&videoBtn);
 	w.Append(&savingBtn);
 	w.Append(&menuBtn);
@@ -442,11 +552,11 @@ static int MenuSettings()
 
 	while(menu == MENU_NONE)
 	{
-		VIDEO_WaitVSync ();
+		usleep(THREAD_SLEEP);
 
-		if(mappingBtn.GetState() == STATE_CLICKED)
+		if(fileBtn.GetState() == STATE_CLICKED)
 		{
-			menu = MENU_SETTINGS_FILE;
+			menu = MENU_BROWSE_DEVICE;
 		}
 		else if(videoBtn.GetState() == STATE_CLICKED)
 		{
@@ -547,7 +657,7 @@ static int MenuSettingsFile()
 
 	while(menu == MENU_NONE)
 	{
-		VIDEO_WaitVSync ();
+		usleep(THREAD_SLEEP);
 
 		// correct load/save methods out of bounds
 		if(Settings.LoadMethod > 4)
@@ -668,6 +778,9 @@ void MainMenu(int menu)
 			case MENU_SETTINGS_FILE:
 				currentMenu = MenuSettingsFile();
 				break;
+			case MENU_BROWSE_DEVICE:
+				currentMenu = MenuBrowseDevice();
+				break;
 			default: // unrecognized menu
 				currentMenu = MenuSettings();
 				break;
@@ -676,7 +789,7 @@ void MainMenu(int menu)
 
 	ResumeGui();
 	ExitRequested = 1;
-	while(1) usleep(50);
+	while(1) usleep(THREAD_SLEEP);
 
 	HaltGui();
 

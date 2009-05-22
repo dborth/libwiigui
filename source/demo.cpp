@@ -14,6 +14,7 @@
 #include <ogcsys.h>
 #include <unistd.h>
 #include <wiiuse/wpad.h>
+#include <fat.h>
 
 #include "FreeTypeGX.h"
 #include "video.h"
@@ -53,6 +54,7 @@ main(int argc, char *argv[])
 	WPAD_Init();
 	InitVideo(); // Initialise video
 	InitAudio(); // Initialize audio
+	fatInitDefault(); // Initialize file system
 
 	// read wiimote accelerometer and IR data
 	WPAD_SetDataFormat(WPAD_CHAN_ALL,WPAD_FMT_BTNS_ACC_IR);
