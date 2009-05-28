@@ -362,7 +362,13 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 				fileList[selectedItem]->SetState(STATE_SELECTED, t->chan);
 		}
 
+		int currChan = t->chan;
+
+		if(t->wpad.ir.valid && !fileList[i]->IsInside(t->wpad.ir.x, t->wpad.ir.y))
+			t->chan = -1;
+
 		fileList[i]->Update(t);
+		t->chan = currChan;
 
 		if(fileList[i]->GetState() == STATE_SELECTED)
 		{
