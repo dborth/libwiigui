@@ -97,7 +97,7 @@ GuiFileBrowser::GuiFileBrowser(int w, int h)
 
 	for(int i=0; i<PAGESIZE; i++)
 	{
-		fileListText[i] = new GuiText("File",20, (GXColor){0, 0, 0, 0xff});
+		fileListText[i] = new GuiText(NULL,20, (GXColor){0, 0, 0, 0xff});
 		fileListText[i]->SetAlignment(ALIGN_LEFT, ALIGN_MIDDLE);
 		fileListText[i]->SetPosition(5,0);
 
