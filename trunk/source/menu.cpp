@@ -173,6 +173,8 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 static void *
 UpdateGUI (void *arg)
 {
+	int i;
+
 	while(1)
 	{
 		if(guiHalt)
@@ -184,7 +186,7 @@ UpdateGUI (void *arg)
 			mainWindow->Draw();
 
 			#ifdef HW_RVL
-			for(int i=3; i >= 0; i--) // so that player 1's cursor appears on top!
+			for(i=3; i >= 0; i--) // so that player 1's cursor appears on top!
 			{
 				if(userInput[i].wpad.ir.valid)
 					Menu_DrawImg(userInput[i].wpad.ir.x-48, userInput[i].wpad.ir.y-48,
@@ -195,15 +197,15 @@ UpdateGUI (void *arg)
 
 			Menu_Render();
 
-			for(int i=0; i < 4; i++)
+			for(i=0; i < 4; i++)
 				mainWindow->Update(&userInput[i]);
 
 			if(ExitRequested)
 			{
-				for(int a = 0; a < 255; a += 15)
+				for(i = 0; i < 255; i += 15)
 				{
 					mainWindow->Draw();
-					Menu_DrawRectangle(0,0,screenwidth,screenheight,(GXColor){0, 0, 0, a},1);
+					Menu_DrawRectangle(0,0,screenwidth,screenheight,(GXColor){0, 0, 0, i},1);
 					Menu_Render();
 				}
 				ExitApp();
@@ -306,6 +308,7 @@ static void OnScreenKeyboard(char * var, u16 maxlen)
 static int MenuBrowseDevice()
 {
 	char title[100];
+	int i;
 
 	ShutoffRumble();
 
@@ -368,7 +371,7 @@ static int MenuBrowseDevice()
 
 		// update file browser based on arrow buttons
 		// set MENU_EXIT if A button pressed on a file
-		for(int i=0; i<PAGESIZE; i++)
+		for(i=0; i<PAGESIZE; i++)
 		{
 			if(fileBrowser.fileList[i]->GetState() == STATE_CLICKED)
 			{
