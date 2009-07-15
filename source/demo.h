@@ -35,6 +35,6 @@ extern struct SSettings Settings;
 
 void ExitApp();
 extern int ExitRequested;
-extern FreeTypeGX *fontSystem;
+extern FreeTypeGX *fontSystem[];
 
 #endif

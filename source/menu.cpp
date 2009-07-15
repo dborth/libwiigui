@@ -91,7 +91,7 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 	GuiText msgTxt(msg, 22, (GXColor){0, 0, 0, 255});
 	msgTxt.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
 	msgTxt.SetPosition(0,-20);
-	msgTxt.SetMaxWidth(430);
+	msgTxt.SetWrap(true, 400);
 
 	GuiText btn1Txt(btn1Label, 22, (GXColor){0, 0, 0, 255});
 	GuiImage btn1Img(&btnOutline);
@@ -371,7 +371,7 @@ static int MenuBrowseDevice()
 
 		// update file browser based on arrow buttons
 		// set MENU_EXIT if A button pressed on a file
-		for(i=0; i<PAGESIZE; i++)
+		for(i=0; i < FILE_PAGESIZE; i++)
 		{
 			if(fileBrowser.fileList[i]->GetState() == STATE_CLICKED)
 			{
@@ -433,7 +433,7 @@ static int MenuSettings()
 	trigHome.SetButtonOnlyTrigger(-1, WPAD_BUTTON_HOME | WPAD_CLASSIC_BUTTON_HOME, 0);
 
 	GuiText fileBtnTxt("File Browser", 22, (GXColor){0, 0, 0, 255});
-	fileBtnTxt.SetMaxWidth(btnLargeOutline.GetWidth()-30);
+	fileBtnTxt.SetWrap(true, btnLargeOutline.GetWidth()-30);
 	GuiImage fileBtnImg(&btnLargeOutline);
 	GuiImage fileBtnImgOver(&btnLargeOutlineOver);
 	GuiButton fileBtn(btnLargeOutline.GetWidth(), btnLargeOutline.GetHeight());
@@ -447,7 +447,7 @@ static int MenuSettings()
 	fileBtn.SetEffectGrow();
 
 	GuiText videoBtnTxt("Video", 22, (GXColor){0, 0, 0, 255});
-	videoBtnTxt.SetMaxWidth(btnLargeOutline.GetWidth()-30);
+	videoBtnTxt.SetWrap(true, btnLargeOutline.GetWidth()-30);
 	GuiImage videoBtnImg(&btnLargeOutline);
 	GuiImage videoBtnImgOver(&btnLargeOutlineOver);
 	GuiButton videoBtn(btnLargeOutline.GetWidth(), btnLargeOutline.GetHeight());
@@ -480,7 +480,7 @@ static int MenuSettings()
 	savingBtn.SetEffectGrow();
 
 	GuiText menuBtnTxt("Menu", 22, (GXColor){0, 0, 0, 255});
-	menuBtnTxt.SetMaxWidth(btnLargeOutline.GetWidth()-30);
+	menuBtnTxt.SetWrap(true, btnLargeOutline.GetWidth()-30);
 	GuiImage menuBtnImg(&btnLargeOutline);
 	GuiImage menuBtnImgOver(&btnLargeOutlineOver);
 	GuiButton menuBtn(btnLargeOutline.GetWidth(), btnLargeOutline.GetHeight());
@@ -494,7 +494,7 @@ static int MenuSettings()
 	menuBtn.SetEffectGrow();
 
 	GuiText networkBtnTxt("Network", 22, (GXColor){0, 0, 0, 255});
-	networkBtnTxt.SetMaxWidth(btnLargeOutline.GetWidth()-30);
+	networkBtnTxt.SetWrap(true, btnLargeOutline.GetWidth()-30);
 	GuiImage networkBtnImg(&btnLargeOutline);
 	GuiImage networkBtnImgOver(&btnLargeOutlineOver);
 	GuiButton networkBtn(btnLargeOutline.GetWidth(), btnLargeOutline.GetHeight());
