@@ -54,7 +54,11 @@ Inheritance diagram for GuiText:</div>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#d6d3d669db90d6b01a2c150fdda8e8b7">SetFontSize</a> (int s)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#94dd447c6219ad340f8778a0ed1a91e1">SetMaxWidth</a> (int w)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#27e627ac7de5d65c4dd8e0f6215a0dba">SetMaxWidth</a> (int <a class="el" href="class_gui_element.html#65b58c5285377814ccfea563994784f9">width</a>)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#9dac83e39b99c1b6ce6bf211184851db">SetScroll</a> (int s)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#8ab5b7b500945b76627a7bb73d86bb6d">SetWrap</a> (bool w, int <a class="el" href="class_gui_element.html#65b58c5285377814ccfea563994784f9">width</a>=0)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#c9699d4251ac6ae6817f49412b029a5d">SetColor</a> (GXColor c)</td></tr>
 
@@ -66,6 +70,10 @@ Inheritance diagram for GuiText:</div>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constantly called to draw the text.  <a href="#c5e59c4aa25f1b883774c8777aa973e6"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Attributes</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2184ec674a8b76fa91222250bf704af5"></a><!-- doxytag: member="GuiText::origText" ref="2184ec674a8b76fa91222250bf704af5" args="" -->
+char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#2184ec674a8b76fa91222250bf704af5">origText</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Original text data. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="040db6a5a63d8d151010df455f0f813a"></a><!-- doxytag: member="GuiText::text" ref="040db6a5a63d8d151010df455f0f813a" args="" -->
 wchar_t *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#040db6a5a63d8d151010df455f0f813a">text</a></td></tr>
 
@@ -78,6 +86,30 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#8a2254f2c7522930de0baa3a9769f558">maxWidth</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Maximum width of the generated text object (for text wrapping). <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="176f241f52988abb93022df7f417f374"></a><!-- doxytag: member="GuiText::wrap" ref="176f241f52988abb93022df7f417f374" args="" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#176f241f52988abb93022df7f417f374">wrap</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Wrapping toggle. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f6c95a13e5a477eb6b2ee519c8eaf6dd"></a><!-- doxytag: member="GuiText::textDyn" ref="f6c95a13e5a477eb6b2ee519c8eaf6dd" args="" -->
+wchar_t *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#f6c95a13e5a477eb6b2ee519c8eaf6dd">textDyn</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Wrapped text value. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d6116de50d4fb1dcf5b8bcb2ef69ff61"></a><!-- doxytag: member="GuiText::textScroll" ref="d6116de50d4fb1dcf5b8bcb2ef69ff61" args="" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#d6116de50d4fb1dcf5b8bcb2ef69ff61">textScroll</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Scrolling toggle. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2f60b60147833a965c4420384c2c121a"></a><!-- doxytag: member="GuiText::textScrollPos" ref="2f60b60147833a965c4420384c2c121a" args="" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#2f60b60147833a965c4420384c2c121a">textScrollPos</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Current starting index of text string for scrolling. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5db4c289daee7d33cb833c92fa884f7e"></a><!-- doxytag: member="GuiText::textScrollInitialDelay" ref="5db4c289daee7d33cb833c92fa884f7e" args="" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#5db4c289daee7d33cb833c92fa884f7e">textScrollInitialDelay</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Delay to wait before starting to scroll. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="3a50d7fc2860f771e7497b4aef3c72cf"></a><!-- doxytag: member="GuiText::textScrollDelay" ref="3a50d7fc2860f771e7497b4aef3c72cf" args="" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#3a50d7fc2860f771e7497b4aef3c72cf">textScrollDelay</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Scrolling speed. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="17139026af0612be7da52e860e33985c"></a><!-- doxytag: member="GuiText::style" ref="17139026af0612be7da52e860e33985c" args="" -->
 u16&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_text.html#17139026af0612be7da52e860e33985c">style</a></td></tr>
 
@@ -288,7 +320,7 @@ Sets the font size <dl compact><dt><b>Parameters:</b></dt><dd>
 
 </div>
 </div><p>
-<a class="anchor" name="94dd447c6219ad340f8778a0ed1a91e1"></a><!-- doxytag: member="GuiText::SetMaxWidth" ref="94dd447c6219ad340f8778a0ed1a91e1" args="(int w)" -->
+<a class="anchor" name="27e627ac7de5d65c4dd8e0f6215a0dba"></a><!-- doxytag: member="GuiText::SetMaxWidth" ref="27e627ac7de5d65c4dd8e0f6215a0dba" args="(int width)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -296,7 +328,7 @@ Sets the font size <dl compact><dt><b>Parameters:</b></dt><dd>
           <td class="memname">void GuiText::SetMaxWidth           </td>
           <td>(</td>
           <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>w</em>          </td>
+          <td class="paramname"> <em>width</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td></td>
         </tr>
@@ -305,7 +337,7 @@ Sets the font size <dl compact><dt><b>Parameters:</b></dt><dd>
 <div class="memdoc">
 
 <p>
-Sets the maximum width of the drawn texture image If the text exceeds this, it is wrapped to the next line <dl compact><dt><b>Parameters:</b></dt><dd>
+Sets the maximum width of the drawn texture image <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>w</em>&nbsp;</td><td>Maximum width </td></tr>
   </table>
@@ -376,6 +408,31 @@ Sets up preset values to be used by GuiText(t) Useful when printing multiple tex
 
 </div>
 </div><p>
+<a class="anchor" name="9dac83e39b99c1b6ce6bf211184851db"></a><!-- doxytag: member="GuiText::SetScroll" ref="9dac83e39b99c1b6ce6bf211184851db" args="(int s)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void GuiText::SetScroll           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>s</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Enables/disables text scrolling <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>s</em>&nbsp;</td><td>Scrolling on/off </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
 <a class="anchor" name="58c2be180710cdb97de326a41e263149"></a><!-- doxytag: member="GuiText::SetStyle" ref="58c2be180710cdb97de326a41e263149" args="(u16 s)" -->
 <div class="memitem">
 <div class="memproto">
@@ -426,10 +483,45 @@ Sets the text of the <a class="el" href="class_gui_text.html" title="Display, ma
 
 </div>
 </div><p>
+<a class="anchor" name="8ab5b7b500945b76627a7bb73d86bb6d"></a><!-- doxytag: member="GuiText::SetWrap" ref="8ab5b7b500945b76627a7bb73d86bb6d" args="(bool w, int width=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void GuiText::SetWrap           </td>
+          <td>(</td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>width</em> = <code>0</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Enables/disables text wrapping <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>w</em>&nbsp;</td><td>Wrapping on/off </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>width</em>&nbsp;</td><td>Maximum width (0 to disable) </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="gui_8h-source.html">gui.h</a><li>gui_text.cpp</ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 13 13:50:33 2009 for libwiigui by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Aug 4 16:40:56 2009 for libwiigui by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

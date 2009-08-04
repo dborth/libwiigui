@@ -1,5 +1,5 @@
 ×—–­—–­—–­—–­ –­—–­—–­—–­—–­—–­—–­—–­—–­—–­— ­—–­—–­—–­—–­—–­—–­—–­—-­—–­-–•¬
-|0O×øo·                      libwiigui 1.03                           ·oø×O0|
+|0O×øo·                      libwiigui 1.04                           ·oø×O0|
 |                   http://code.google.com/p/libwiigui                      |
 |                          (Under GPL License)                              |
 `¨•¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨'
@@ -41,6 +41,14 @@ template.
 •˜———–—––-- - —————————––––– ———–—––-- - —————————––––– ———–—––-- - ————————•
 |                                                          UPDATE HISTORY  |
 •˜———–—––-- - —————————––––– ———–—––-- - —————————––––– ———–—––-- - ————————•
+
+[1.04 - August 4, 2009]
+* Rewritten ogg player - fixed a crashing bug
+* Improved text rendering performance
+* Improved logic for option browser and file browser classes
+* Onscreen keyboard class improvements
+* GuiText: Added SetScroll and SetWrap and changed behavior of SetMaxWidth
+* Other minor GUI logic corrections and code cleanup
 
 [1.03 - May 22, 2009]
 * Add file browser class to template - browses your SD card
