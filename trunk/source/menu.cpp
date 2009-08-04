@@ -611,6 +611,7 @@ static int MenuSettingsFile()
 	int menu = MENU_NONE;
 	int ret;
 	int i = 0;
+	bool firstRun = true;
 	OptionList options;
 	sprintf(options.name[i++], "Load Device");
 	sprintf(options.name[i++], "Save Device");
@@ -662,37 +663,6 @@ static int MenuSettingsFile()
 	{
 		usleep(THREAD_SLEEP);
 
-		// correct load/save methods out of bounds
-		if(Settings.LoadMethod > 4)
-			Settings.LoadMethod = 0;
-		if(Settings.SaveMethod > 6)
-			Settings.SaveMethod = 0;
-
-		if (Settings.LoadMethod == METHOD_AUTO) sprintf (options.value[0],"Auto Detect");
-		else if (Settings.LoadMethod == METHOD_SD) sprintf (options.value[0],"SD");
-		else if (Settings.LoadMethod == METHOD_USB) sprintf (options.value[0],"USB");
-		else if (Settings.LoadMethod == METHOD_DVD) sprintf (options.value[0],"DVD");
-		else if (Settings.LoadMethod == METHOD_SMB) sprintf (options.value[0],"Network");
-
-		if (Settings.SaveMethod == METHOD_AUTO) sprintf (options.value[1],"Auto Detect");
-		else if (Settings.SaveMethod == METHOD_SD) sprintf (options.value[1],"SD");
-		else if (Settings.SaveMethod == METHOD_USB) sprintf (options.value[1],"USB");
-		else if (Settings.SaveMethod == METHOD_SMB) sprintf (options.value[1],"Network");
-		else if (Settings.SaveMethod == METHOD_MC_SLOTA) sprintf (options.value[1],"MC Slot A");
-		else if (Settings.SaveMethod == METHOD_MC_SLOTB) sprintf (options.value[1],"MC Slot B");
-
-		snprintf (options.value[2], 256, "%s", Settings.Folder1);
-		snprintf (options.value[3], 256, "%s", Settings.Folder2);
-		snprintf (options.value[4], 256, "%s", Settings.Folder3);
-
-		if (Settings.AutoLoad == 0) sprintf (options.value[5],"Off");
-		else if (Settings.AutoLoad == 1) sprintf (options.value[5],"Some");
-		else if (Settings.AutoLoad == 2) sprintf (options.value[5],"All");
-
-		if (Settings.AutoSave == 0) sprintf (options.value[5],"Off");
-		else if (Settings.AutoSave == 1) sprintf (options.value[6],"Some");
-		else if (Settings.AutoSave == 2) sprintf (options.value[6],"All");
-
 		ret = optionBrowser.GetClickedOption();
 
 		switch (ret)
@@ -728,6 +698,44 @@ static int MenuSettingsFile()
 				if (Settings.AutoSave > 3)
 					Settings.AutoSave = 0;
 				break;
+		}
+
+		if(ret >= 0 || firstRun)
+		{
+			firstRun = false;
+
+			// correct load/save methods out of bounds
+			if(Settings.LoadMethod > 4)
+				Settings.LoadMethod = 0;
+			if(Settings.SaveMethod > 6)
+				Settings.SaveMethod = 0;
+
+			if (Settings.LoadMethod == METHOD_AUTO) sprintf (options.value[0],"Auto Detect");
+			else if (Settings.LoadMethod == METHOD_SD) sprintf (options.value[0],"SD");
+			else if (Settings.LoadMethod == METHOD_USB) sprintf (options.value[0],"USB");
+			else if (Settings.LoadMethod == METHOD_DVD) sprintf (options.value[0],"DVD");
+			else if (Settings.LoadMethod == METHOD_SMB) sprintf (options.value[0],"Network");
+
+			if (Settings.SaveMethod == METHOD_AUTO) sprintf (options.value[1],"Auto Detect");
+			else if (Settings.SaveMethod == METHOD_SD) sprintf (options.value[1],"SD");
+			else if (Settings.SaveMethod == METHOD_USB) sprintf (options.value[1],"USB");
+			else if (Settings.SaveMethod == METHOD_SMB) sprintf (options.value[1],"Network");
+			else if (Settings.SaveMethod == METHOD_MC_SLOTA) sprintf (options.value[1],"MC Slot A");
+			else if (Settings.SaveMethod == METHOD_MC_SLOTB) sprintf (options.value[1],"MC Slot B");
+
+			snprintf (options.value[2], 256, "%s", Settings.Folder1);
+			snprintf (options.value[3], 256, "%s", Settings.Folder2);
+			snprintf (options.value[4], 256, "%s", Settings.Folder3);
+
+			if (Settings.AutoLoad == 0) sprintf (options.value[5],"Off");
+			else if (Settings.AutoLoad == 1) sprintf (options.value[5],"Some");
+			else if (Settings.AutoLoad == 2) sprintf (options.value[5],"All");
+
+			if (Settings.AutoSave == 0) sprintf (options.value[5],"Off");
+			else if (Settings.AutoSave == 1) sprintf (options.value[6],"Some");
+			else if (Settings.AutoSave == 2) sprintf (options.value[6],"All");
+
+			optionBrowser.TriggerUpdate();
 		}
 
 		if(backBtn.GetState() == STATE_CLICKED)

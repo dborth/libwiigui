@@ -34,11 +34,12 @@ Inheritance diagram for GuiElement:</div>
 <p><center><img src="class_gui_element.png" usemap="#GuiElement_map" border="0" alt=""></center>
 <map name="GuiElement_map">
 <area href="class_gui_button.html" alt="GuiButton" shape="rect" coords="0,56,115,80">
-<area href="class_gui_image.html" alt="GuiImage" shape="rect" coords="125,56,240,80">
-<area href="class_gui_option_browser.html" alt="GuiOptionBrowser" shape="rect" coords="250,56,365,80">
-<area href="class_gui_text.html" alt="GuiText" shape="rect" coords="375,56,490,80">
-<area href="class_gui_window.html" alt="GuiWindow" shape="rect" coords="500,56,615,80">
-<area href="class_gui_keyboard.html" alt="GuiKeyboard" shape="rect" coords="500,112,615,136">
+<area href="class_gui_file_browser.html" alt="GuiFileBrowser" shape="rect" coords="125,56,240,80">
+<area href="class_gui_image.html" alt="GuiImage" shape="rect" coords="250,56,365,80">
+<area href="class_gui_option_browser.html" alt="GuiOptionBrowser" shape="rect" coords="375,56,490,80">
+<area href="class_gui_text.html" alt="GuiText" shape="rect" coords="500,56,615,80">
+<area href="class_gui_window.html" alt="GuiWindow" shape="rect" coords="625,56,740,80">
+<area href="class_gui_keyboard.html" alt="GuiKeyboard" shape="rect" coords="625,112,740,136">
 </map>
 </div>
 
@@ -53,6 +54,8 @@ Inheritance diagram for GuiElement:</div>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Destructor.  <a href="#f1808ff4f87a2224cc7f8a40ac68d0d3"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_element.html#0d03252e05377d881919ec32c0b9cbe5">SetParent</a> (<a class="el" href="class_gui_element.html">GuiElement</a> *e)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_gui_element.html">GuiElement</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_element.html#51d6a41b98e4a5a81c32f15cf279fbfc">GetParent</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_gui_element.html#e8b111e667d6c0c5eeedefbbff673169">GetLeft</a> ()</td></tr>
 
@@ -351,7 +354,7 @@ Destructor for the <a class="el" href="class_gui_element.html" title="Primary GU
 Called constantly to redraw the element. 
 <p>
 Draw an element on screen. 
-<p>Reimplemented in <a class="el" href="class_gui_window.html#b9fd76e04205e7d429a3f207787d92f9">GuiWindow</a>, <a class="el" href="class_gui_image.html#60c7098a198e7d601faec24a15f6f1f7">GuiImage</a>, <a class="el" href="class_gui_text.html#c5e59c4aa25f1b883774c8777aa973e6">GuiText</a>, <a class="el" href="class_gui_button.html#6863608404a7de4e14b9f6b459be4e6b">GuiButton</a>, and <a class="el" href="class_gui_option_browser.html#ab5b8cbdcf76dab28c044f173401d906">GuiOptionBrowser</a>.</p>
+<p>Reimplemented in <a class="el" href="class_gui_window.html#b9fd76e04205e7d429a3f207787d92f9">GuiWindow</a>, <a class="el" href="class_gui_image.html#60c7098a198e7d601faec24a15f6f1f7">GuiImage</a>, <a class="el" href="class_gui_text.html#c5e59c4aa25f1b883774c8777aa973e6">GuiText</a>, <a class="el" href="class_gui_button.html#6863608404a7de4e14b9f6b459be4e6b">GuiButton</a>, <a class="el" href="class_gui_option_browser.html#ab5b8cbdcf76dab28c044f173401d906">GuiOptionBrowser</a>, and <a class="el" href="class_gui_file_browser.html#fddcc34ddaba446120ef4f9cb9001e2c">GuiFileBrowser</a>.</p>
 
 </div>
 </div><p>
@@ -516,6 +519,26 @@ Gets the minimum x offset of the element <dl class="return" compact><dt><b>Retur
 
 <p>
 Gets the minimum y offset of the element <dl class="return" compact><dt><b>Returns:</b></dt><dd>Minimum Y offset </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="51d6a41b98e4a5a81c32f15cf279fbfc"></a><!-- doxytag: member="GuiElement::GetParent" ref="51d6a41b98e4a5a81c32f15cf279fbfc" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_gui_element.html">GuiElement</a> * GuiElement::GetParent           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Gets the element's parent <dl class="return" compact><dt><b>Returns:</b></dt><dd>Pointer to parent element </dd></dl>
 
 </div>
 </div><p>
@@ -1002,7 +1025,7 @@ Sets the element's focus <dl compact><dt><b>Parameters:</b></dt><dd>
   </table>
 </dl>
 
-<p>Reimplemented in <a class="el" href="class_gui_window.html#dce82bea42576ad68544b54f9042ac04">GuiWindow</a>, and <a class="el" href="class_gui_option_browser.html#a45519831c3d5883d94c73450c4199e2">GuiOptionBrowser</a>.</p>
+<p>Reimplemented in <a class="el" href="class_gui_window.html#dce82bea42576ad68544b54f9042ac04">GuiWindow</a>, <a class="el" href="class_gui_option_browser.html#a45519831c3d5883d94c73450c4199e2">GuiOptionBrowser</a>, and <a class="el" href="class_gui_file_browser.html#93128338e22dcdaf275de153c6340089">GuiFileBrowser</a>.</p>
 
 </div>
 </div><p>
@@ -1480,7 +1503,7 @@ Called constantly to allow the element to respond to the current input data <dl 
   </table>
 </dl>
 
-<p>Reimplemented in <a class="el" href="class_gui_window.html#a716a9cd528dfa4a3b77db76292b718a">GuiWindow</a>, <a class="el" href="class_gui_button.html#9f8d0c27ce64f68ee91e20015b65095b">GuiButton</a>, <a class="el" href="class_gui_keyboard.html#c3d221afa95774bdd69953c3f79f2576">GuiKeyboard</a>, and <a class="el" href="class_gui_option_browser.html#9a7b42ad59ae31fa2f913368271ba857">GuiOptionBrowser</a>.</p>
+<p>Reimplemented in <a class="el" href="class_gui_window.html#a716a9cd528dfa4a3b77db76292b718a">GuiWindow</a>, <a class="el" href="class_gui_button.html#9f8d0c27ce64f68ee91e20015b65095b">GuiButton</a>, <a class="el" href="class_gui_keyboard.html#c3d221afa95774bdd69953c3f79f2576">GuiKeyboard</a>, <a class="el" href="class_gui_option_browser.html#9a7b42ad59ae31fa2f913368271ba857">GuiOptionBrowser</a>, and <a class="el" href="class_gui_file_browser.html#8bca07bdf1a7e92441422c7aa545a570">GuiFileBrowser</a>.</p>
 
 </div>
 </div><p>
@@ -1506,7 +1529,7 @@ Updates the element's effects (dynamic values) Called by <a class="el" href="cla
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="gui_8h-source.html">gui.h</a><li>gui_element.cpp</ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 13 13:50:33 2009 for libwiigui by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Aug 4 16:40:56 2009 for libwiigui by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
