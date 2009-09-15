@@ -28,18 +28,21 @@ GuiSound::GuiSound(const u8 * snd, s32 len, int t)
  */
 GuiSound::~GuiSound()
 {
+	#ifndef NO_SOUND
 	if(type == SOUND_OGG)
 		StopOgg();
+	#endif
 }
 
 void GuiSound::Play()
 {
+	#ifndef NO_SOUND
 	int vol;
 
 	switch(type)
 	{
 		case SOUND_PCM:
-		vol = 255*(volume/100.0);
+		vol = 255*(volume/100.0)*(GCSettings.SFXVolume/100.0);
 		voice = ASND_GetFirstUnusedVoice();
 		if(voice >= 0)
 			ASND_SetVoice(voice, VOICE_STEREO_16BIT, 48000, 0,
@@ -49,16 +52,18 @@ void GuiSound::Play()
 		case SOUND_OGG:
 		voice = 0;
 		if(loop)
-			PlayOgg(mem_open((char *)sound, length), 0, OGG_INFINITE_TIME);
+			PlayOgg((char *)sound, length, 0, OGG_INFINITE_TIME);
 		else
-			PlayOgg(mem_open((char *)sound, length), 0, OGG_ONE_TIME);
+			PlayOgg((char *)sound, length, 0, OGG_ONE_TIME);
 		SetVolumeOgg(255*(volume/100.0));
 		break;
 	}
+	#endif
 }
 
 void GuiSound::Stop()
 {
+	#ifndef NO_SOUND
 	if(voice < 0)
 		return;
 
@@ -72,10 +77,12 @@ void GuiSound::Stop()
 		StopOgg();
 		break;
 	}
+	#endif
 }
 
 void GuiSound::Pause()
 {
+	#ifndef NO_SOUND
 	if(voice < 0)
 		return;
 
@@ -89,10 +96,12 @@ void GuiSound::Pause()
 		PauseOgg(1);
 		break;
 	}
+	#endif
 }
 
 void GuiSound::Resume()
 {
+	#ifndef NO_SOUND
 	if(voice < 0)
 		return;
 
@@ -106,6 +115,7 @@ void GuiSound::Resume()
 		PauseOgg(0);
 		break;
 	}
+	#endif
 }
 
 bool GuiSound::IsPlaying()
@@ -118,12 +128,13 @@ bool GuiSound::IsPlaying()
 
 void GuiSound::SetVolume(int vol)
 {
+	#ifndef NO_SOUND
 	volume = vol;
 
 	if(voice < 0)
 		return;
 
-	int newvol = 255*(volume/100.0);
+	int newvol = 255*(volume/100.0)*(GCSettings.SFXVolume/100.0);
 
 	switch(type)
 	{
@@ -135,6 +146,7 @@ void GuiSound::SetVolume(int vol)
 		SetVolumeOgg(255*(volume/100.0));
 		break;
 	}
+	#endif
 }
 
 void GuiSound::SetLoop(bool l)
