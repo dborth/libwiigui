@@ -183,6 +183,7 @@ UpdateGUI (void *arg)
 		}
 		else
 		{
+			UpdatePads();
 			mainWindow->Draw();
 
 			#ifdef HW_RVL
