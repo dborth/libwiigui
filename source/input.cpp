@@ -25,6 +25,33 @@ GuiTrigger userInput[4];
 static int rumbleCount[4] = {0,0,0,0};
 
 /****************************************************************************
+ * UpdatePads
+ *
+ * Scans pad and wpad
+ ***************************************************************************/
+void UpdatePads()
+{
+	WPAD_ScanPads();
+	PAD_ScanPads();
+
+	for(int i=3; i >= 0; i--)
+	{
+		memcpy(&userInput[i].wpad, WPAD_Data(i), sizeof(WPADData));
+
+		userInput[i].chan = i;
+		userInput[i].pad.btns_d = PAD_ButtonsDown(i);
+		userInput[i].pad.btns_u = PAD_ButtonsUp(i);
+		userInput[i].pad.btns_h = PAD_ButtonsHeld(i);
+		userInput[i].pad.stickX = PAD_StickX(i);
+		userInput[i].pad.stickY = PAD_StickY(i);
+		userInput[i].pad.substickX = PAD_SubStickX(i);
+		userInput[i].pad.substickY = PAD_SubStickY(i);
+		userInput[i].pad.triggerL = PAD_TriggerL(i);
+		userInput[i].pad.triggerR = PAD_TriggerR(i);
+	}
+}
+
+/****************************************************************************
  * ShutoffRumble
  ***************************************************************************/
 
