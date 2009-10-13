@@ -28,27 +28,6 @@ int screenwidth;
 u32 FrameTimer = 0;
 
 /****************************************************************************
- * StartGX
- *
- * Initialises GX and sets it up for use
- ***************************************************************************/
-static void
-StartGX ()
-{
-	GXColor background = { 0, 0, 0, 0xff };
-
-	/*** Clear out FIFO area ***/
-	memset (&gp_fifo, 0, DEFAULT_FIFO_SIZE);
-
-	/*** Initialise GX ***/
-	GX_Init (&gp_fifo, DEFAULT_FIFO_SIZE);
-	GX_SetCopyClear (background, 0x00ffffff);
-
-	GX_SetDispCopyGamma (GX_GM_1_0);
-	GX_SetCullMode (GX_CULL_NONE);
-}
-
-/****************************************************************************
  * ResetVideo_Menu
  *
  * Reset the video/rendering mode for the menu
@@ -159,7 +138,14 @@ InitVideo ()
 	if (vmode->viTVMode & VI_NON_INTERLACE)
 		VIDEO_WaitVSync ();
 
-	StartGX();
+	// Initialize GX
+	GXColor background = { 0, 0, 0, 0xff };
+	memset (&gp_fifo, 0, DEFAULT_FIFO_SIZE);
+	GX_Init (&gp_fifo, DEFAULT_FIFO_SIZE);
+	GX_SetCopyClear (background, 0x00ffffff);
+	GX_SetDispCopyGamma (GX_GM_1_0);
+	GX_SetCullMode (GX_CULL_NONE);
+	
 	ResetVideo_Menu();
 	// Finally, the video is up and ready for use :)
 }
