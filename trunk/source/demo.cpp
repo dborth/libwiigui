@@ -49,8 +49,8 @@ DefaultSettings()
 int
 main(int argc, char *argv[])
 {
-	SetupPads(); // Initialize input
 	InitVideo(); // Initialize video
+	SetupPads(); // Initialize input
 	InitAudio(); // Initialize audio
 	fatInitDefault(); // Initialize file system
 	InitFreeType((u8*)font_ttf, font_ttf_size); // Initialize font system
