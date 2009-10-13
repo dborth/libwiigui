@@ -49,20 +49,13 @@ DefaultSettings()
 int
 main(int argc, char *argv[])
 {
-	PAD_Init();
-	WPAD_Init();
-	InitVideo(); // Initialise video
+	SetupPads(); // Initialize input
+	InitVideo(); // Initialize video
 	InitAudio(); // Initialize audio
 	fatInitDefault(); // Initialize file system
+	InitFreeType((u8*)font_ttf, font_ttf_size); // Initialize font system
+	InitGUIThreads(); // Initialize GUI
 
-	// read wiimote accelerometer and IR data
-	WPAD_SetDataFormat(WPAD_CHAN_ALL,WPAD_FMT_BTNS_ACC_IR);
-	WPAD_SetVRes(WPAD_CHAN_ALL, screenwidth, screenheight);
-
-	// Initialize font system
-	InitFreeType((u8*)font_ttf, font_ttf_size);
-
-	InitGUIThreads();
 	DefaultSettings();
 	MainMenu(MENU_SETTINGS);
 }
