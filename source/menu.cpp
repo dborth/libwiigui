@@ -189,9 +189,9 @@ UpdateGUI (void *arg)
 			#ifdef HW_RVL
 			for(i=3; i >= 0; i--) // so that player 1's cursor appears on top!
 			{
-				if(userInput[i].wpad.ir.valid)
-					Menu_DrawImg(userInput[i].wpad.ir.x-48, userInput[i].wpad.ir.y-48,
-						96, 96, pointer[i]->GetImage(), userInput[i].wpad.ir.angle, 1, 1, 255);
+				if(userInput[i].wpad->ir.valid)
+					Menu_DrawImg(userInput[i].wpad->ir.x-48, userInput[i].wpad->ir.y-48,
+						96, 96, pointer[i]->GetImage(), userInput[i].wpad->ir.angle, 1, 1, 255);
 				DoRumble(i);
 			}
 			#endif
