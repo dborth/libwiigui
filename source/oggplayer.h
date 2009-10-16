@@ -24,14 +24,12 @@
  THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef NO_SOUND
-
 #ifndef __OGGPLAYER_H__
 #define __OGGPLAYER_H__
 
 #include <asndlib.h>
-#include <tremor/ivorbiscodec.h>
-#include <tremor/ivorbisfile.h>
+#include "tremor/ivorbiscodec.h"
+#include "tremor/ivorbisfile.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -68,7 +66,7 @@ extern "C"
 
  */
 
-int PlayOgg(char * buf, int buflen, int time_pos, int mode);
+int PlayOgg(int fd, int time_pos, int mode);
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -167,8 +165,6 @@ void SetTimeOgg(s32 time_pos);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif
 
 #endif

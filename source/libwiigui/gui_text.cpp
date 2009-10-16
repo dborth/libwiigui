@@ -87,9 +87,9 @@ GuiText::~GuiText()
 	if(origText)
 		free(origText);
 	if(text)
-		delete[] text;
+		delete text;
 	if(textDyn)
-		delete[] textDyn;
+		delete textDyn;
 }
 
 void GuiText::SetText(const char * t)
@@ -97,9 +97,9 @@ void GuiText::SetText(const char * t)
 	if(origText)
 		free(origText);
 	if(text)
-		delete[] text;
+		delete text;
 	if(textDyn)
-		delete[] textDyn;
+		delete textDyn;
 
 	origText = NULL;
 	text = NULL;
@@ -147,7 +147,7 @@ void GuiText::SetScroll(int s)
 
 	if(textDyn)
 	{
-		delete[] textDyn;
+		delete(textDyn);
 		textDyn = NULL;
 	}
 	textScroll = s;
@@ -227,6 +227,11 @@ void GuiText::Draw()
 		currentSize = newSize;
 	}
 
+	int voffset = 0;
+
+	if(alignmentVert == ALIGN_MIDDLE)
+		voffset = -newSize/2 + 2;
+
 	if(maxWidth > 0)
 	{
 		char * tmpText = strdup(origText);
@@ -269,12 +274,12 @@ void GuiText::Draw()
 						tmpText[dynlen+1] = ' ';
 						strncat(&tmpText[dynlen+2], origText, maxChar - dynlen - 2);
 					}
-					if(textDyn) delete[] textDyn;
+					if(textDyn) delete textDyn;
 					textDyn = charToWideChar(tmpText);
 				}
 			}
 			if(textDyn)
-				fontSystem[currentSize]->drawText(this->GetLeft(), this->GetTop(), textDyn, c, style);
+				fontSystem[currentSize]->drawText(this->GetLeft(), this->GetTop()+voffset, textDyn, c, style);
 		}
 		else if(wrap)
 		{
@@ -323,26 +328,24 @@ void GuiText::Draw()
 				i++;
 			}
 
-			int voffset = 0;
-
 			if(alignmentVert == ALIGN_MIDDLE)
-				voffset = -(lineheight*linenum)/2 + lineheight/2;
+				voffset = voffset - (lineheight*linenum)/2 + lineheight/2;
 
 			for(i=0; i < linenum; i++)
 			{
 				fontSystem[currentSize]->drawText(this->GetLeft(), this->GetTop()+voffset+i*lineheight, textrow[i], c, style);
-				delete[] textrow[i];
+				delete textrow[i];
 			}
 		}
 		else
 		{
-			fontSystem[currentSize]->drawText(this->GetLeft(), this->GetTop(), textDyn, c, style);
+			fontSystem[currentSize]->drawText(this->GetLeft(), this->GetTop()+voffset, textDyn, c, style);
 		}
 		free(tmpText);
 	}
 	else
 	{
-		fontSystem[currentSize]->drawText(this->GetLeft(), this->GetTop(), text, c, style);
+		fontSystem[currentSize]->drawText(this->GetLeft(), this->GetTop()+voffset, text, c, style);
 	}
 	this->UpdateEffects();
 }

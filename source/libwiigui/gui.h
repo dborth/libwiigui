@@ -41,7 +41,7 @@
 #include <math.h>
 #include <asndlib.h>
 #include <wiiuse/wpad.h>
-#include "pngu.h"
+#include "pngu/pngu.h"
 #include "FreeTypeGX.h"
 #include "video.h"
 #include "filelist.h"
@@ -212,8 +212,7 @@ class GuiTrigger
 
 		u8 type; //!< trigger type (TRIGGER_SIMPLE,	TRIGGER_HELD, TRIGGER_BUTTON_ONLY, TRIGGER_BUTTON_ONLY_IN_FOCUS)
 		s32 chan; //!< Trigger controller channel (0-3, -1 for all)
-		WPADData * wpad; //!< Wii controller trigger
-		WPADData wpaddata; //!< Wii controller trigger data
+		WPADData wpad; //!< Wii controller trigger data
 		PADData pad; //!< GameCube controller trigger data
 };
 
@@ -572,8 +571,6 @@ class GuiImage : public GuiElement
 		//!Alters the RGB values by the specified amount
 		//!\param s Amount to increment/decrement the RGB values in the image
 		void ColorStripe(int s);
-		//!Directly modifies the image data to change the image to grayscale
-		void Grayscale();
 		//!Sets a stripe effect on the image, overlaying alpha blended rectangles
 		//!Does not alter the image data
 		//!\param s Alpha amount to draw over the image

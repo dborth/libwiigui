@@ -207,36 +207,6 @@ void GuiImage::ColorStripe(int shift)
 			SetPixel(x, y, color);
 		}
 	}
-	int len = width*height*4;
-	if(len%32) len += (32-len%32);
-	DCFlushRange(image, len);
-}
-
-void GuiImage::Grayscale()
-{
-	GXColor color;
-	u32 offset, gray;
-
-	for (int x = 0; x < width; x++)
-	{
-		for (int y = 0; y < height; y++)
-		{
-			offset = (((y >> 2) << 4) * this->GetWidth()) + ((x >> 2) << 6)
-					+ (((y % 4 << 2) + x % 4) << 1);
-			color.r = *(image + offset + 1);
-			color.g = *(image + offset + 32);
-			color.b = *(image + offset + 33);
-
-			gray = (77 * color.r + 150 * color.g + 28 * color.b) / 255;
-
-			*(image + offset + 1) = gray;
-			*(image + offset + 32) = gray;
-			*(image + offset + 33) = gray;
-		}
-	}
-	int len = width*height*4;
-	if(len%32) len += (32-len%32);
-	DCFlushRange(image, len);
 }
 
 /**
