@@ -171,8 +171,6 @@ void StopGX()
  ***************************************************************************/
 void Menu_Render()
 {
-	GX_DrawDone ();
-
 	whichfb ^= 1; // flip framebuffer
 	GX_SetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
 	GX_SetColorUpdate(GX_TRUE);

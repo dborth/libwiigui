@@ -1,5 +1,5 @@
 ×—–­—–­—–­—–­ –­—–­—–­—–­—–­—–­—–­—–­—–­—–­— ­—–­—–­—–­—–­—–­—–­—–­—-­—–­-–•¬
-|0O×øo·                      libwiigui 1.04                           ·oø×O0|
+|0O×øo·                      libwiigui 1.05                           ·oø×O0|
 |                   http://code.google.com/p/libwiigui                      |
 |                          (Under GPL License)                              |
 `¨•¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨'
@@ -41,6 +41,13 @@ template.
 •˜———–—––-- - —————————––––– ———–—––-- - —————————––––– ———–—––-- - ————————•
 |                                                          UPDATE HISTORY  |
 •˜———–—––-- - —————————––––– ———–—––-- - —————————––––– ———–—––-- - ————————•
+
+[1.05 - October 16, 2009]
+* Text alignment corrections
+* Compatibility with devkitPPC r18 and libogc 1.8.0
+* Removed outside dependencies - uses only devkitpro portlibs now
+* Added grayscale method to image class (thanks dimok!)
+* Other minor optimizations
 
 [1.04 - August 4, 2009]
 * Rewritten ogg player - fixed a crashing bug
