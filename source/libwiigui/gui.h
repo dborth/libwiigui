@@ -572,6 +572,8 @@ class GuiImage : public GuiElement
 		//!Alters the RGB values by the specified amount
 		//!\param s Amount to increment/decrement the RGB values in the image
 		void ColorStripe(int s);
+		//!Directly modifies the image data to change the image to grayscale
+		void Grayscale();
 		//!Sets a stripe effect on the image, overlaying alpha blended rectangles
 		//!Does not alter the image data
 		//!\param s Alpha amount to draw over the image
