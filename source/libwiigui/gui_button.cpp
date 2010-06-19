@@ -37,6 +37,7 @@ GuiButton::GuiButton(int w, int h)
 	soundOver = NULL;
 	soundHold = NULL;
 	soundClick = NULL;
+	tooltip = NULL;
 	selectable = true;
 	holdable = false;
 	clickable = true;
@@ -121,6 +122,12 @@ void GuiButton::SetSoundClick(GuiSound * snd)
 {
 	soundClick = snd;
 }
+void GuiButton::SetTooltip(GuiTooltip* t)
+{
+	tooltip = t;
+	if(t)
+		tooltip->SetParent(this);
+}
 
 /**
  * Draw the button on screen
@@ -130,26 +137,70 @@ void GuiButton::Draw()
 	if(!this->IsVisible())
 		return;
 
-	// draw image
-	if((state == STATE_SELECTED || state == STATE_HELD) && imageOver)
-		imageOver->Draw();
-	else if(image)
-		image->Draw();
-	// draw icon
-	if((state == STATE_SELECTED || state == STATE_HELD) && iconOver)
-		iconOver->Draw();
-	else if(icon)
-		icon->Draw();
-	// draw text
-	for(int i=0; i<3; i++)
+	if(state == STATE_SELECTED || state == STATE_HELD)
 	{
-		if((state == STATE_SELECTED || state == STATE_HELD) && labelOver[i])
-			labelOver[i]->Draw();
-		else if(label[i])
-			label[i]->Draw();
+		if(imageOver)
+			imageOver->Draw();
+		else if(image) // draw image
+			image->Draw();
+
+		if(iconOver)
+			iconOver->Draw();
+		else if(icon) // draw icon
+			icon->Draw();
+
+		// draw text
+		if(labelOver[0])
+			labelOver[0]->Draw();
+		else if(label[0])
+			label[0]->Draw();
+			
+		if(labelOver[1])
+			labelOver[1]->Draw();	
+		else if(label[1])
+			label[1]->Draw();
+			
+		if(labelOver[2])
+			labelOver[2]->Draw();
+		else if(label[2])
+			label[2]->Draw();
+	}
+	else
+	{
+		if(image) // draw image
+			image->Draw();
+		if(icon) // draw icon
+			icon->Draw();
+
+		// draw text
+		if(label[0])
+			label[0]->Draw();
+		if(label[1])
+			label[1]->Draw();
+		if(label[2])
+			label[2]->Draw();
 	}
 
 	this->UpdateEffects();
+}
+
+void GuiButton::DrawTooltip()
+{
+	if(tooltip)
+		tooltip->DrawTooltip();
+}
+
+void GuiButton::ResetText()
+{
+	for(int i=0; i<3; i++)
+	{
+		if(label[i])
+			label[i]->ResetText();
+		if(labelOver[i])
+			labelOver[i]->ResetText();
+	}
+	if(tooltip)
+		tooltip->ResetText();
 }
 
 void GuiButton::Update(GuiTrigger * t)
@@ -204,7 +255,7 @@ void GuiButton::Update(GuiTrigger * t)
 	if(this->IsClickable())
 	{
 		s32 wm_btns, wm_btns_trig, cc_btns, cc_btns_trig;
-		for(int i=0; i<2; i++)
+		for(int i=0; i<3; i++)
 		{
 			if(trigger[i] && (trigger[i]->chan == -1 || trigger[i]->chan == t->chan))
 			{
@@ -254,7 +305,7 @@ void GuiButton::Update(GuiTrigger * t)
 		bool held = false;
 		s32 wm_btns, wm_btns_h, wm_btns_trig, cc_btns, cc_btns_h, cc_btns_trig;
 
-		for(int i=0; i<2; i++)
+		for(int i=0; i<3; i++)
 		{
 			if(trigger[i] && (trigger[i]->chan == -1 || trigger[i]->chan == t->chan))
 			{

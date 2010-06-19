@@ -26,6 +26,8 @@ GuiFileBrowser::GuiFileBrowser(int w, int h)
 
 	trigA = new GuiTrigger;
 	trigA->SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
+	trig2 = new GuiTrigger;
+	trig2->SetSimpleTrigger(-1, WPAD_BUTTON_2, 0);
 
 	trigHeldA = new GuiTrigger;
 	trigHeldA->SetHeldTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
@@ -97,7 +99,7 @@ GuiFileBrowser::GuiFileBrowser(int w, int h)
 	scrollbarBoxBtn->SetHoldable(true);
 	scrollbarBoxBtn->SetTrigger(trigHeldA);
 
-	for(int i=0; i<FILE_PAGESIZE; i++)
+	for(int i=0; i<FILE_PAGESIZE; ++i)
 	{
 		fileListText[i] = new GuiText(NULL, 20, (GXColor){0, 0, 0, 0xff});
 		fileListText[i]->SetAlignment(ALIGN_LEFT, ALIGN_MIDDLE);
@@ -107,12 +109,13 @@ GuiFileBrowser::GuiFileBrowser(int w, int h)
 		fileListBg[i] = new GuiImage(bgFileSelectionEntry);
 		fileListFolder[i] = new GuiImage(fileFolder);
 
-		fileList[i] = new GuiButton(512,30);
+		fileList[i] = new GuiButton(512, 30);
 		fileList[i]->SetParent(this);
 		fileList[i]->SetLabel(fileListText[i]);
 		fileList[i]->SetImageOver(fileListBg[i]);
 		fileList[i]->SetPosition(2,30*i+3);
 		fileList[i]->SetTrigger(trigA);
+		fileList[i]->SetTrigger(trig2);
 		fileList[i]->SetSoundClick(btnSoundClick);
 	}
 }
@@ -150,6 +153,7 @@ GuiFileBrowser::~GuiFileBrowser()
 	delete btnSoundClick;
 	delete trigHeldA;
 	delete trigA;
+	delete trig2;
 
 	for(int i=0; i<FILE_PAGESIZE; i++)
 	{
@@ -198,7 +202,7 @@ void GuiFileBrowser::Draw()
 
 	bgFileSelectionImg->Draw();
 
-	for(int i=0; i<FILE_PAGESIZE; i++)
+	for(u32 i=0; i<FILE_PAGESIZE; ++i)
 	{
 		fileList[i]->Draw();
 	}
@@ -209,6 +213,10 @@ void GuiFileBrowser::Draw()
 	scrollbarBoxBtn->Draw();
 
 	this->UpdateEffects();
+}
+
+void GuiFileBrowser::DrawTooltip()
+{
 }
 
 void GuiFileBrowser::Update(GuiTrigger * t)
@@ -254,13 +262,13 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 
 	if(arrowDownBtn->GetState() == STATE_HELD && arrowDownBtn->GetStateChan() == t->chan)
 	{
-		t->wpad->btns_h |= WPAD_BUTTON_DOWN;
+		t->wpad->btns_d |= WPAD_BUTTON_DOWN;
 		if(!this->IsFocused())
 			((GuiWindow *)this->GetParent())->ChangeFocus(this);
 	}
 	else if(arrowUpBtn->GetState() == STATE_HELD && arrowUpBtn->GetStateChan() == t->chan)
 	{
-		t->wpad->btns_h |= WPAD_BUTTON_UP;
+		t->wpad->btns_d |= WPAD_BUTTON_UP;
 		if(!this->IsFocused())
 			((GuiWindow *)this->GetParent())->ChangeFocus(this);
 	}
@@ -299,7 +307,7 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 			if(selectedItem == FILE_PAGESIZE-1)
 			{
 				// move list down by 1
-				browser.pageIndex++;
+				++browser.pageIndex;
 				listChanged = true;
 			}
 			else if(fileList[selectedItem+1]->IsVisible())
@@ -314,7 +322,7 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 		if(selectedItem == 0 &&	browser.pageIndex + selectedItem > 0)
 		{
 			// move list up by 1
-			browser.pageIndex--;
+			--browser.pageIndex;
 			listChanged = true;
 		}
 		else if(selectedItem > 0)
@@ -326,7 +334,7 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 
 	endNavigation:
 
-	for(int i=0; i<FILE_PAGESIZE; i++)
+	for(int i=0; i<FILE_PAGESIZE; ++i)
 	{
 		if(listChanged || numEntries != browser.numEntries)
 		{
@@ -386,18 +394,24 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 	if(positionWiimote > 0)
 	{
 		position = positionWiimote; // follow wiimote cursor
+		scrollbarBoxBtn->SetPosition(0,position+36);
 	}
-	else
+	else if(listChanged || numEntries != browser.numEntries)
 	{
-		position = 130*(browser.pageIndex + FILE_PAGESIZE/2.0) / (browser.numEntries*1.0);
-
-		if(browser.pageIndex/(FILE_PAGESIZE/2.0) < 1)
+		if(float((browser.pageIndex<<1))/(float(FILE_PAGESIZE)) < 1.0)
+		{
 			position = 0;
-		else if((browser.pageIndex+FILE_PAGESIZE)/(FILE_PAGESIZE*1.0) >= (browser.numEntries)/(FILE_PAGESIZE*1.0))
+		}
+		else if(browser.pageIndex+FILE_PAGESIZE >= browser.numEntries)
+		{
 			position = 130;
+		}
+		else
+		{
+			position = 130 * (browser.pageIndex + FILE_PAGESIZE/2) / (float)browser.numEntries;
+		}
+		scrollbarBoxBtn->SetPosition(0,position+36);
 	}
-
-	scrollbarBoxBtn->SetPosition(0,position+36);
 
 	listChanged = false;
 	numEntries = browser.numEntries;

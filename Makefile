@@ -17,7 +17,8 @@ include $(DEVKITPPC)/wii_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	libwiigui-demo
 BUILD		:=	build
-SOURCES		:=	source source/libwiigui source/images source/fonts source/sounds
+SOURCES		:=	source source/libwiigui source/images source/fonts source/sounds \
+				source/lang
 INCLUDES	:=	source
 
 #---------------------------------------------------------------------------------
@@ -57,6 +58,7 @@ CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 sFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
 TTFFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.ttf)))
+LANGFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.lang)))
 PNGFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.png)))
 OGGFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.ogg)))
 PCMFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.pcm)))
@@ -72,7 +74,8 @@ endif
 
 export OFILES	:=	$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) \
 					$(sFILES:.s=.o) $(SFILES:.S=.o) \
-					$(TTFFILES:.ttf=.ttf.o) $(PNGFILES:.png=.png.o) \
+					$(TTFFILES:.ttf=.ttf.o) $(LANGFILES:.lang=.lang.o) \
+					$(PNGFILES:.png=.png.o) \
 					$(OGGFILES:.ogg=.ogg.o) $(PCMFILES:.pcm=.pcm.o)
 
 #---------------------------------------------------------------------------------
@@ -128,14 +131,18 @@ $(OUTPUT).elf: $(OFILES)
 	@echo $(notdir $<)
 	$(bin2o)
 
+%.lang.o : %.lang
+	@echo $(notdir $<)
+	$(bin2o)
+
 %.png.o : %.png
 	@echo $(notdir $<)
 	$(bin2o)
-	
+
 %.ogg.o : %.ogg
 	@echo $(notdir $<)
 	$(bin2o)
-	
+
 %.pcm.o : %.pcm
 	@echo $(notdir $<)
 	$(bin2o)
