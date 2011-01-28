@@ -26,7 +26,7 @@ INCLUDES	:=	source
 #---------------------------------------------------------------------------------
 
 CFLAGS		=	-g -O2 -Wall $(MACHDEP) $(INCLUDE)
-CXXFLAGS	=	-save-temps -Xassembler -aln=$@.lst $(CFLAGS)
+CXXFLAGS	=	$(CFLAGS)
 LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
 #---------------------------------------------------------------------------------
