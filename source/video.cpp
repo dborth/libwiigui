@@ -18,7 +18,7 @@
 #include "libwiigui/gui.h"
 
 #define DEFAULT_FIFO_SIZE 256 * 1024
-static unsigned int *xfb[2] = { NULL, NULL }; // Double buffered
+static u32 *xfb[2] = { NULL, NULL }; // Double buffered
 static int whichfb = 0; // Switch
 static GXRModeObj *vmode; // Menu video mode
 static unsigned char gp_fifo[DEFAULT_FIFO_SIZE] ATTRIBUTE_ALIGN (32);

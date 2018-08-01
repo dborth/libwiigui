@@ -12,7 +12,7 @@
 
 #include <unistd.h>
 #include <gccore.h>
-
+#define MAXPATHLEN 1024
 #define MAXJOLIET 255
 #define MAXDISPLAY 45
 
