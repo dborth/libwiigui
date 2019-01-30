@@ -17,13 +17,7 @@ static char * GetDisplayText(char * t)
 	if(!t)
 		return NULL;
 
-	int len = strlen(t);
-
-	if(len < MAX_KEYBOARD_DISPLAY)
-		return t;
-
-	strncpy(tmptxt, &t[len-MAX_KEYBOARD_DISPLAY], MAX_KEYBOARD_DISPLAY);
-	tmptxt[MAX_KEYBOARD_DISPLAY-1] = 0;
+	snprintf(tmptxt, MAX_KEYBOARD_DISPLAY, "%s", t);
 	return &tmptxt[0];
 }
 
@@ -41,8 +35,7 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max)
 	focus = 0; // allow focus
 	alignmentHor = ALIGN_CENTRE;
 	alignmentVert = ALIGN_MIDDLE;
-	strncpy(kbtextstr, t, max);
-	kbtextstr[max] = 0;
+	snprintf(kbtextstr, 255, "%s", t);
 	kbtextmaxlen = max;
 
 	Key thekeys[4][11] = {
@@ -291,7 +284,7 @@ void GuiKeyboard::Update(GuiTrigger * t)
 	else if(keyBack->GetState() == STATE_CLICKED)
 	{
 		if(strlen(kbtextstr) > 0)
-		{	
+		{
 			kbtextstr[strlen(kbtextstr)-1] = 0;
 			kbText->SetText(GetDisplayText(kbtextstr));
 		}
@@ -332,16 +325,19 @@ void GuiKeyboard::Update(GuiTrigger * t)
 
 				if(keyBtn[i][j]->GetState() == STATE_CLICKED)
 				{
-					if(strlen(kbtextstr) < kbtextmaxlen)
+					int len = strlen(kbtextstr);
+
+					if(len < kbtextmaxlen-1)
 					{
 						if(shift || caps)
 						{
-							kbtextstr[strlen(kbtextstr)] = keys[i][j].chShift;
+							kbtextstr[len] = keys[i][j].chShift;
 						}
 						else
 						{
-							kbtextstr[strlen(kbtextstr)] = keys[i][j].ch;
+							kbtextstr[len] = keys[i][j].ch;
 						}
+						kbtextstr[len+1] = '\0';
 					}
 					kbText->SetText(GetDisplayText(kbtextstr));
 					keyBtn[i][j]->SetState(STATE_SELECTED, t->chan);
