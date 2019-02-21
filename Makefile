@@ -32,7 +32,7 @@ LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS :=	-lpng -lz -lfat -lwiiuse -lbte -lasnd -logc -lvorbisidec -logg -lfreetype
+LIBS :=	-lpng -lfreetype -lbz2 -lz -lfat -lwiiuse -lbte -lasnd -logc -lvorbisidec -logg
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
@@ -82,9 +82,9 @@ export OFILES	:=	$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) \
 # build a list of include paths
 #---------------------------------------------------------------------------------
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
-					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-					-I$(CURDIR)/$(BUILD) \
-					-I$(LIBOGC_INC) -I$(PORTLIBS)/include/freetype2
+				$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+				-I$(CURDIR)/$(BUILD) -I$(LIBOGC_INC) \
+				$(foreach dir,$(PORTLIBS),-I$(dir)/include/freetype2) \
 
 #---------------------------------------------------------------------------------
 # build a list of library paths
