@@ -1,8 +1,8 @@
-×—–­—–­—–­—–­ –­—–­—–­—–­—–­—–­—–­—–­—–­—–­— ­—–­—–­—–­—–­—–­—–­—–­—-­—–­-–•¬
-|0O×øo·                      libwiigui 1.06                           ·oø×O0|
-|                   http://code.google.com/p/libwiigui                      |
+Ã—â€”â€“Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­ â€“Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­â€” Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­â€”â€“Â­â€”-Â­â€”â€“Â­-â€“â€¢Â¬
+|0OÃ—Ã¸oÂ·                      libwiigui 1.06                           Â·oÃ¸Ã—O0|
+|                   https://github.com/dborth/libwiigui                     |
 |                          (Under GPL License)                              |
-`¨•¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨ ¨¨¨¨¨¨¨¨¨¨¨¨¨'
+`Â¨â€¢Â¨Â¨Â¨Â¨Â¨ Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨ Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨ Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨ Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨Â¨'
 
 libwiigui is a GUI library for the Wii, created to help structure the
 design of a complicated GUI interface, and to enable an author to create
@@ -16,21 +16,25 @@ your changes might benefit others, please share them so they might be
 added to the project!
 
 Quickstart
+----------
 
 Start from the supplied template example. For more advanced uses, see the
 source code for Snes9x GX, FCE Ultra GX, and Visual Boy Advance GX.
 
 Contact
+-------
 
 If you have any suggestions for the library or documentation, or want to
 contribute, please visit the libwiigui website:
-http://code.google.com/p/libwiigui/
+https://github.com/dborth/libwiigui
 
 Documentation
+-------------
 
 See the included doxygen documentation, or visit the libwiigui website.
 
 Credits
+-------
 
 This library was wholly designed and written by Tantric. Thanks to the
 authors of PNGU and FreeTypeGX, of which this library makes use. Thanks
@@ -38,9 +42,9 @@ also to the authors of GRRLIB and libwiisprite for laying the foundations.
 Thanks to mvit for the artwork and Peter de Man for the music used in the
 template.
 
-•˜———–—––-- - —————————––––– ———–—––-- - —————————––––– ———–—––-- - ————————•
-|                                                          UPDATE HISTORY  |
-•˜———–—––-- - —————————––––– ———–—––-- - —————————––––– ———–—––-- - ————————•
+â€¢Ëœâ€”â€”â€”â€“â€”â€“â€“-- - â€”â€”â€”â€”â€”â€”â€”â€”â€”â€“â€“â€“â€“â€“ â€”â€”â€”â€“â€”â€“â€“-- - â€”â€”â€”â€”â€”â€”â€”â€”â€”â€“â€“â€“â€“â€“ â€”â€”â€”â€“â€”â€“â€“-- - â€”â€”â€”â€”â€”â€”â€”â€”â€¢
+|                                                          UPDATE HISTORY   |
+â€¢Ëœâ€”â€”â€”â€“â€”â€“â€“-- - â€”â€”â€”â€”â€”â€”â€”â€”â€”â€“â€“â€“â€“â€“ â€”â€”â€”â€“â€”â€“â€“-- - â€”â€”â€”â€”â€”â€”â€”â€”â€”â€“â€“â€“â€“â€“ â€”â€”â€”â€“â€”â€“â€“-- - â€”â€”â€”â€”â€”â€”â€”â€”â€¢
 
 [1.06 - July 22, 2011]
 * Compatibility with devkitPPC r24 and libogc 1.8.7
