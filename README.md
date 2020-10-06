@@ -28,7 +28,7 @@ https://github.com/dborth/libwiigui
 
 ### Documentation
 
-See the included doxygen documentation, or visit the libwiigui website.
+See the included doxygen documentation - http://dborth.github.io/libwiigui/
 
 
 ### Credits
