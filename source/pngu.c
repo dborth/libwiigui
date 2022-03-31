@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <gccore.h>
+#include <string.h>
 #include "pngu.h"
 #include <png.h>
 

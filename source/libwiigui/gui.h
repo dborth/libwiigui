@@ -42,11 +42,11 @@
 #include <asndlib.h>
 #include <wiiuse/wpad.h>
 
-#include "pngu.h"
-#include "FreeTypeGX.h"
 #include "video.h"
 #include "filelist.h"
 #include "input.h"
+#include "pngu.h"
+#include "FreeTypeGX.h"
 #include "oggplayer.h"
 
 extern FreeTypeGX *fontSystem[];
@@ -239,7 +239,7 @@ class GuiElement
 		//!Constructor
 		GuiElement();
 		//!Destructor
-		~GuiElement();
+		virtual ~GuiElement();
 		//!Set the element's parent
 		//!\param e Pointer to parent element
 		void SetParent(GuiElement * e);
@@ -361,12 +361,12 @@ class GuiElement
 		//!\param e Effect to enable
 		//!\param a Amount of the effect (usage varies on effect)
 		//!\param t Target amount of the effect (usage varies on effect)
-		void SetEffect(int e, int a, int t=0);
+		void SetEffect(int e, int a, int t = 0);
 		//!Sets an effect to be enabled on wiimote cursor over
 		//!\param e Effect to enable
 		//!\param a Amount of the effect (usage varies on effect)
 		//!\param t Target amount of the effect (usage varies on effect)
-		void SetEffectOnOver(int e, int a, int t=0);
+		void SetEffectOnOver(int e, int a, int t = 0);
 		//!Shortcut to SetEffectOnOver(EFFECT_SCALE, 4, 110)
 		void SetEffectGrow();
 		//!Gets the current element effects
@@ -543,7 +543,7 @@ class GuiImageData
 		//!\param i Image data
 		//!\param w Max image width (0 = not set)
 		//!\param h Max image height (0 = not set)
-		GuiImageData(const u8 * i, int w=0, int h=0);
+		GuiImageData(const u8 * i, int w = 0, int h = 0);
 		//!Destructor
 		~GuiImageData();
 		//!Gets a pointer to the image data
@@ -659,7 +659,7 @@ class GuiText : public GuiElement
 		//!\param s Font size
 		//!\param h Text alignment (horizontal)
 		//!\param v Text alignment (vertical)
-		void SetPresets(int sz, GXColor c, int w, u16 s, int h, int v);
+		static void SetPresets(int sz, GXColor c, int w, u16 s, int h, int v);
 		//!Sets the font size
 		//!\param s Font size
 		void SetFontSize(int s);
