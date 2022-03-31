@@ -119,9 +119,9 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max)
 	keySoundClick = new GuiSound(button_click_pcm, button_click_pcm_size, SOUND_PCM);
 
 	trigA = new GuiTrigger;
-	trigA->SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
+	trigA->SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A, WIIDRC_BUTTON_A);
 	trig2 = new GuiTrigger;
-	trig2->SetSimpleTrigger(-1, WPAD_BUTTON_2, 0);
+	trig2->SetSimpleTrigger(-1, WPAD_BUTTON_2);
 
 	keyBackImg = new GuiImage(keyMedium);
 	keyBackOverImg = new GuiImage(keyMediumOver);
@@ -204,7 +204,6 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max)
 				keyBtn[i][j]->SetTrigger(trigA);
 				keyBtn[i][j]->SetTrigger(trig2);
 				keyBtn[i][j]->SetLabel(keyTxt[i][j]);
-
 				keyBtn[i][j]->SetPosition(j*42+21*i+40, i*42+80);
 				keyBtn[i][j]->SetEffectGrow();
 				this->Append(keyBtn[i][j]);

@@ -11,9 +11,11 @@
 
 #include <gccore.h>
 #include <wiiuse/wpad.h>
+#include "wiidrc.h"
 
 #define PI 				3.14159265f
 #define PADCAL			50
+#define WIIDRCCAL		20
 
 extern int rumbleRequest[4];
 
