@@ -225,6 +225,9 @@ class GuiTrigger
 		//!\param stick Controller stick (left = 0, right = 1)
 		//!\return Stick value
 		s8 WPAD_StickY(u8 stick);
+		//!Sets Wiimote orientation
+		//!\param sideways Whether to use it turned sideways
+		void TurnWiimote(bool sideways);
 		//!Move menu selection left (via pad/joystick). Allows scroll delay and button overriding
 		//!\return true if selection should be moved left, false otherwise
 		bool Left();
@@ -242,6 +245,7 @@ class GuiTrigger
 		PADData pad; //!< GameCube controller trigger data
 		GamePadData wiidrcdata; //!< Wii U Gamepad trigger data
 		WPADData * wpad; //!< Wii controller trigger
+		bool WiimoteTurned; //!< Wiimote orientation
 		s32 chan; //!< Trigger controller channel (0-3, -1 for all)
 		u8 type; //!< trigger type (TRIGGER_SIMPLE,	TRIGGER_HELD, TRIGGER_BUTTON_ONLY, TRIGGER_BUTTON_ONLY_IN_FOCUS)
 };

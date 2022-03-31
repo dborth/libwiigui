@@ -22,6 +22,7 @@ static u32 delay[4];
 GuiTrigger::GuiTrigger()
 {
 	chan = -1;
+	WiimoteTurned = false;
 	memset(&wiidrcdata, 0, sizeof(GamePadData));
 	memset(&wpaddata, 0, sizeof(WPADData));
 	memset(&pad, 0, sizeof(PADData));
@@ -168,9 +169,14 @@ s8 GuiTrigger::WPAD_StickY(u8 stick)
 	return WPAD_Stick(stick, 1);
 }
 
+void GuiTrigger::TurnWiimote(bool sideways)
+{
+	WiimoteTurned = sideways;
+}
+
 bool GuiTrigger::Left()
 {
-	u32 wiibtn = WPAD_BUTTON_LEFT;
+	u32 wiibtn = WiimoteTurned ? WPAD_BUTTON_UP : WPAD_BUTTON_LEFT;
 
 	if((wpad->btns_d | wpad->btns_h) & (wiibtn | WPAD_CLASSIC_BUTTON_LEFT)
 			|| (wiidrcdata.btns_d | wiidrcdata.btns_h) & WIIDRC_BUTTON_LEFT
@@ -206,7 +212,7 @@ bool GuiTrigger::Left()
 
 bool GuiTrigger::Right()
 {
-	u32 wiibtn = WPAD_BUTTON_RIGHT;
+	u32 wiibtn = WiimoteTurned ? WPAD_BUTTON_DOWN : WPAD_BUTTON_RIGHT;
 
 	if((wpad->btns_d | wpad->btns_h) & (wiibtn | WPAD_CLASSIC_BUTTON_RIGHT)
 			|| (wiidrcdata.btns_d | wiidrcdata.btns_h) & WIIDRC_BUTTON_RIGHT
@@ -242,7 +248,7 @@ bool GuiTrigger::Right()
 
 bool GuiTrigger::Up()
 {
-	u32 wiibtn = WPAD_BUTTON_UP;
+	u32 wiibtn = WiimoteTurned ? WPAD_BUTTON_RIGHT : WPAD_BUTTON_UP;
 
 	if((wpad->btns_d | wpad->btns_h) & (wiibtn | WPAD_CLASSIC_BUTTON_UP)
 			|| (wiidrcdata.btns_d | wiidrcdata.btns_h) & WIIDRC_BUTTON_UP
@@ -278,7 +284,7 @@ bool GuiTrigger::Up()
 
 bool GuiTrigger::Down()
 {
-	u32 wiibtn = WPAD_BUTTON_DOWN;
+	u32 wiibtn = WiimoteTurned ? WPAD_BUTTON_LEFT : WPAD_BUTTON_DOWN;
 
 	if((wpad->btns_d | wpad->btns_h) & (wiibtn | WPAD_CLASSIC_BUTTON_DOWN)
 			|| (wiidrcdata.btns_d | wiidrcdata.btns_h) & WIIDRC_BUTTON_DOWN
