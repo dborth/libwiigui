@@ -84,7 +84,8 @@ int UpdateDirName()
 		if ((strlen(browser.dir)+1+strlen(browserList[browser.selIndex].filename)) < MAXPATHLEN)
 		{
 			/* update current directory name */
-			sprintf(browser.dir, "%s/%s",browser.dir, browserList[browser.selIndex].filename);
+			strcat(browser.dir, "/");
+			strcat(browser.dir, browserList[browser.selIndex].filename);
 			return 1;
 		}
 		else
@@ -134,8 +135,10 @@ ParseDirectory()
 	// reset browser
 	ResetBrowser();
 
+	// add currentDevice to path
+	strcpy(fulldir, rootdir);
+	strcat(fulldir, browser.dir);
 	// open the directory
-	sprintf(fulldir, "%s%s", rootdir, browser.dir); // add currentDevice to path
 	dir = opendir(fulldir);
 
 	// if we can't open the dir, try opening the root dir
@@ -172,16 +175,18 @@ ParseDirectory()
 		memset(&(browserList[entryNum]), 0, sizeof(BROWSERENTRY)); // clear the new entry
 
 		strncpy(browserList[entryNum].filename, entry->d_name, MAXJOLIET);
+		browserList[entryNum].filename[MAXJOLIET] = '\0';
 
 		if(strcmp(entry->d_name,"..") == 0)
 		{
-			sprintf(browserList[entryNum].displayname, "Up One Level");
+			strcpy(browserList[entryNum].displayname, "Up One Level");
 			browserList[entryNum].isdir = 1; // flag this as a dir
 		}
 		else
 		{
-			strncpy(browserList[entryNum].displayname, entry->d_name, MAXDISPLAY);	// crop name for display
-		
+			strncpy(browserList[entryNum].displayname, entry->d_name, MAXDISPLAY); // crop name for display
+			browserList[entryNum].displayname[MAXDISPLAY] = '\0';
+
 			if(entry->d_type==DT_DIR)
 				browserList[entryNum].isdir = 1; // flag this as a dir
 		}

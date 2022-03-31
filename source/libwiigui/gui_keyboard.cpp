@@ -12,14 +12,15 @@
 
 #define KB_FONTSIZE 20
 
-static char tmptxt[MAX_KEYBOARD_DISPLAY];
+static char tmptxt[MAX_KEYBOARD_DISPLAY+1];
 
 static const char * GetDisplayText(const char * t)
 {
 	if(!t)
 		return NULL;
 
-	snprintf(tmptxt, MAX_KEYBOARD_DISPLAY, "%s", t);
+	strncpy(tmptxt, t, MAX_KEYBOARD_DISPLAY);
+	tmptxt[MAX_KEYBOARD_DISPLAY] = '\0';
 	return &tmptxt[0];
 }
 
