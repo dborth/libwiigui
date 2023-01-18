@@ -30,7 +30,7 @@ GuiWindow::~GuiWindow()
 
 void GuiWindow::Append(GuiElement* e)
 {
-	if (e == NULL)
+	if (e == nullptr)
 		return;
 
 	Remove(e);
@@ -40,7 +40,7 @@ void GuiWindow::Append(GuiElement* e)
 
 void GuiWindow::Insert(GuiElement* e, u32 index)
 {
-	if (e == NULL || index > (_elements.size() - 1))
+	if (e == nullptr || index > (_elements.size() - 1))
 		return;
 
 	Remove(e);
@@ -50,7 +50,7 @@ void GuiWindow::Insert(GuiElement* e, u32 index)
 
 void GuiWindow::Remove(GuiElement* e)
 {
-	if (e == NULL)
+	if (e == nullptr)
 		return;
 
 	u32 elemSize = _elements.size();
@@ -71,7 +71,7 @@ void GuiWindow::RemoveAll()
 
 bool GuiWindow::Find(GuiElement* e)
 {
-	if (e == NULL)
+	if (e == nullptr)
 		return false;
 
 	u32 elemSize = _elements.size();
@@ -84,7 +84,7 @@ bool GuiWindow::Find(GuiElement* e)
 GuiElement* GuiWindow::GetGuiElementAt(u32 index) const
 {
 	if (index >= _elements.size())
-		return NULL;
+		return nullptr;
 	return _elements.at(index);
 }
 
@@ -107,7 +107,7 @@ void GuiWindow::Draw()
 
 	this->UpdateEffects();
 
-	if(parentElement && state == STATE_DISABLED)
+	if(parentElement && state == STATE::DISABLED)
 		Menu_DrawRectangle(0,0,screenwidth,screenheight,(GXColor){0xbe, 0xca, 0xd5, 0x70},1);
 }
 
@@ -126,8 +126,8 @@ void GuiWindow::DrawTooltip()
 
 void GuiWindow::ResetState()
 {
-	if(state != STATE_DISABLED)
-		state = STATE_DEFAULT;
+	if(state != STATE::DISABLED)
+		state = STATE::DEFAULT;
 
 	u32 elemSize = _elements.size();
 	for (u32 i = 0; i < elemSize; ++i)
@@ -137,7 +137,7 @@ void GuiWindow::ResetState()
 	}
 }
 
-void GuiWindow::SetState(int s)
+void GuiWindow::SetState(STATE s)
 {
 	state = s;
 
@@ -218,7 +218,7 @@ void GuiWindow::ToggleFocus(GuiTrigger * t)
 		{
 			try
 			{
-				if(_elements.at(i)->IsFocused() == 0 && _elements.at(i)->GetState() != STATE_DISABLED) // focus is possible (but not set)
+				if(_elements.at(i)->IsFocused() == 0 && _elements.at(i)->GetState() != STATE::DISABLED) // focus is possible (but not set)
 				{
 					_elements.at(i)->SetFocus(1); // give this element focus
 					break;
@@ -235,7 +235,7 @@ void GuiWindow::ToggleFocus(GuiTrigger * t)
 		{
 			try
 			{
-				if(_elements.at(i)->IsFocused() == 0 && _elements.at(i)->GetState() != STATE_DISABLED) // focus is possible (but not set)
+				if(_elements.at(i)->IsFocused() == 0 && _elements.at(i)->GetState() != STATE::DISABLED) // focus is possible (but not set)
 				{
 					newfocus = i;
 					_elements.at(i)->SetFocus(1); // give this element focus
@@ -252,7 +252,7 @@ void GuiWindow::ToggleFocus(GuiTrigger * t)
 			{
 				try
 				{
-					if(_elements.at(i)->IsFocused() == 0 && _elements.at(i)->GetState() != STATE_DISABLED) // focus is possible (but not set)
+					if(_elements.at(i)->IsFocused() == 0 && _elements.at(i)->GetState() != STATE::DISABLED) // focus is possible (but not set)
 					{
 						_elements.at(i)->SetFocus(1); // give this element focus
 						_elements.at(found)->SetFocus(0); // disable focus on other element
@@ -274,7 +274,7 @@ int GuiWindow::GetSelected()
 	{
 		try
 		{
-			if(_elements.at(i)->GetState() == STATE_SELECTED)
+			if(_elements.at(i)->GetState() == STATE::SELECTED)
 			{
 				found = int(i);
 				break;
@@ -352,7 +352,7 @@ void GuiWindow::MoveSelectionHor(int dir)
 	matchfound:
 	if(found >= 0)
 	{
-		_elements.at(found)->SetState(STATE_SELECTED);
+		_elements.at(found)->SetState(STATE::SELECTED);
 		if(selected >= 0)
 			_elements.at(selected)->ResetState();
 	}
@@ -403,7 +403,7 @@ void GuiWindow::MoveSelectionVert(int dir)
 	matchfound:
 	if(found >= 0)
 	{
-		_elements.at(found)->SetState(STATE_SELECTED);
+		_elements.at(found)->SetState(STATE::SELECTED);
 		if(selected >= 0)
 			_elements.at(selected)->ResetState();
 	}
@@ -421,7 +421,7 @@ void GuiWindow::ResetText()
 
 void GuiWindow::Update(GuiTrigger * t)
 {
-	if(_elements.size() == 0 || (state == STATE_DISABLED && parentElement))
+	if(_elements.size() == 0 || (state == STATE::DISABLED && parentElement))
 		return;
 
 	u32 elemSize = _elements.size();

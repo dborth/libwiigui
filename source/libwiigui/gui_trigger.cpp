@@ -43,7 +43,7 @@ GuiTrigger::~GuiTrigger()
  */
 void GuiTrigger::SetSimpleTrigger(s32 ch, u32 wiibtns, u16 gcbtns, u16 wiidrcbtns)
 {
-	type = TRIGGER_SIMPLE;
+	type = TRIGGER::SIMPLE;
 	chan = ch;
 	wiidrcdata.btns_d = wiidrcbtns;
 	wpaddata.btns_d = wiibtns;
@@ -57,7 +57,7 @@ void GuiTrigger::SetSimpleTrigger(s32 ch, u32 wiibtns, u16 gcbtns, u16 wiidrcbtn
  */
 void GuiTrigger::SetHeldTrigger(s32 ch, u32 wiibtns, u16 gcbtns, u16 wiidrcbtns)
 {
-	type = TRIGGER_HELD;
+	type = TRIGGER::HELD;
 	chan = ch;
 	wiidrcdata.btns_h = wiidrcbtns;
 	wpaddata.btns_h = wiibtns;
@@ -70,7 +70,7 @@ void GuiTrigger::SetHeldTrigger(s32 ch, u32 wiibtns, u16 gcbtns, u16 wiidrcbtns)
  */
 void GuiTrigger::SetButtonOnlyTrigger(s32 ch, u32 wiibtns, u16 gcbtns, u16 wiidrcbtns)
 {
-	type = TRIGGER_BUTTON_ONLY;
+	type = TRIGGER::BUTTON_ONLY;
 	chan = ch;
 	wiidrcdata.btns_d = wiidrcbtns;
 	wpaddata.btns_d = wiibtns;
@@ -84,7 +84,7 @@ void GuiTrigger::SetButtonOnlyTrigger(s32 ch, u32 wiibtns, u16 gcbtns, u16 wiidr
  */
 void GuiTrigger::SetButtonOnlyInFocusTrigger(s32 ch, u32 wiibtns, u16 gcbtns, u16 wiidrcbtns)
 {
-	type = TRIGGER_BUTTON_ONLY_IN_FOCUS;
+	type = TRIGGER::BUTTON_ONLY_IN_FOCUS;
 	chan = ch;
 	wiidrcdata.btns_d = wiidrcbtns;
 	wpaddata.btns_d = wiibtns;
@@ -100,12 +100,12 @@ void GuiTrigger::SetButtonOnlyInFocusTrigger(s32 ch, u32 wiibtns, u16 gcbtns, u1
 s8 GuiTrigger::WPAD_Stick(u8 stick, int axis)
 {
 	#ifdef HW_RVL
-	struct joystick_t* js = NULL;
+	struct joystick_t* js = nullptr;
 
 	switch (wpad->exp.type) {
 		case WPAD_EXP_NUNCHUK:
 		//case WPAD_EXP_GUITARHERO3: // untested
-			js = stick ? NULL : &wpad->exp.nunchuk.js;
+			js = stick ? nullptr : &wpad->exp.nunchuk.js;
 			break;
 
 		case WPAD_EXP_CLASSIC:

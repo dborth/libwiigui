@@ -37,14 +37,14 @@ void InitFreeType(uint8_t* fontBuffer, FT_Long bufferSize)
 	ftSlot = ftFace->glyph;
 
 	for(int i=0; i<50; i++)
-		fontSystem[i] = NULL;
+		fontSystem[i] = nullptr;
 }
 
 void DeinitFreeType()
 {
 	ClearFontData();
 	FT_Done_FreeType(ftLibrary);
-	ftLibrary = NULL;
+	ftLibrary = nullptr;
 }
 
 void ChangeFontSize(FT_UInt pixelSize)
@@ -58,7 +58,7 @@ void ClearFontData()
 	{
 		if(fontSystem[i])
 			delete fontSystem[i];
-		fontSystem[i] = NULL;
+		fontSystem[i] = nullptr;
 	}
 }
 
@@ -76,7 +76,7 @@ wchar_t* charToWideChar(const char* strChar)
 {
 	wchar_t *strWChar = new wchar_t[strlen(strChar) + 1];
 	if(!strWChar)
-		return NULL;
+		return nullptr;
 
 	int bt = mbstowcs(strWChar, strChar, strlen(strChar));
 	if (bt > 0)
@@ -257,14 +257,14 @@ ftgxCharData *FreeTypeGX::cacheGlyphData(wchar_t charCode)
 			this->fontData[charCode].renderOffsetY = (int16_t) ftFace->glyph->bitmap_top;
 			this->fontData[charCode].renderOffsetMax = (int16_t) ftFace->glyph->bitmap_top;
 			this->fontData[charCode].renderOffsetMin = (int16_t) glyphBitmap->rows - ftFace->glyph->bitmap_top;
-			this->fontData[charCode].glyphDataTexture = NULL;
+			this->fontData[charCode].glyphDataTexture = nullptr;
 
 			this->loadGlyphData(glyphBitmap, &this->fontData[charCode]);
 
 			return &this->fontData[charCode];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -280,7 +280,7 @@ uint16_t FreeTypeGX::cacheGlyphDataComplete()
 	FT_ULong charCode = FT_Get_First_Char( ftFace, &gIndex );
 	while ( gIndex != 0 )
 	{
-		if(this->cacheGlyphData(charCode) != NULL)
+		if(this->cacheGlyphData(charCode) != nullptr)
 			++i;
 		charCode = FT_Get_Next_Char( ftFace, charCode, &gIndex );
 	}
@@ -401,7 +401,7 @@ int16_t FreeTypeGX::getStyleOffsetHeight(ftgxDataOffset *offset, uint16_t format
  *
  * @param x	Screen X coordinate at which to output the text.
  * @param y Screen Y coordinate at which to output the text. Note that this value corresponds to the text string origin and not the top or bottom of the glyphs.
- * @param text	NULL terminated string to output.
+ * @param text	nullptr terminated string to output.
  * @param color	Optional color to apply to the text characters. If not specified default value is ftgxWhite: (GXColor){0xff, 0xff, 0xff, 0xff}
  * @param textStyle	Flags which specify any styling which should be applied to the rendered string.
  * @return The number of characters printed.
@@ -427,7 +427,7 @@ uint16_t FreeTypeGX::drawText(int16_t x, int16_t y, wchar_t *text, GXColor color
 	int i = 0;
 	while (text[i])
 	{
-		ftgxCharData* glyphData = NULL;
+		ftgxCharData* glyphData = nullptr;
 		if (this->fontData.find(text[i]) != this->fontData.end())
 		{
 			glyphData = &this->fontData[text[i]];
@@ -437,7 +437,7 @@ uint16_t FreeTypeGX::drawText(int16_t x, int16_t y, wchar_t *text, GXColor color
 			glyphData = this->cacheGlyphData(text[i]);
 		}
 
-		if (glyphData != NULL)
+		if (glyphData != nullptr)
 		{
 			if (this->ftKerningEnabled && i)
 			{
@@ -488,7 +488,7 @@ void FreeTypeGX::drawTextFeature(int16_t x, int16_t y, uint16_t width, ftgxDataO
  * This routine processes each character of the supplied text string and calculates the width of the entire string.
  * Note that if precaching of the entire font set is not enabled any uncached glyph will be cached after the call to this function.
  *
- * @param text	NULL terminated string to calculate.
+ * @param text	nullptr terminated string to calculate.
  * @return The width of the text string in pixels.
  */
 uint16_t FreeTypeGX::getWidth(wchar_t *text)
@@ -499,7 +499,7 @@ uint16_t FreeTypeGX::getWidth(wchar_t *text)
 	int i = 0;
 	while (text[i])
 	{
-		ftgxCharData* glyphData = NULL;
+		ftgxCharData* glyphData = nullptr;
 		if (this->fontData.find(text[i]) != this->fontData.end())
 		{
 			glyphData = &this->fontData[text[i]];
@@ -509,7 +509,7 @@ uint16_t FreeTypeGX::getWidth(wchar_t *text)
 			glyphData = this->cacheGlyphData(text[i]);
 		}
 
-		if (glyphData != NULL)
+		if (glyphData != nullptr)
 		{
 			if (this->ftKerningEnabled && (i > 0))
 			{
@@ -539,7 +539,7 @@ uint16_t FreeTypeGX::getWidth(wchar_t const *text)
  * This routine processes each character of the supplied text string and calculates the height of the entire string.
  * Note that if precaching of the entire font set is not enabled any uncached glyph will be cached after the call to this function.
  *
- * @param text	NULL terminated string to calculate.
+ * @param text	nullptr terminated string to calculate.
  * @return The height of the text string in pixels.
  */
 uint16_t FreeTypeGX::getHeight(wchar_t *text)
@@ -564,7 +564,7 @@ uint16_t FreeTypeGX::getHeight(wchar_t const *text)
  * This function calculates the maximum pixel height above the font origin line and the minimum
  * pixel height below the font origin line and returns the values in an addressible structure.
  *
- * @param text	NULL terminated string to calculate.
+ * @param text	nullptr terminated string to calculate.
  * @param offset returns the max and min values above and below the font origin line
  *
  */
@@ -575,7 +575,7 @@ void FreeTypeGX::getOffset(wchar_t *text, ftgxDataOffset* offset)
 	int i = 0;
 	while (text[i])
 	{
-		ftgxCharData* glyphData = NULL;
+		ftgxCharData* glyphData = nullptr;
 		if (this->fontData.find(text[i]) != this->fontData.end())
 		{
 			glyphData = &this->fontData[text[i]];
@@ -585,7 +585,7 @@ void FreeTypeGX::getOffset(wchar_t *text, ftgxDataOffset* offset)
 			glyphData = this->cacheGlyphData(text[i]);
 		}
 
-		if(glyphData != NULL)
+		if(glyphData != nullptr)
 		{
 			strMax = glyphData->renderOffsetMax > strMax ? glyphData->renderOffsetMax : strMax;
 			strMin = glyphData->renderOffsetMin < strMin ? glyphData->renderOffsetMin : strMin;
@@ -604,7 +604,7 @@ void FreeTypeGX::getOffset(wchar_t *text, ftgxDataOffset* offset)
  */
 void FreeTypeGX::getOffset(wchar_t const *text, ftgxDataOffset* offset)
 {
-	this->getOffset(text, offset);
+	this->getOffset((wchar_t *)text, offset);
 }
 
 /**

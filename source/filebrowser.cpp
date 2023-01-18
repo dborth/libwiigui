@@ -19,7 +19,7 @@
 #include "menu.h"
 
 BROWSERINFO browser;
-BROWSERENTRY * browserList = NULL; // list of files/folders in browser
+BROWSERENTRY * browserList = nullptr; // list of files/folders in browser
 
 char rootdir[10];
 
@@ -34,10 +34,10 @@ void ResetBrowser()
 	browser.pageIndex = 0;
 
 	// Clear any existing values
-	if(browserList != NULL)
+	if(browserList != nullptr)
 	{
 		free(browserList);
-		browserList = NULL;
+		browserList = nullptr;
 	}
 	// set aside space for 1 entry
 	browserList = (BROWSERENTRY *)malloc(sizeof(BROWSERENTRY));
@@ -65,10 +65,10 @@ int UpdateDirName()
 		/* determine last subdirectory namelength */
 		sprintf(temp,"%s",browser.dir);
 		test = strtok(temp,"/");
-		while (test != NULL)
+		while (test != nullptr)
 		{
 			size = strlen(test);
-			test = strtok(NULL,"/");
+			test = strtok(nullptr,"/");
 		}
 
 		/* remove last subdirectory name */
@@ -128,7 +128,7 @@ int FileSortCallback(const void *f1, const void *f2)
 int
 ParseDirectory()
 {
-	DIR *dir = NULL;
+	DIR *dir = nullptr;
 	char fulldir[MAXPATHLEN];
 	struct dirent *entry;
 
@@ -142,11 +142,11 @@ ParseDirectory()
 	dir = opendir(fulldir);
 
 	// if we can't open the dir, try opening the root dir
-	if (dir == NULL)
+	if (dir == nullptr)
 	{
 		sprintf(browser.dir,"/");
 		dir = opendir(rootdir);
-		if (dir == NULL)
+		if (dir == nullptr)
 		{
 			return -1;
 		}

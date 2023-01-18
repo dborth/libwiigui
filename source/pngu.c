@@ -389,7 +389,7 @@ static u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, 
 	int newWidth = width;
 	int newHeight = height;
 
-	if((maxWidth > 0 && width > maxWidth) || (maxHeight > 0 && height > maxHeight))
+	if((maxWidth > 0 && width > (u32)maxWidth) || (maxHeight > 0 && height > (u32)maxHeight))
 	{
 		float ratio = (float)width/(float)height;
 

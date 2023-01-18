@@ -18,7 +18,7 @@
 #include "libwiigui/gui.h"
 
 #define DEFAULT_FIFO_SIZE 256 * 1024
-static u32 *xfb[2] = { NULL, NULL }; // Double buffered
+static u32 *xfb[2] = { nullptr, nullptr }; // Double buffered
 static int whichfb = 0; // Switch
 static GXRModeObj *vmode; // Menu video mode
 static unsigned char gp_fifo[DEFAULT_FIFO_SIZE] ATTRIBUTE_ALIGN (32);
@@ -109,7 +109,7 @@ void
 InitVideo ()
 {
 	VIDEO_Init();
-	vmode = VIDEO_GetPreferredMode(NULL); // get default video mode
+	vmode = VIDEO_GetPreferredMode(nullptr); // get default video mode
 
 	// widescreen fix
 	if(CONF_GetAspectRatio() == CONF_ASPECT_16_9)
@@ -194,7 +194,7 @@ void Menu_Render()
 void Menu_DrawImg(f32 xpos, f32 ypos, u16 width, u16 height, u8 data[],
 	f32 degrees, f32 scaleX, f32 scaleY, u8 alpha)
 {
-	if(data == NULL)
+	if(data == nullptr)
 		return;
 
 	GXTexObj texObj;

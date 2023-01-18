@@ -17,7 +17,7 @@
  ***************************************************************************/
 void InitAudio()
 {
-	AUDIO_Init(NULL);
+	AUDIO_Init(nullptr);
 	ASND_Init();
 	ASND_Pause(0);
 }
