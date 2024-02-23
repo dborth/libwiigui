@@ -35,6 +35,7 @@ GuiKeyboard::GuiKeyboard(char * t, u32 max)
 	focus = 0; // allow focus
 	alignmentHor = ALIGN_CENTRE;
 	alignmentVert = ALIGN_MIDDLE;
+	memset(kbtextstr, '\0', 255);
 	snprintf(kbtextstr, 255, "%s", t);
 	kbtextmaxlen = max;
 
