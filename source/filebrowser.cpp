@@ -174,7 +174,7 @@ ParseDirectory()
 		}
 		memset(&(browserList[entryNum]), 0, sizeof(BROWSERENTRY)); // clear the new entry
 
-		strncpy(browserList[entryNum].filename, entry->d_name, MAXJOLIET);
+		memcpy(browserList[entryNum].filename, entry->d_name, MAXJOLIET);
 		browserList[entryNum].filename[MAXJOLIET] = '\0';
 
 		if(strcmp(entry->d_name,"..") == 0)
@@ -184,7 +184,7 @@ ParseDirectory()
 		}
 		else
 		{
-			strncpy(browserList[entryNum].displayname, entry->d_name, MAXDISPLAY); // crop name for display
+			memcpy(browserList[entryNum].displayname, entry->d_name, MAXDISPLAY); // crop name for display
 			browserList[entryNum].displayname[MAXDISPLAY] = '\0';
 
 			if(entry->d_type==DT_DIR)
