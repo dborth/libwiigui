@@ -1,6 +1,13 @@
 #ifndef LIBWIIGUI_TRIGGER_H
 #define LIBWIIGUI_TRIGGER_H
 
+enum class TRIGGER {
+	SIMPLE,
+	HELD,
+	BUTTON_ONLY,
+	BUTTON_ONLY_IN_FOCUS
+};
+
 //!Menu input trigger management. Determine if action is neccessary based on input data by comparing controller input data to a specific trigger element.
 class GuiTrigger {
 public:

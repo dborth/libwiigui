@@ -60,9 +60,6 @@ extern FreeTypeGX *fontSystem[];
 #define MAX_OPTIONS 			150
 #define MAX_KEYBOARD_DISPLAY	32
 
-#define KB_ROWS 4
-#define KB_COLUMNS 11
-
 typedef void (*UpdateCallback)(void * e);
 
 enum class ALIGN_V {
@@ -83,24 +80,6 @@ enum class STATE {
 	CLICKED,
 	HELD,
 	DISABLED
-};
-
-enum class SOUND {
-	PCM,
-	OGG
-};
-
-enum class IMAGE {
-	TEXTURE,
-	COLOR,
-	DATA
-};
-
-enum class TRIGGER {
-	SIMPLE,
-	HELD,
-	BUTTON_ONLY,
-	BUTTON_ONLY_IN_FOCUS
 };
 
 enum class SCROLL {

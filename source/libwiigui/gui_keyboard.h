@@ -1,6 +1,9 @@
 #ifndef LIBWIIGUI_KEYBOARD_H
 #define LIBWIIGUI_KEYBOARD_H
 
+constexpr int KB_ROWS = 4;
+constexpr int KB_COLUMNS = 11;
+
 typedef struct _keytype {
 	char ch, chShift;
 } Key;

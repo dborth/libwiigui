@@ -1,6 +1,11 @@
 #ifndef LIBWIIGUI_SOUND_H
 #define LIBWIIGUI_SOUND_H
 
+enum class SOUND {
+	PCM,
+	OGG
+};
+
 //!Sound conversion and playback. A wrapper for other sound libraries - ASND, libmad, ltremor, etc
 class GuiSound {
 public:

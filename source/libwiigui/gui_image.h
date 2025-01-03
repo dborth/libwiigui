@@ -1,6 +1,12 @@
 #ifndef LIBWIIGUI_IMAGE_H
 #define LIBWIIGUI_IMAGE_H
 
+enum class IMAGE {
+	TEXTURE,
+	COLOR,
+	DATA
+};
+
 //!Display, manage, and manipulate images in the GUI
 class GuiImage : public GuiElement
 {
