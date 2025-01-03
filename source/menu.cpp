@@ -725,15 +725,19 @@ static int MenuSettingsFile()
 			else if (Settings.SaveMethod == METHOD_MC_SLOTA) sprintf (options.value[1],"MC Slot A");
 			else if (Settings.SaveMethod == METHOD_MC_SLOTB) sprintf (options.value[1],"MC Slot B");
 
-			snprintf (options.value[2], 256, "%s", Settings.Folder1);
-			snprintf (options.value[3], 256, "%s", Settings.Folder2);
-			snprintf (options.value[4], 256, "%s", Settings.Folder3);
+			// crop names for display
+			memcpy(options.value[2], Settings.Folder1, 49);
+			memcpy(options.value[3], Settings.Folder2, 49);
+			memcpy(options.value[4], Settings.Folder3, 49);
+			options.value[2][49] = '\0';
+			options.value[3][49] = '\0';
+			options.value[4][49] = '\0';
 
 			if (Settings.AutoLoad == 0) sprintf (options.value[5],"Off");
 			else if (Settings.AutoLoad == 1) sprintf (options.value[5],"Some");
 			else if (Settings.AutoLoad == 2) sprintf (options.value[5],"All");
 
-			if (Settings.AutoSave == 0) sprintf (options.value[5],"Off");
+			if (Settings.AutoSave == 0) sprintf (options.value[6],"Off");
 			else if (Settings.AutoSave == 1) sprintf (options.value[6],"Some");
 			else if (Settings.AutoSave == 2) sprintf (options.value[6],"All");
 
