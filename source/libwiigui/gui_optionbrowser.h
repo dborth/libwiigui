@@ -18,7 +18,7 @@ public:
 	int GetClickedOption();
 	void ResetState();
 	void SetFocus(int f);
-	void Draw();
+	void Draw() override;
 	void TriggerUpdate();
 	void ResetText();
 	void Update(GuiTrigger * t);

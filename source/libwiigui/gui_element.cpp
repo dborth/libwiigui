@@ -28,9 +28,8 @@ GuiElement::GuiElement()
 	yscale = 1;
 	state = STATE::DEFAULT;
 	stateChan = -1;
-	trigger[0] = nullptr;
-	trigger[1] = nullptr;
-	trigger[2] = nullptr;
+	for (int i = 0; i < MAX_TRIGGERS; i++)
+		trigger[i] = nullptr;
 	parentElement = nullptr;
 	rumble = true;
 	selectable = false;
@@ -356,19 +355,24 @@ int GuiElement::IsFocused()
 
 void GuiElement::SetTrigger(GuiTrigger * t)
 {
-	if(!trigger[0])
-		trigger[0] = t;
-	else if(!trigger[1])
-		trigger[1] = t;
-	else if(!trigger[2])
-		trigger[2] = t;
-	else // all were assigned, so we'll just overwrite the first one
+	bool set = false;
+	for (int i = 0; i < MAX_TRIGGERS; i++) {
+		if(!trigger[i]) {
+			trigger[i] = t;
+			set = true;
+			break;
+		}
+	}
+
+	// all were assigned, so we'll just overwrite the first one
+	if(!set)
 		trigger[0] = t;
 }
 
 void GuiElement::SetTrigger(u8 i, GuiTrigger * t)
 {
-	trigger[i] = t;
+	if (i < MAX_TRIGGERS)
+		trigger[i] = t;
 }
 
 bool GuiElement::Rumble()
@@ -564,10 +568,6 @@ int GuiElement::GetSelected()
 }
 
 void GuiElement::ResetText()
-{
-}
-
-void GuiElement::Draw()
 {
 }
 

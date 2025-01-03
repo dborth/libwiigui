@@ -63,7 +63,7 @@ public:
 	//!\param t Tooltip
 	void SetTooltip(GuiTooltip * t);
 	//!Constantly called to draw the GuiButton
-	void Draw();
+	void Draw() override;
 	//!Constantly called to draw the GuiButton's tooltip
 	void DrawTooltip();
 	//!Resets the text for all contained elements

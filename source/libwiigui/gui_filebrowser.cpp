@@ -215,10 +215,6 @@ void GuiFileBrowser::Draw()
 	this->UpdateEffects();
 }
 
-void GuiFileBrowser::DrawTooltip()
-{
-}
-
 void GuiFileBrowser::Update(GuiTrigger * t)
 {
 	if(state == STATE::DISABLED || !t)

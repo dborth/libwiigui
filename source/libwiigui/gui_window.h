@@ -68,7 +68,7 @@ public:
 	//!Resets the text for all contained elements
 	void ResetText();
 	//!Draws all the elements in this GuiWindow
-	void Draw();
+	void Draw() override;
 	//!Draws all of the tooltips in this GuiWindow
 	void DrawTooltip();
 	//!Updates the window and all elements contains within

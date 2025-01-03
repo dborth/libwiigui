@@ -156,7 +156,8 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 	}
 
 	promptWindow.SetEffect(EFFECT::SLIDE_TOP | EFFECT::SLIDE_OUT, 50);
-	while(promptWindow.GetEffect() > 0) usleep(THREAD_SLEEP);
+	while(promptWindow.GetEffect() > 0)
+		usleep(THREAD_SLEEP);
 	HaltGui();
 	mainWindow->Remove(&promptWindow);
 	mainWindow->SetState(STATE::DEFAULT);
@@ -337,8 +338,9 @@ static int MenuBrowseDevice()
 	titleTxt.SetAlignment(ALIGN_H::LEFT, ALIGN_V::TOP);
 	titleTxt.SetPosition(100,50);
 
-	GuiTrigger trigA;
+	GuiTrigger trigA, trigB;
 	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
+	trigB.SetButtonOnlyTrigger(-1, WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B, PAD_BUTTON_B);
 
 	GuiFileBrowser fileBrowser(552, 248);
 	fileBrowser.SetAlignment(ALIGN_H::CENTRE, ALIGN_V::TOP);
@@ -356,6 +358,7 @@ static int MenuBrowseDevice()
 	backBtn.SetImage(&backBtnImg);
 	backBtn.SetImageOver(&backBtnImgOver);
 	backBtn.SetTrigger(&trigA);
+	backBtn.SetTrigger(&trigB);
 	backBtn.SetEffectGrow();
 
 	GuiWindow buttonWindow(screenwidth, screenheight);
@@ -632,8 +635,9 @@ static int MenuSettingsFile()
 	GuiImageData btnOutline(button_png);
 	GuiImageData btnOutlineOver(button_over_png);
 
-	GuiTrigger trigA;
+	GuiTrigger trigA, trigB;
 	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
+	trigB.SetButtonOnlyTrigger(-1, WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B, PAD_BUTTON_B);
 
 	GuiText backBtnTxt("Go Back", 22, (GXColor){0, 0, 0, 255});
 	GuiImage backBtnImg(&btnOutline);
@@ -646,6 +650,7 @@ static int MenuSettingsFile()
 	backBtn.SetImageOver(&backBtnImgOver);
 	backBtn.SetSoundOver(&btnSoundOver);
 	backBtn.SetTrigger(&trigA);
+	backBtn.SetTrigger(&trigB);
 	backBtn.SetEffectGrow();
 
 	GuiOptionBrowser optionBrowser(552, 248, &options);

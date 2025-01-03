@@ -8,8 +8,7 @@ public:
 	~GuiFileBrowser();
 	void ResetState();
 	void SetFocus(int f);
-	void Draw();
-	void DrawTooltip();
+	void Draw() override;
 	void TriggerUpdate();
 	void Update(GuiTrigger * t);
 	GuiButton * fileList[FILE_PAGESIZE];

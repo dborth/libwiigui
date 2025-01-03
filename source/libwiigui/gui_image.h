@@ -31,7 +31,7 @@ public:
 	//!\param t Number of times to draw the image
 	void SetTile(int t);
 	//!Constantly called to draw the image
-	void Draw();
+	void Draw() override;
 	//!Gets the image data
 	//!\return pointer to image data
 	u8 * GetImage();

@@ -60,7 +60,7 @@ public:
 	//!Updates the text to the selected language
 	void ResetText();
 	//!Constantly called to draw the text
-	void Draw();
+	void Draw() override;
 protected:
 	GXColor color; //!< Font color
 	wchar_t* text; //!< Translated Unicode text value

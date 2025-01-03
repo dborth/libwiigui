@@ -1,6 +1,8 @@
 #ifndef LIBWIIGUI_ELEMENT_H
 #define LIBWIIGUI_ELEMENT_H
 
+#define MAX_TRIGGERS 5
+
 //!Primary GUI class. Most other classes inherit from this class.
 class GuiElement {
 public:
@@ -183,11 +185,11 @@ public:
 	//!\param t Pointer to a GuiTrigger, containing the current input data from PAD/WPAD
 	virtual void Update(GuiTrigger * t);
 	//!Called constantly to redraw the element
-	virtual void Draw();
+	virtual void Draw() = 0;
 	//!Called constantly to redraw the element's tooltip
 	virtual void DrawTooltip();
 protected:
-	GuiTrigger * trigger[3]; //!< GuiTriggers (input actions) that this element responds to
+	GuiTrigger * trigger[MAX_TRIGGERS]; //!< GuiTriggers (input actions) that this element responds to
 	UpdateCallback updateCB; //!< Callback function to call when this element is updated
 	GuiElement * parentElement; //!< Parent element
 	int focus; //!< Element focus (-1 = focus disabled, 0 = not focused, 1 = focused)
