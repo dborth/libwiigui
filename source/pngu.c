@@ -93,6 +93,7 @@ static void pngu_write_data_to_buffer (png_structp png_ptr, png_bytep data, png_
 static void pngu_flush_data_to_buffer (png_structp png_ptr)
 {
 	// Nothing to do here
+	(void)png_ptr;
 }
 
 static int pngu_info (IMGCTX ctx)
@@ -579,12 +580,14 @@ int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 	png_uint_32 rowbytes;
 	PNGU_u32 y;
 
+	(void)stride; // unused
+
 	// Erase from the context any readed info
 	pngu_free_info (ctx);
 	ctx->propRead = 0;
 
 	// Check if the user has selected a file to write the image
-	if (ctx->source == PNGU_SOURCE_BUFFER);	
+	if (ctx->source == PNGU_SOURCE_BUFFER);
 
 	else if (ctx->source == PNGU_SOURCE_DEVICE)
 	{

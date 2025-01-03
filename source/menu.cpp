@@ -173,6 +173,7 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 static void *
 UpdateGUI (void *arg)
 {
+	(void)arg; // unused
 	int i;
 
 	while(1)

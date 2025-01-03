@@ -535,6 +535,8 @@ void GuiElement::UpdateEffects()
 
 void GuiElement::Update(GuiTrigger * t)
 {
+	(void)t; //unused
+
 	if(updateCB)
 		updateCB(this);
 }
