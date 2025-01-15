@@ -59,6 +59,9 @@ extern FreeTypeGX *fontSystem[];
 #define MAX_OPTIONS 			150
 #define MAX_KEYBOARD_DISPLAY	32
 
+#define KB_ROWS 4
+#define KB_COLUMNS 11
+
 typedef void (*UpdateCallback)(void * e);
 
 enum
@@ -851,10 +854,10 @@ class GuiKeyboard : public GuiWindow
 		GuiImage * keySpaceImg;
 		GuiImage * keySpaceOverImg;
 		GuiButton * keySpace;
-		GuiButton * keyBtn[4][11];
-		GuiImage * keyImg[4][11];
-		GuiImage * keyImgOver[4][11];
-		GuiText * keyTxt[4][11];
+		GuiButton * keyBtn[KB_ROWS][KB_COLUMNS];
+		GuiImage * keyImg[KB_ROWS][KB_COLUMNS];
+		GuiImage * keyImgOver[KB_ROWS][KB_COLUMNS];
+		GuiText * keyTxt[KB_ROWS][KB_COLUMNS];
 		GuiImageData * keyTextbox;
 		GuiImageData * key;
 		GuiImageData * keyOver;
@@ -866,7 +869,7 @@ class GuiKeyboard : public GuiWindow
 		GuiSound * keySoundClick;
 		GuiTrigger * trigA;
 		GuiTrigger * trig2;
-		Key keys[4][11]; // two chars = less space than one pointer
+		Key keys[KB_ROWS][KB_COLUMNS]; // two chars = less space than one pointer
 };
 
 typedef struct _optionlist {
