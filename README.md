@@ -1,4 +1,4 @@
-## libwiigui 1.06
+## libwiigui 1.07
 https://github.com/dborth/libwiigui (Under GPL License)
 
 libwiigui is a GUI library for the Wii, created to help structure the
