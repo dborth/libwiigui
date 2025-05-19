@@ -32,6 +32,9 @@ jobs:
         
     - name: Deploy to GitHub Pages
       id: deployment
+      permissions:
+        id-token: write
+        pages: write
       uses: actions/deploy-pages@v4
       with:
         path: docs
