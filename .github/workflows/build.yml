@@ -5,6 +5,9 @@ on: [push, pull_request]
 jobs:
   build:
     name: Build
+    permissions:
+      id-token: write
+      pages: write
     runs-on: ubuntu-latest
     container: devkitpro/devkitppc:latest
 
@@ -32,9 +35,6 @@ jobs:
         
     - name: Deploy to GitHub Pages
       id: deployment
-      permissions:
-        id-token: write
-        pages: write
       uses: actions/deploy-pages@v4
       with:
         path: docs
