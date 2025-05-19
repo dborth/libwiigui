@@ -20,7 +20,8 @@ jobs:
 
     - name: Copy artifacts
       run: |
-        cp libwiigui-demo.dol dist/
+        mkdir -p dist
+        cp libwiigui-demo.dol dist
       
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
