@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <gccore.h>
+#include <string.h>
 #include "pngu.h"
 #include <png.h>
 
@@ -92,6 +93,7 @@ static void pngu_write_data_to_buffer (png_structp png_ptr, png_bytep data, png_
 static void pngu_flush_data_to_buffer (png_structp png_ptr)
 {
 	// Nothing to do here
+	(void)png_ptr;
 }
 
 static int pngu_info (IMGCTX ctx)
@@ -388,7 +390,7 @@ static u8 * PNGU_DecodeTo4x4RGBA8 (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, 
 	int newWidth = width;
 	int newHeight = height;
 
-	if((maxWidth > 0 && width > maxWidth) || (maxHeight > 0 && height > maxHeight))
+	if((maxWidth > 0 && width > (u32)maxWidth) || (maxHeight > 0 && height > (u32)maxHeight))
 	{
 		float ratio = (float)width/(float)height;
 
@@ -578,12 +580,14 @@ int PNGU_EncodeFromRGB (IMGCTX ctx, PNGU_u32 width, PNGU_u32 height, void *buffe
 	png_uint_32 rowbytes;
 	PNGU_u32 y;
 
+	(void)stride; // unused
+
 	// Erase from the context any readed info
 	pngu_free_info (ctx);
 	ctx->propRead = 0;
 
 	// Check if the user has selected a file to write the image
-	if (ctx->source == PNGU_SOURCE_BUFFER);	
+	if (ctx->source == PNGU_SOURCE_BUFFER);
 
 	else if (ctx->source == PNGU_SOURCE_DEVICE)
 	{

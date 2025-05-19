@@ -283,6 +283,8 @@ static int ogg_thread_running = 0;
 
 static void ogg_add_callback(int voice)
 {
+	(void)voice; // unused
+
 	if (!ogg_thread_running)
 	{
 		ASND_StopVoice(0);

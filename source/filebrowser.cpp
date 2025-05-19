@@ -19,7 +19,7 @@
 #include "menu.h"
 
 BROWSERINFO browser;
-BROWSERENTRY * browserList = NULL; // list of files/folders in browser
+BROWSERENTRY * browserList = nullptr; // list of files/folders in browser
 
 char rootdir[10];
 
@@ -34,10 +34,10 @@ void ResetBrowser()
 	browser.pageIndex = 0;
 
 	// Clear any existing values
-	if(browserList != NULL)
+	if(browserList != nullptr)
 	{
 		free(browserList);
-		browserList = NULL;
+		browserList = nullptr;
 	}
 	// set aside space for 1 entry
 	browserList = (BROWSERENTRY *)malloc(sizeof(BROWSERENTRY));
@@ -65,10 +65,10 @@ int UpdateDirName()
 		/* determine last subdirectory namelength */
 		sprintf(temp,"%s",browser.dir);
 		test = strtok(temp,"/");
-		while (test != NULL)
+		while (test != nullptr)
 		{
 			size = strlen(test);
-			test = strtok(NULL,"/");
+			test = strtok(nullptr,"/");
 		}
 
 		/* remove last subdirectory name */
@@ -84,7 +84,8 @@ int UpdateDirName()
 		if ((strlen(browser.dir)+1+strlen(browserList[browser.selIndex].filename)) < MAXPATHLEN)
 		{
 			/* update current directory name */
-			sprintf(browser.dir, "%s/%s",browser.dir, browserList[browser.selIndex].filename);
+			strcat(browser.dir, "/");
+			strcat(browser.dir, browserList[browser.selIndex].filename);
 			return 1;
 		}
 		else
@@ -127,23 +128,25 @@ int FileSortCallback(const void *f1, const void *f2)
 int
 ParseDirectory()
 {
-	DIR *dir = NULL;
+	DIR *dir = nullptr;
 	char fulldir[MAXPATHLEN];
 	struct dirent *entry;
 
 	// reset browser
 	ResetBrowser();
 
+	// add currentDevice to path
+	strcpy(fulldir, rootdir);
+	strcat(fulldir, browser.dir);
 	// open the directory
-	sprintf(fulldir, "%s%s", rootdir, browser.dir); // add currentDevice to path
 	dir = opendir(fulldir);
 
 	// if we can't open the dir, try opening the root dir
-	if (dir == NULL)
+	if (dir == nullptr)
 	{
 		sprintf(browser.dir,"/");
 		dir = opendir(rootdir);
-		if (dir == NULL)
+		if (dir == nullptr)
 		{
 			return -1;
 		}
@@ -171,17 +174,19 @@ ParseDirectory()
 		}
 		memset(&(browserList[entryNum]), 0, sizeof(BROWSERENTRY)); // clear the new entry
 
-		strncpy(browserList[entryNum].filename, entry->d_name, MAXJOLIET);
+		memcpy(browserList[entryNum].filename, entry->d_name, MAXJOLIET);
+		browserList[entryNum].filename[MAXJOLIET] = '\0';
 
 		if(strcmp(entry->d_name,"..") == 0)
 		{
-			sprintf(browserList[entryNum].displayname, "Up One Level");
+			strcpy(browserList[entryNum].displayname, "Up One Level");
 			browserList[entryNum].isdir = 1; // flag this as a dir
 		}
 		else
 		{
-			strncpy(browserList[entryNum].displayname, entry->d_name, MAXDISPLAY);	// crop name for display
-		
+			memcpy(browserList[entryNum].displayname, entry->d_name, MAXDISPLAY); // crop name for display
+			browserList[entryNum].displayname[MAXDISPLAY] = '\0';
+
 			if(entry->d_type==DT_DIR)
 				browserList[entryNum].isdir = 1; // flag this as a dir
 		}

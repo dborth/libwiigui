@@ -24,9 +24,9 @@
 #define THREAD_SLEEP 100
 
 static GuiImageData * pointer[4];
-static GuiImage * bgImg = NULL;
-static GuiSound * bgMusic = NULL;
-static GuiWindow * mainWindow = NULL;
+static GuiImage * bgImg = nullptr;
+static GuiSound * bgMusic = nullptr;
+static GuiWindow * mainWindow = nullptr;
 static lwp_t guithread = LWP_THREAD_NULL;
 static bool guiHalt = true;
 
@@ -74,9 +74,9 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 	int choice = -1;
 
 	GuiWindow promptWindow(448,288);
-	promptWindow.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
+	promptWindow.SetAlignment(ALIGN_H::CENTRE, ALIGN_V::MIDDLE);
 	promptWindow.SetPosition(0, -10);
-	GuiSound btnSoundOver(button_over_pcm, button_over_pcm_size, SOUND_PCM);
+	GuiSound btnSoundOver(button_over_pcm, button_over_pcm_size, SOUND::PCM);
 	GuiImageData btnOutline(button_png);
 	GuiImageData btnOutlineOver(button_over_png);
 	GuiTrigger trigA;
@@ -86,10 +86,10 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 	GuiImage dialogBoxImg(&dialogBox);
 
 	GuiText titleTxt(title, 26, (GXColor){0, 0, 0, 255});
-	titleTxt.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	titleTxt.SetAlignment(ALIGN_H::CENTRE, ALIGN_V::TOP);
 	titleTxt.SetPosition(0,40);
 	GuiText msgTxt(msg, 22, (GXColor){0, 0, 0, 255});
-	msgTxt.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
+	msgTxt.SetAlignment(ALIGN_H::CENTRE, ALIGN_V::MIDDLE);
 	msgTxt.SetPosition(0,-20);
 	msgTxt.SetWrap(true, 400);
 
@@ -100,12 +100,12 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 
 	if(btn2Label)
 	{
-		btn1.SetAlignment(ALIGN_LEFT, ALIGN_BOTTOM);
+		btn1.SetAlignment(ALIGN_H::LEFT, ALIGN_V::BOTTOM);
 		btn1.SetPosition(20, -25);
 	}
 	else
 	{
-		btn1.SetAlignment(ALIGN_CENTRE, ALIGN_BOTTOM);
+		btn1.SetAlignment(ALIGN_H::CENTRE, ALIGN_V::BOTTOM);
 		btn1.SetPosition(0, -25);
 	}
 
@@ -114,14 +114,14 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 	btn1.SetImageOver(&btn1ImgOver);
 	btn1.SetSoundOver(&btnSoundOver);
 	btn1.SetTrigger(&trigA);
-	btn1.SetState(STATE_SELECTED);
+	btn1.SetState(STATE::SELECTED);
 	btn1.SetEffectGrow();
 
 	GuiText btn2Txt(btn2Label, 22, (GXColor){0, 0, 0, 255});
 	GuiImage btn2Img(&btnOutline);
 	GuiImage btn2ImgOver(&btnOutlineOver);
 	GuiButton btn2(btnOutline.GetWidth(), btnOutline.GetHeight());
-	btn2.SetAlignment(ALIGN_RIGHT, ALIGN_BOTTOM);
+	btn2.SetAlignment(ALIGN_H::RIGHT, ALIGN_V::BOTTOM);
 	btn2.SetPosition(-20, -25);
 	btn2.SetLabel(&btn2Txt);
 	btn2.SetImage(&btn2Img);
@@ -138,9 +138,9 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 	if(btn2Label)
 		promptWindow.Append(&btn2);
 
-	promptWindow.SetEffect(EFFECT_SLIDE_TOP | EFFECT_SLIDE_IN, 50);
+	promptWindow.SetEffect(EFFECT::SLIDE_TOP | EFFECT::SLIDE_IN, 50);
 	HaltGui();
-	mainWindow->SetState(STATE_DISABLED);
+	mainWindow->SetState(STATE::DISABLED);
 	mainWindow->Append(&promptWindow);
 	mainWindow->ChangeFocus(&promptWindow);
 	ResumeGui();
@@ -149,17 +149,18 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 	{
 		usleep(THREAD_SLEEP);
 
-		if(btn1.GetState() == STATE_CLICKED)
+		if(btn1.GetState() == STATE::CLICKED)
 			choice = 1;
-		else if(btn2.GetState() == STATE_CLICKED)
+		else if(btn2.GetState() == STATE::CLICKED)
 			choice = 0;
 	}
 
-	promptWindow.SetEffect(EFFECT_SLIDE_TOP | EFFECT_SLIDE_OUT, 50);
-	while(promptWindow.GetEffect() > 0) usleep(THREAD_SLEEP);
+	promptWindow.SetEffect(EFFECT::SLIDE_TOP | EFFECT::SLIDE_OUT, 50);
+	while(promptWindow.GetEffect() > 0)
+		usleep(THREAD_SLEEP);
 	HaltGui();
 	mainWindow->Remove(&promptWindow);
-	mainWindow->SetState(STATE_DEFAULT);
+	mainWindow->SetState(STATE::DEFAULT);
 	ResumeGui();
 	return choice;
 }
@@ -173,6 +174,7 @@ WindowPrompt(const char *title, const char *msg, const char *btn1Label, const ch
 static void *
 UpdateGUI (void *arg)
 {
+	(void)arg; // unused
 	int i;
 
 	while(1)
@@ -206,14 +208,14 @@ UpdateGUI (void *arg)
 				for(i = 0; i <= 255; i += 15)
 				{
 					mainWindow->Draw();
-					Menu_DrawRectangle(0,0,screenwidth,screenheight,(GXColor){0, 0, 0, i},1);
+					Menu_DrawRectangle(0,0,screenwidth,screenheight,(GXColor){0, 0, 0, (u8)i},1);
 					Menu_Render();
 				}
 				ExitApp();
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 /****************************************************************************
@@ -224,7 +226,7 @@ UpdateGUI (void *arg)
 void
 InitGUIThreads()
 {
-	LWP_CreateThread (&guithread, UpdateGUI, NULL, NULL, 0, 70);
+	LWP_CreateThread (&guithread, UpdateGUI, nullptr, nullptr, 0, 70);
 }
 
 /****************************************************************************
@@ -239,7 +241,7 @@ static void OnScreenKeyboard(char * var, u16 maxlen)
 
 	GuiKeyboard keyboard(var, maxlen);
 
-	GuiSound btnSoundOver(button_over_pcm, button_over_pcm_size, SOUND_PCM);
+	GuiSound btnSoundOver(button_over_pcm, button_over_pcm_size, SOUND::PCM);
 	GuiImageData btnOutline(button_png);
 	GuiImageData btnOutlineOver(button_over_png);
 	GuiTrigger trigA;
@@ -250,7 +252,7 @@ static void OnScreenKeyboard(char * var, u16 maxlen)
 	GuiImage okBtnImgOver(&btnOutlineOver);
 	GuiButton okBtn(btnOutline.GetWidth(), btnOutline.GetHeight());
 
-	okBtn.SetAlignment(ALIGN_LEFT, ALIGN_BOTTOM);
+	okBtn.SetAlignment(ALIGN_H::LEFT, ALIGN_V::BOTTOM);
 	okBtn.SetPosition(25, -25);
 
 	okBtn.SetLabel(&okBtnTxt);
@@ -264,7 +266,7 @@ static void OnScreenKeyboard(char * var, u16 maxlen)
 	GuiImage cancelBtnImg(&btnOutline);
 	GuiImage cancelBtnImgOver(&btnOutlineOver);
 	GuiButton cancelBtn(btnOutline.GetWidth(), btnOutline.GetHeight());
-	cancelBtn.SetAlignment(ALIGN_RIGHT, ALIGN_BOTTOM);
+	cancelBtn.SetAlignment(ALIGN_H::RIGHT, ALIGN_V::BOTTOM);
 	cancelBtn.SetPosition(-25, -25);
 	cancelBtn.SetLabel(&cancelBtnTxt);
 	cancelBtn.SetImage(&cancelBtnImg);
@@ -277,7 +279,7 @@ static void OnScreenKeyboard(char * var, u16 maxlen)
 	keyboard.Append(&cancelBtn);
 
 	HaltGui();
-	mainWindow->SetState(STATE_DISABLED);
+	mainWindow->SetState(STATE::DISABLED);
 	mainWindow->Append(&keyboard);
 	mainWindow->ChangeFocus(&keyboard);
 	ResumeGui();
@@ -286,9 +288,9 @@ static void OnScreenKeyboard(char * var, u16 maxlen)
 	{
 		usleep(THREAD_SLEEP);
 
-		if(okBtn.GetState() == STATE_CLICKED)
+		if(okBtn.GetState() == STATE::CLICKED)
 			save = 1;
-		else if(cancelBtn.GetState() == STATE_CLICKED)
+		else if(cancelBtn.GetState() == STATE::CLICKED)
 			save = 0;
 	}
 
@@ -299,7 +301,7 @@ static void OnScreenKeyboard(char * var, u16 maxlen)
 
 	HaltGui();
 	mainWindow->Remove(&keyboard);
-	mainWindow->SetState(STATE_DEFAULT);
+	mainWindow->SetState(STATE::DEFAULT);
 	ResumeGui();
 }
 
@@ -333,14 +335,15 @@ static int MenuBrowseDevice()
 	sprintf(title, "Browse Files");
 
 	GuiText titleTxt(title, 28, (GXColor){255, 255, 255, 255});
-	titleTxt.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
+	titleTxt.SetAlignment(ALIGN_H::LEFT, ALIGN_V::TOP);
 	titleTxt.SetPosition(100,50);
 
-	GuiTrigger trigA;
+	GuiTrigger trigA, trigB;
 	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
+	trigB.SetButtonOnlyTrigger(-1, WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B, PAD_BUTTON_B);
 
 	GuiFileBrowser fileBrowser(552, 248);
-	fileBrowser.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	fileBrowser.SetAlignment(ALIGN_H::CENTRE, ALIGN_V::TOP);
 	fileBrowser.SetPosition(0, 100);
 
 	GuiImageData btnOutline(button_png);
@@ -349,12 +352,13 @@ static int MenuBrowseDevice()
 	GuiImage backBtnImg(&btnOutline);
 	GuiImage backBtnImgOver(&btnOutlineOver);
 	GuiButton backBtn(btnOutline.GetWidth(), btnOutline.GetHeight());
-	backBtn.SetAlignment(ALIGN_LEFT, ALIGN_BOTTOM);
+	backBtn.SetAlignment(ALIGN_H::LEFT, ALIGN_V::BOTTOM);
 	backBtn.SetPosition(30, -35);
 	backBtn.SetLabel(&backBtnTxt);
 	backBtn.SetImage(&backBtnImg);
 	backBtn.SetImageOver(&backBtnImgOver);
 	backBtn.SetTrigger(&trigA);
+	backBtn.SetTrigger(&trigB);
 	backBtn.SetEffectGrow();
 
 	GuiWindow buttonWindow(screenwidth, screenheight);
@@ -374,7 +378,7 @@ static int MenuBrowseDevice()
 		// set MENU_EXIT if A button pressed on a file
 		for(i=0; i < FILE_PAGESIZE; i++)
 		{
-			if(fileBrowser.fileList[i]->GetState() == STATE_CLICKED)
+			if(fileBrowser.fileList[i]->GetState() == STATE::CLICKED)
 			{
 				fileBrowser.fileList[i]->ResetState();
 				// check corresponding browser entry
@@ -383,7 +387,7 @@ static int MenuBrowseDevice()
 					if(BrowserChangeFolder())
 					{
 						fileBrowser.ResetState();
-						fileBrowser.fileList[0]->SetState(STATE_SELECTED);
+						fileBrowser.fileList[0]->SetState(STATE::SELECTED);
 						fileBrowser.TriggerUpdate();
 					}
 					else
@@ -395,13 +399,13 @@ static int MenuBrowseDevice()
 				else
 				{
 					ShutoffRumble();
-					mainWindow->SetState(STATE_DISABLED);
+					mainWindow->SetState(STATE::DISABLED);
 					// load file
-					mainWindow->SetState(STATE_DEFAULT);
+					mainWindow->SetState(STATE::DEFAULT);
 				}
 			}
 		}
-		if(backBtn.GetState() == STATE_CLICKED)
+		if(backBtn.GetState() == STATE::CLICKED)
 			menu = MENU_SETTINGS;
 	}
 	HaltGui();
@@ -419,10 +423,10 @@ static int MenuSettings()
 	int menu = MENU_NONE;
 
 	GuiText titleTxt("Settings", 28, (GXColor){255, 255, 255, 255});
-	titleTxt.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
+	titleTxt.SetAlignment(ALIGN_H::LEFT, ALIGN_V::TOP);
 	titleTxt.SetPosition(50,50);
 
-	GuiSound btnSoundOver(button_over_pcm, button_over_pcm_size, SOUND_PCM);
+	GuiSound btnSoundOver(button_over_pcm, button_over_pcm_size, SOUND::PCM);
 	GuiImageData btnOutline(button_png);
 	GuiImageData btnOutlineOver(button_over_png);
 	GuiImageData btnLargeOutline(button_large_png);
@@ -438,7 +442,7 @@ static int MenuSettings()
 	GuiImage fileBtnImg(&btnLargeOutline);
 	GuiImage fileBtnImgOver(&btnLargeOutlineOver);
 	GuiButton fileBtn(btnLargeOutline.GetWidth(), btnLargeOutline.GetHeight());
-	fileBtn.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
+	fileBtn.SetAlignment(ALIGN_H::LEFT, ALIGN_V::TOP);
 	fileBtn.SetPosition(50, 120);
 	fileBtn.SetLabel(&fileBtnTxt);
 	fileBtn.SetImage(&fileBtnImg);
@@ -452,7 +456,7 @@ static int MenuSettings()
 	GuiImage videoBtnImg(&btnLargeOutline);
 	GuiImage videoBtnImgOver(&btnLargeOutlineOver);
 	GuiButton videoBtn(btnLargeOutline.GetWidth(), btnLargeOutline.GetHeight());
-	videoBtn.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	videoBtn.SetAlignment(ALIGN_H::CENTRE, ALIGN_V::TOP);
 	videoBtn.SetPosition(0, 120);
 	videoBtn.SetLabel(&videoBtnTxt);
 	videoBtn.SetImage(&videoBtnImg);
@@ -469,7 +473,7 @@ static int MenuSettings()
 	GuiImage savingBtnImg(&btnLargeOutline);
 	GuiImage savingBtnImgOver(&btnLargeOutlineOver);
 	GuiButton savingBtn(btnLargeOutline.GetWidth(), btnLargeOutline.GetHeight());
-	savingBtn.SetAlignment(ALIGN_RIGHT, ALIGN_TOP);
+	savingBtn.SetAlignment(ALIGN_H::RIGHT, ALIGN_V::TOP);
 	savingBtn.SetPosition(-50, 120);
 	savingBtn.SetLabel(&savingBtnTxt1, 0);
 	savingBtn.SetLabel(&savingBtnTxt2, 1);
@@ -485,7 +489,7 @@ static int MenuSettings()
 	GuiImage menuBtnImg(&btnLargeOutline);
 	GuiImage menuBtnImgOver(&btnLargeOutlineOver);
 	GuiButton menuBtn(btnLargeOutline.GetWidth(), btnLargeOutline.GetHeight());
-	menuBtn.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	menuBtn.SetAlignment(ALIGN_H::CENTRE, ALIGN_V::TOP);
 	menuBtn.SetPosition(-125, 250);
 	menuBtn.SetLabel(&menuBtnTxt);
 	menuBtn.SetImage(&menuBtnImg);
@@ -499,7 +503,7 @@ static int MenuSettings()
 	GuiImage networkBtnImg(&btnLargeOutline);
 	GuiImage networkBtnImgOver(&btnLargeOutlineOver);
 	GuiButton networkBtn(btnLargeOutline.GetWidth(), btnLargeOutline.GetHeight());
-	networkBtn.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	networkBtn.SetAlignment(ALIGN_H::CENTRE, ALIGN_V::TOP);
 	networkBtn.SetPosition(125, 250);
 	networkBtn.SetLabel(&networkBtnTxt);
 	networkBtn.SetImage(&networkBtnImg);
@@ -512,7 +516,7 @@ static int MenuSettings()
 	GuiImage exitBtnImg(&btnOutline);
 	GuiImage exitBtnImgOver(&btnOutlineOver);
 	GuiButton exitBtn(btnOutline.GetWidth(), btnOutline.GetHeight());
-	exitBtn.SetAlignment(ALIGN_LEFT, ALIGN_BOTTOM);
+	exitBtn.SetAlignment(ALIGN_H::LEFT, ALIGN_V::BOTTOM);
 	exitBtn.SetPosition(100, -35);
 	exitBtn.SetLabel(&exitBtnTxt);
 	exitBtn.SetImage(&exitBtnImg);
@@ -526,7 +530,7 @@ static int MenuSettings()
 	GuiImage resetBtnImg(&btnOutline);
 	GuiImage resetBtnImgOver(&btnOutlineOver);
 	GuiButton resetBtn(btnOutline.GetWidth(), btnOutline.GetHeight());
-	resetBtn.SetAlignment(ALIGN_RIGHT, ALIGN_BOTTOM);
+	resetBtn.SetAlignment(ALIGN_H::RIGHT, ALIGN_V::BOTTOM);
 	resetBtn.SetPosition(-100, -35);
 	resetBtn.SetLabel(&resetBtnTxt);
 	resetBtn.SetImage(&resetBtnImg);
@@ -558,31 +562,31 @@ static int MenuSettings()
 	{
 		usleep(THREAD_SLEEP);
 
-		if(fileBtn.GetState() == STATE_CLICKED)
+		if(fileBtn.GetState() == STATE::CLICKED)
 		{
 			menu = MENU_BROWSE_DEVICE;
 		}
-		else if(videoBtn.GetState() == STATE_CLICKED)
+		else if(videoBtn.GetState() == STATE::CLICKED)
 		{
 			menu = MENU_SETTINGS_FILE;
 		}
-		else if(savingBtn.GetState() == STATE_CLICKED)
+		else if(savingBtn.GetState() == STATE::CLICKED)
 		{
 			menu = MENU_SETTINGS_FILE;
 		}
-		else if(menuBtn.GetState() == STATE_CLICKED)
+		else if(menuBtn.GetState() == STATE::CLICKED)
 		{
 			menu = MENU_SETTINGS_FILE;
 		}
-		else if(networkBtn.GetState() == STATE_CLICKED)
+		else if(networkBtn.GetState() == STATE::CLICKED)
 		{
 			menu = MENU_SETTINGS_FILE;
 		}
-		else if(exitBtn.GetState() == STATE_CLICKED)
+		else if(exitBtn.GetState() == STATE::CLICKED)
 		{
 			menu = MENU_EXIT;
 		}
-		else if(resetBtn.GetState() == STATE_CLICKED)
+		else if(resetBtn.GetState() == STATE::CLICKED)
 		{
 			resetBtn.ResetState();
 
@@ -624,32 +628,34 @@ static int MenuSettingsFile()
 	options.length = i;
 
 	GuiText titleTxt("Settings - Saving & Loading", 28, (GXColor){255, 255, 255, 255});
-	titleTxt.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
+	titleTxt.SetAlignment(ALIGN_H::LEFT, ALIGN_V::TOP);
 	titleTxt.SetPosition(50,50);
 
-	GuiSound btnSoundOver(button_over_pcm, button_over_pcm_size, SOUND_PCM);
+	GuiSound btnSoundOver(button_over_pcm, button_over_pcm_size, SOUND::PCM);
 	GuiImageData btnOutline(button_png);
 	GuiImageData btnOutlineOver(button_over_png);
 
-	GuiTrigger trigA;
+	GuiTrigger trigA, trigB;
 	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
+	trigB.SetButtonOnlyTrigger(-1, WPAD_BUTTON_B | WPAD_CLASSIC_BUTTON_B, PAD_BUTTON_B);
 
 	GuiText backBtnTxt("Go Back", 22, (GXColor){0, 0, 0, 255});
 	GuiImage backBtnImg(&btnOutline);
 	GuiImage backBtnImgOver(&btnOutlineOver);
 	GuiButton backBtn(btnOutline.GetWidth(), btnOutline.GetHeight());
-	backBtn.SetAlignment(ALIGN_LEFT, ALIGN_BOTTOM);
+	backBtn.SetAlignment(ALIGN_H::LEFT, ALIGN_V::BOTTOM);
 	backBtn.SetPosition(100, -35);
 	backBtn.SetLabel(&backBtnTxt);
 	backBtn.SetImage(&backBtnImg);
 	backBtn.SetImageOver(&backBtnImgOver);
 	backBtn.SetSoundOver(&btnSoundOver);
 	backBtn.SetTrigger(&trigA);
+	backBtn.SetTrigger(&trigB);
 	backBtn.SetEffectGrow();
 
 	GuiOptionBrowser optionBrowser(552, 248, &options);
 	optionBrowser.SetPosition(0, 108);
-	optionBrowser.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	optionBrowser.SetAlignment(ALIGN_H::CENTRE, ALIGN_V::TOP);
 	optionBrowser.SetCol2Position(185);
 
 	HaltGui();
@@ -724,22 +730,26 @@ static int MenuSettingsFile()
 			else if (Settings.SaveMethod == METHOD_MC_SLOTA) sprintf (options.value[1],"MC Slot A");
 			else if (Settings.SaveMethod == METHOD_MC_SLOTB) sprintf (options.value[1],"MC Slot B");
 
-			snprintf (options.value[2], 256, "%s", Settings.Folder1);
-			snprintf (options.value[3], 256, "%s", Settings.Folder2);
-			snprintf (options.value[4], 256, "%s", Settings.Folder3);
+			// crop names for display
+			memcpy(options.value[2], Settings.Folder1, 49);
+			memcpy(options.value[3], Settings.Folder2, 49);
+			memcpy(options.value[4], Settings.Folder3, 49);
+			options.value[2][49] = '\0';
+			options.value[3][49] = '\0';
+			options.value[4][49] = '\0';
 
 			if (Settings.AutoLoad == 0) sprintf (options.value[5],"Off");
 			else if (Settings.AutoLoad == 1) sprintf (options.value[5],"Some");
 			else if (Settings.AutoLoad == 2) sprintf (options.value[5],"All");
 
-			if (Settings.AutoSave == 0) sprintf (options.value[5],"Off");
+			if (Settings.AutoSave == 0) sprintf (options.value[6],"Off");
 			else if (Settings.AutoSave == 1) sprintf (options.value[6],"Some");
 			else if (Settings.AutoSave == 2) sprintf (options.value[6],"All");
 
 			optionBrowser.TriggerUpdate();
 		}
 
-		if(backBtn.GetState() == STATE_CLICKED)
+		if(backBtn.GetState() == STATE::CLICKED)
 		{
 			menu = MENU_SETTINGS;
 		}
@@ -776,7 +786,7 @@ void MainMenu(int menu)
 
 	ResumeGui();
 
-	bgMusic = new GuiSound(bg_music_ogg, bg_music_ogg_size, SOUND_OGG);
+	bgMusic = new GuiSound(bg_music_ogg, bg_music_ogg_size, SOUND::OGG);
 	bgMusic->SetVolume(50);
 	bgMusic->Play(); // startup music
 
@@ -815,5 +825,5 @@ void MainMenu(int menu)
 	delete pointer[2];
 	delete pointer[3];
 
-	mainWindow = NULL;
+	mainWindow = nullptr;
 }

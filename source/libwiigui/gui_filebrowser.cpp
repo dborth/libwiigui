@@ -25,20 +25,20 @@ GuiFileBrowser::GuiFileBrowser(int w, int h)
 	focus = 0; // allow focus
 
 	trigA = new GuiTrigger;
-	trigA->SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
+	trigA->SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A, WIIDRC_BUTTON_A);
 	trig2 = new GuiTrigger;
-	trig2->SetSimpleTrigger(-1, WPAD_BUTTON_2, 0);
+	trig2->SetSimpleTrigger(-1, WPAD_BUTTON_2);
 
 	trigHeldA = new GuiTrigger;
-	trigHeldA->SetHeldTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
+	trigHeldA->SetHeldTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A, WIIDRC_BUTTON_A);
 
-	btnSoundOver = new GuiSound(button_over_pcm, button_over_pcm_size, SOUND_PCM);
-	btnSoundClick = new GuiSound(button_click_pcm, button_click_pcm_size, SOUND_PCM);
+	btnSoundOver = new GuiSound(button_over_pcm, button_over_pcm_size, SOUND::PCM);
+	btnSoundClick = new GuiSound(button_click_pcm, button_click_pcm_size, SOUND::PCM);
 
 	bgFileSelection = new GuiImageData(bg_file_selection_png);
 	bgFileSelectionImg = new GuiImage(bgFileSelection);
 	bgFileSelectionImg->SetParent(this);
-	bgFileSelectionImg->SetAlignment(ALIGN_LEFT, ALIGN_MIDDLE);
+	bgFileSelectionImg->SetAlignment(ALIGN_H::LEFT, ALIGN_V::MIDDLE);
 
 	bgFileSelectionEntry = new GuiImageData(bg_file_selection_entry_png);
 	fileFolder = new GuiImageData(folder_png);
@@ -46,7 +46,7 @@ GuiFileBrowser::GuiFileBrowser(int w, int h)
 	scrollbar = new GuiImageData(scrollbar_png);
 	scrollbarImg = new GuiImage(scrollbar);
 	scrollbarImg->SetParent(this);
-	scrollbarImg->SetAlignment(ALIGN_RIGHT, ALIGN_TOP);
+	scrollbarImg->SetAlignment(ALIGN_H::RIGHT, ALIGN_V::TOP);
 	scrollbarImg->SetPosition(0, 30);
 
 	arrowDown = new GuiImageData(scrollbar_arrowdown_png);
@@ -66,7 +66,7 @@ GuiFileBrowser::GuiFileBrowser(int w, int h)
 	arrowUpBtn->SetParent(this);
 	arrowUpBtn->SetImage(arrowUpImg);
 	arrowUpBtn->SetImageOver(arrowUpOverImg);
-	arrowUpBtn->SetAlignment(ALIGN_RIGHT, ALIGN_TOP);
+	arrowUpBtn->SetAlignment(ALIGN_H::RIGHT, ALIGN_V::TOP);
 	arrowUpBtn->SetPosition(0, -2);
 	arrowUpBtn->SetSelectable(false);
 	arrowUpBtn->SetClickable(false);
@@ -79,7 +79,7 @@ GuiFileBrowser::GuiFileBrowser(int w, int h)
 	arrowDownBtn->SetParent(this);
 	arrowDownBtn->SetImage(arrowDownImg);
 	arrowDownBtn->SetImageOver(arrowDownOverImg);
-	arrowDownBtn->SetAlignment(ALIGN_RIGHT, ALIGN_BOTTOM);
+	arrowDownBtn->SetAlignment(ALIGN_H::RIGHT, ALIGN_V::BOTTOM);
 	arrowDownBtn->SetSelectable(false);
 	arrowDownBtn->SetClickable(false);
 	arrowDownBtn->SetHoldable(true);
@@ -91,7 +91,7 @@ GuiFileBrowser::GuiFileBrowser(int w, int h)
 	scrollbarBoxBtn->SetParent(this);
 	scrollbarBoxBtn->SetImage(scrollbarBoxImg);
 	scrollbarBoxBtn->SetImageOver(scrollbarBoxOverImg);
-	scrollbarBoxBtn->SetAlignment(ALIGN_RIGHT, ALIGN_TOP);
+	scrollbarBoxBtn->SetAlignment(ALIGN_H::RIGHT, ALIGN_V::TOP);
 	scrollbarBoxBtn->SetMinY(0);
 	scrollbarBoxBtn->SetMaxY(130);
 	scrollbarBoxBtn->SetSelectable(false);
@@ -101,8 +101,8 @@ GuiFileBrowser::GuiFileBrowser(int w, int h)
 
 	for(int i=0; i<FILE_PAGESIZE; ++i)
 	{
-		fileListText[i] = new GuiText(NULL, 20, (GXColor){0, 0, 0, 0xff});
-		fileListText[i]->SetAlignment(ALIGN_LEFT, ALIGN_MIDDLE);
+		fileListText[i] = new GuiText(nullptr, 20, (GXColor){0, 0, 0, 0xff});
+		fileListText[i]->SetAlignment(ALIGN_H::LEFT, ALIGN_V::MIDDLE);
 		fileListText[i]->SetPosition(5,0);
 		fileListText[i]->SetMaxWidth(512);
 
@@ -172,12 +172,12 @@ void GuiFileBrowser::SetFocus(int f)
 		fileList[i]->ResetState();
 
 	if(f == 1)
-		fileList[selectedItem]->SetState(STATE_SELECTED);
+		fileList[selectedItem]->SetState(STATE::SELECTED);
 }
 
 void GuiFileBrowser::ResetState()
 {
-	state = STATE_DEFAULT;
+	state = STATE::DEFAULT;
 	stateChan = -1;
 	selectedItem = 0;
 
@@ -189,6 +189,14 @@ void GuiFileBrowser::ResetState()
 
 void GuiFileBrowser::TriggerUpdate()
 {
+	int newIndex = browser.selIndex-browser.pageIndex;
+
+	if(newIndex >= FILE_PAGESIZE)
+		newIndex = FILE_PAGESIZE-1;
+	else if(newIndex < 0)
+		newIndex = 0;
+
+	selectedItem = newIndex;
 	listChanged = true;
 }
 
@@ -215,13 +223,9 @@ void GuiFileBrowser::Draw()
 	this->UpdateEffects();
 }
 
-void GuiFileBrowser::DrawTooltip()
-{
-}
-
 void GuiFileBrowser::Update(GuiTrigger * t)
 {
-	if(state == STATE_DISABLED || !t)
+	if(state == STATE::DISABLED || !t)
 		return;
 
 	int position = 0;
@@ -232,7 +236,7 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 	scrollbarBoxBtn->Update(t);
 
 	// move the file listing to respond to wiimote cursor movement
-	if(scrollbarBoxBtn->GetState() == STATE_HELD &&
+	if(scrollbarBoxBtn->GetState() == STATE::HELD &&
 		scrollbarBoxBtn->GetStateChan() == t->chan &&
 		t->wpad->ir.valid &&
 		browser.numEntries > FILE_PAGESIZE
@@ -260,13 +264,13 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 		focus = false;
 	}
 
-	if(arrowDownBtn->GetState() == STATE_HELD && arrowDownBtn->GetStateChan() == t->chan)
+	if(arrowDownBtn->GetState() == STATE::HELD && arrowDownBtn->GetStateChan() == t->chan)
 	{
 		t->wpad->btns_d |= WPAD_BUTTON_DOWN;
 		if(!this->IsFocused())
 			((GuiWindow *)this->GetParent())->ChangeFocus(this);
 	}
-	else if(arrowUpBtn->GetState() == STATE_HELD && arrowUpBtn->GetStateChan() == t->chan)
+	else if(arrowUpBtn->GetState() == STATE::HELD && arrowUpBtn->GetStateChan() == t->chan)
 	{
 		t->wpad->btns_d |= WPAD_BUTTON_UP;
 		if(!this->IsFocused())
@@ -313,7 +317,7 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 			else if(fileList[selectedItem+1]->IsVisible())
 			{
 				fileList[selectedItem]->ResetState();
-				fileList[++selectedItem]->SetState(STATE_SELECTED, t->chan);
+				fileList[++selectedItem]->SetState(STATE::SELECTED, t->chan);
 			}
 		}
 	}
@@ -328,7 +332,7 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 		else if(selectedItem > 0)
 		{
 			fileList[selectedItem]->ResetState();
-			fileList[--selectedItem]->SetState(STATE_SELECTED, t->chan);
+			fileList[--selectedItem]->SetState(STATE::SELECTED, t->chan);
 		}
 	}
 
@@ -340,8 +344,8 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 		{
 			if(browser.pageIndex+i < browser.numEntries)
 			{
-				if(fileList[i]->GetState() == STATE_DISABLED)
-					fileList[i]->SetState(STATE_DEFAULT);
+				if(fileList[i]->GetState() == STATE::DISABLED)
+					fileList[i]->SetState(STATE::DEFAULT);
 
 				fileList[i]->SetVisible(true);
 
@@ -354,21 +358,21 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 				}
 				else
 				{
-					fileList[i]->SetIcon(NULL);
+					fileList[i]->SetIcon(nullptr);
 					fileListText[i]->SetPosition(10,0);
 				}
 			}
 			else
 			{
 				fileList[i]->SetVisible(false);
-				fileList[i]->SetState(STATE_DISABLED);
+				fileList[i]->SetState(STATE::DISABLED);
 			}
 		}
 
-		if(i != selectedItem && fileList[i]->GetState() == STATE_SELECTED)
+		if(i != selectedItem && fileList[i]->GetState() == STATE::SELECTED)
 			fileList[i]->ResetState();
-		else if(focus && i == selectedItem && fileList[i]->GetState() == STATE_DEFAULT)
-			fileList[selectedItem]->SetState(STATE_SELECTED, t->chan);
+		else if(focus && i == selectedItem && fileList[i]->GetState() == STATE::DEFAULT)
+			fileList[selectedItem]->SetState(STATE::SELECTED, t->chan);
 
 		int currChan = t->chan;
 
@@ -378,16 +382,16 @@ void GuiFileBrowser::Update(GuiTrigger * t)
 		fileList[i]->Update(t);
 		t->chan = currChan;
 
-		if(fileList[i]->GetState() == STATE_SELECTED)
+		if(fileList[i]->GetState() == STATE::SELECTED)
 		{
 			selectedItem = i;
 			browser.selIndex = browser.pageIndex + i;
 		}
 
 		if(selectedItem == i)
-			fileListText[i]->SetScroll(SCROLL_HORIZONTAL);
+			fileListText[i]->SetScroll(SCROLL::HORIZONTAL);
 		else
-			fileListText[i]->SetScroll(SCROLL_NONE);
+			fileListText[i]->SetScroll(SCROLL::NONE);
 	}
 
 	// update the location of the scroll box based on the position in the file list

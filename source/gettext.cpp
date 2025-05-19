@@ -49,8 +49,8 @@ expand_escape(const char *str)
 	const char *cp = str;
 
 	retval = (char *) malloc(strlen(str) + 1);
-	if (retval == NULL)
-		return NULL;
+	if (retval == nullptr)
+		return nullptr;
 	rp = retval;
 
 	while (cp[0] != '\0' && cp[0] != '\\')
@@ -146,7 +146,7 @@ static MSG *findMSG(u32 id)
 		if (msg->id == id)
 			return msg;
 	}
-	return NULL;
+	return nullptr;
 }
 
 static MSG *setMSG(const char *msgid, const char *msgstr)
@@ -157,7 +157,7 @@ static MSG *setMSG(const char *msgid, const char *msgstr)
 	{
 		msg = (MSG *) malloc(sizeof(MSG));
 		msg->id = id;
-		msg->msgstr = NULL;
+		msg->msgstr = nullptr;
 		msg->next = baseMSG;
 		baseMSG = msg;
 	}
@@ -171,7 +171,7 @@ static MSG *setMSG(const char *msgid, const char *msgstr)
 		}
 		return msg;
 	}
-	return NULL;
+	return nullptr;
 }
 
 static void gettextCleanUp(void)
@@ -188,12 +188,12 @@ static void gettextCleanUp(void)
 static char * memfgets(char * dst, int maxlen, char * src)
 {
 	if(!src || !dst || maxlen <= 0)
-		return NULL;
+		return nullptr;
 
 	char * newline = strchr(src, '\n');
 
-	if(newline == NULL)
-		return NULL;
+	if(newline == nullptr)
+		return nullptr;
 
 	memcpy(dst, src, (newline-src));
 	dst[(newline-src)] = 0;
@@ -203,7 +203,7 @@ static char * memfgets(char * dst, int maxlen, char * src)
 bool LoadLanguage()
 {
 	char line[200];
-	char *lastID = NULL;
+	char *lastID = nullptr;
 	
 	char *file, *eof;
 
@@ -228,7 +228,7 @@ bool LoadLanguage()
 			if (lastID)
 			{
 				free(lastID);
-				lastID = NULL;
+				lastID = nullptr;
 			}
 			msgid = &line[7];
 			end = strrchr(msgid, '"');
@@ -242,7 +242,7 @@ bool LoadLanguage()
 		{
 			char *msgstr, *end;
 
-			if (lastID == NULL)
+			if (lastID == nullptr)
 				continue;
 
 			msgstr = &line[8];
@@ -253,7 +253,7 @@ bool LoadLanguage()
 				setMSG(lastID, msgstr);
 			}
 			free(lastID);
-			lastID = NULL;
+			lastID = nullptr;
 		}
 	}
 	return true;

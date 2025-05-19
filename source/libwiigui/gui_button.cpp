@@ -17,27 +17,27 @@ GuiButton::GuiButton(int w, int h)
 {
 	width = w;
 	height = h;
-	image = NULL;
-	imageOver = NULL;
-	imageHold = NULL;
-	imageClick = NULL;
-	icon = NULL;
-	iconOver = NULL;
-	iconHold = NULL;
-	iconClick = NULL;
+	image = nullptr;
+	imageOver = nullptr;
+	imageHold = nullptr;
+	imageClick = nullptr;
+	icon = nullptr;
+	iconOver = nullptr;
+	iconHold = nullptr;
+	iconClick = nullptr;
 
 	for(int i=0; i < 3; i++)
 	{
-		label[i] = NULL;
-		labelOver[i] = NULL;
-		labelHold[i] = NULL;
-		labelClick[i] = NULL;
+		label[i] = nullptr;
+		labelOver[i] = nullptr;
+		labelHold[i] = nullptr;
+		labelClick[i] = nullptr;
 	}
 
-	soundOver = NULL;
-	soundHold = NULL;
-	soundClick = NULL;
-	tooltip = NULL;
+	soundOver = nullptr;
+	soundHold = nullptr;
+	soundClick = nullptr;
+	tooltip = nullptr;
 	selectable = true;
 	holdable = false;
 	clickable = true;
@@ -137,7 +137,7 @@ void GuiButton::Draw()
 	if(!this->IsVisible())
 		return;
 
-	if(state == STATE_SELECTED || state == STATE_HELD)
+	if(state == STATE::SELECTED || state == STATE::HELD)
 	{
 		if(imageOver)
 			imageOver->Draw();
@@ -156,7 +156,7 @@ void GuiButton::Draw()
 			label[0]->Draw();
 			
 		if(labelOver[1])
-			labelOver[1]->Draw();	
+			labelOver[1]->Draw();
 		else if(label[1])
 			label[1]->Draw();
 			
@@ -205,9 +205,9 @@ void GuiButton::ResetText()
 
 void GuiButton::Update(GuiTrigger * t)
 {
-	if(state == STATE_CLICKED || state == STATE_DISABLED || !t)
+	if(state == STATE::CLICKED || state == STATE::DISABLED || !t)
 		return;
-	else if(parentElement && parentElement->GetState() == STATE_DISABLED)
+	else if(parentElement && parentElement->GetState() == STATE::DISABLED)
 		return;
 
 	#ifdef HW_RVL
@@ -216,9 +216,9 @@ void GuiButton::Update(GuiTrigger * t)
 	{
 		if(this->IsInside(t->wpad->ir.x, t->wpad->ir.y))
 		{
-			if(state == STATE_DEFAULT) // we weren't on the button before!
+			if(state == STATE::DEFAULT) // we weren't on the button before!
 			{
-				this->SetState(STATE_SELECTED, t->chan);
+				this->SetState(STATE::SELECTED, t->chan);
 
 				if(this->Rumble())
 					rumbleRequest[t->chan] = 1;
@@ -237,7 +237,7 @@ void GuiButton::Update(GuiTrigger * t)
 		}
 		else
 		{
-			if(state == STATE_SELECTED && (stateChan == t->chan || stateChan == -1))
+			if(state == STATE::SELECTED && (stateChan == t->chan || stateChan == -1))
 				this->ResetState();
 
 			if(effectTarget == effectTargetOver && effectAmount == effectAmountOver)
@@ -254,7 +254,7 @@ void GuiButton::Update(GuiTrigger * t)
 	// button triggers
 	if(this->IsClickable())
 	{
-		s32 wm_btns, wm_btns_trig, cc_btns, cc_btns_trig;
+		s32 wm_btns, wm_btns_trig, cc_btns, cc_btns_trig, wiidrc_btns, wiidrc_btns_trig;
 		for(int i=0; i<3; i++)
 		{
 			if(trigger[i] && (trigger[i]->chan == -1 || trigger[i]->chan == t->chan))
@@ -267,32 +267,37 @@ void GuiButton::Update(GuiTrigger * t)
 				cc_btns = t->wpad->btns_d >> 16;
 				cc_btns_trig = trigger[i]->wpad->btns_d >> 16;
 
+				// Wii U Gamepad
+				wiidrc_btns = t->wiidrcdata.btns_d;
+				wiidrc_btns_trig = trigger[i]->wiidrcdata.btns_d;
+
 				if(
 					(t->wpad->btns_d > 0 &&
 					(wm_btns == wm_btns_trig ||
 					(cc_btns == cc_btns_trig && t->wpad->exp.type == EXP_CLASSIC))) ||
-					(t->pad.btns_d == trigger[i]->pad.btns_d && t->pad.btns_d > 0))
+					(t->pad.btns_d == trigger[i]->pad.btns_d && t->pad.btns_d > 0) ||
+					(wiidrc_btns == wiidrc_btns_trig && wiidrc_btns > 0))
 				{
 					if(t->chan == stateChan || stateChan == -1)
 					{
-						if(state == STATE_SELECTED)
+						if(state == STATE::SELECTED)
 						{
 							if(!t->wpad->ir.valid ||	this->IsInside(t->wpad->ir.x, t->wpad->ir.y))
 							{
-								this->SetState(STATE_CLICKED, t->chan);
+								this->SetState(STATE::CLICKED, t->chan);
 
 								if(soundClick)
 									soundClick->Play();
 							}
 						}
-						else if(trigger[i]->type == TRIGGER_BUTTON_ONLY)
+						else if(trigger[i]->type == TRIGGER::BUTTON_ONLY)
 						{
-							this->SetState(STATE_CLICKED, t->chan);
+							this->SetState(STATE::CLICKED, t->chan);
 						}
-						else if(trigger[i]->type == TRIGGER_BUTTON_ONLY_IN_FOCUS &&
+						else if(trigger[i]->type == TRIGGER::BUTTON_ONLY_IN_FOCUS &&
 								parentElement->IsFocused())
 						{
-							this->SetState(STATE_CLICKED, t->chan);
+							this->SetState(STATE::CLICKED, t->chan);
 						}
 					}
 				}
@@ -303,7 +308,7 @@ void GuiButton::Update(GuiTrigger * t)
 	if(this->IsHoldable())
 	{
 		bool held = false;
-		s32 wm_btns, wm_btns_h, wm_btns_trig, cc_btns, cc_btns_h, cc_btns_trig;
+		s32 wm_btns, wm_btns_h, wm_btns_trig, cc_btns, cc_btns_h, cc_btns_trig, wiidrc_btns, wiidrc_btns_h, wiidrc_btns_trig;
 
 		for(int i=0; i<3; i++)
 		{
@@ -319,34 +324,41 @@ void GuiButton::Update(GuiTrigger * t)
 				cc_btns_h = t->wpad->btns_h >> 16;
 				cc_btns_trig = trigger[i]->wpad->btns_h >> 16;
 
+				// Wii U Gamepad
+				wiidrc_btns = t->wiidrcdata.btns_d;
+				wiidrc_btns_h = t->wiidrcdata.btns_h;
+				wiidrc_btns_trig = trigger[i]->wiidrcdata.btns_h;
+
 				if(
 					(t->wpad->btns_d > 0 &&
 					(wm_btns == wm_btns_trig ||
 					(cc_btns == cc_btns_trig && t->wpad->exp.type == EXP_CLASSIC))) ||
-					(t->pad.btns_d == trigger[i]->pad.btns_h && t->pad.btns_d > 0))
+					(t->pad.btns_d == trigger[i]->pad.btns_h && t->pad.btns_d > 0) ||
+					(wiidrc_btns == wiidrc_btns_trig && wiidrc_btns > 0))
 				{
-					if(trigger[i]->type == TRIGGER_HELD && state == STATE_SELECTED &&
+					if(trigger[i]->type == TRIGGER::HELD && state == STATE::SELECTED &&
 						(t->chan == stateChan || stateChan == -1))
-						this->SetState(STATE_CLICKED, t->chan);
+						this->SetState(STATE::CLICKED, t->chan);
 				}
 
 				if(
 					(t->wpad->btns_h > 0 &&
 					(wm_btns_h == wm_btns_trig ||
 					(cc_btns_h == cc_btns_trig && t->wpad->exp.type == EXP_CLASSIC))) ||
-					(t->pad.btns_h == trigger[i]->pad.btns_h && t->pad.btns_h > 0))
+					(t->pad.btns_h == trigger[i]->pad.btns_h && t->pad.btns_h > 0) ||
+					(wiidrc_btns_h == wiidrc_btns_trig && wiidrc_btns_h > 0))
 				{
-					if(trigger[i]->type == TRIGGER_HELD)
+					if(trigger[i]->type == TRIGGER::HELD)
 						held = true;
 				}
 
-				if(!held && state == STATE_HELD && stateChan == t->chan)
+				if(!held && state == STATE::HELD && stateChan == t->chan)
 				{
 					this->ResetState();
 				}
-				else if(held && state == STATE_CLICKED && stateChan == t->chan)
+				else if(held && state == STATE::CLICKED && stateChan == t->chan)
 				{
-					this->SetState(STATE_HELD, t->chan);
+					this->SetState(STATE::HELD, t->chan);
 				}
 			}
 		}

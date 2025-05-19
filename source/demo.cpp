@@ -49,6 +49,8 @@ DefaultSettings()
 int
 main(int argc, char *argv[])
 {
+	(void)argc; (void)argv; // unused
+
 	InitVideo(); // Initialize video
 	SetupPads(); // Initialize input
 	InitAudio(); // Initialize audio

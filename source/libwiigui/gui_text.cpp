@@ -15,8 +15,8 @@ static GXColor presetColor = (GXColor){255, 255, 255, 255};
 static int currentSize = 0;
 static int presetSize = 0;
 static int presetMaxWidth = 0;
-static int presetAlignmentHor = 0;
-static int presetAlignmentVert = 0;
+static ALIGN_H presetAlignmentHor = ALIGN_H::LEFT;
+static ALIGN_V presetAlignmentVert = ALIGN_V::TOP;
 static u16 presetStyle = 0;
 
 #define TEXT_SCROLL_DELAY			8
@@ -27,8 +27,8 @@ static u16 presetStyle = 0;
  */
 GuiText::GuiText(const char * t, int s, GXColor c)
 {
-	origText = NULL;
-	text = NULL;
+	origText = nullptr;
+	text = nullptr;
 	size = s;
 	color = c;
 	alpha = c.a;
@@ -36,13 +36,13 @@ GuiText::GuiText(const char * t, int s, GXColor c)
 	maxWidth = 0;
 	wrap = false;
 	textDynNum = 0;
-	textScroll = SCROLL_NONE;
+	textScroll = SCROLL::NONE;
 	textScrollPos = 0;
 	textScrollInitialDelay = TEXT_SCROLL_INITIAL_DELAY;
 	textScrollDelay = TEXT_SCROLL_DELAY;
 
-	alignmentHor = ALIGN_CENTRE;
-	alignmentVert = ALIGN_MIDDLE;
+	alignmentHor = ALIGN_H::CENTRE;
+	alignmentVert = ALIGN_V::MIDDLE;
 
 	if(t)
 	{
@@ -51,7 +51,7 @@ GuiText::GuiText(const char * t, int s, GXColor c)
 	}
 
 	for(int i=0; i < 20; i++)
-		textDyn[i] = NULL;
+		textDyn[i] = nullptr;
 }
 
 /**
@@ -59,8 +59,8 @@ GuiText::GuiText(const char * t, int s, GXColor c)
  */
 GuiText::GuiText(const char * t)
 {
-	origText = NULL;
-	text = NULL;
+	origText = nullptr;
+	text = nullptr;
 	size = presetSize;
 	color = presetColor;
 	alpha = presetColor.a;
@@ -68,7 +68,7 @@ GuiText::GuiText(const char * t)
 	maxWidth = presetMaxWidth;
 	wrap = false;
 	textDynNum = 0;
-	textScroll = SCROLL_NONE;
+	textScroll = SCROLL::NONE;
 	textScrollPos = 0;
 	textScrollInitialDelay = TEXT_SCROLL_INITIAL_DELAY;
 	textScrollDelay = TEXT_SCROLL_DELAY;
@@ -83,7 +83,7 @@ GuiText::GuiText(const char * t)
 	}
 
 	for(int i=0; i < 20; i++)
-		textDyn[i] = NULL;
+		textDyn[i] = nullptr;
 }
 
 /**
@@ -118,8 +118,8 @@ void GuiText::SetText(const char * t)
 				delete[] textDyn[i];
 	}
 
-	origText = NULL;
-	text = NULL;
+	origText = nullptr;
+	text = nullptr;
 	textDynNum = 0;
 	textScrollPos = 0;
 	textScrollInitialDelay = TEXT_SCROLL_INITIAL_DELAY;
@@ -145,8 +145,8 @@ void GuiText::SetWText(wchar_t * t)
 				delete[] textDyn[i];
 	}
 
-	origText = NULL;
-	text = NULL;
+	origText = nullptr;
+	text = nullptr;
 	textDynNum = 0;
 	textScrollPos = 0;
 	textScrollInitialDelay = TEXT_SCROLL_INITIAL_DELAY;
@@ -163,7 +163,7 @@ int GuiText::GetLength()
 	return wcslen(text);
 }
 
-void GuiText::SetPresets(int sz, GXColor c, int w, u16 s, int h, int v)
+void GuiText::SetPresets(int sz, GXColor c, int w, u16 s, ALIGN_H h, ALIGN_V v)
 {
 	presetSize = sz;
 	presetColor = c;
@@ -187,7 +187,7 @@ void GuiText::SetMaxWidth(int width)
 		if(textDyn[i])
 		{
 			delete[] textDyn[i];
-			textDyn[i] = NULL;
+			textDyn[i] = nullptr;
 		}
 	}
 
@@ -221,14 +221,14 @@ void GuiText::SetWrap(bool w, int width)
 		if(textDyn[i])
 		{
 			delete[] textDyn[i];
-			textDyn[i] = NULL;
+			textDyn[i] = nullptr;
 		}
 	}
 
 	textDynNum = 0;
 }
 
-void GuiText::SetScroll(int s)
+void GuiText::SetScroll(SCROLL s)
 {
 	if(textScroll == s)
 		return;
@@ -238,7 +238,7 @@ void GuiText::SetScroll(int s)
 		if(textDyn[i])
 		{
 			delete[] textDyn[i];
-			textDyn[i] = NULL;
+			textDyn[i] = nullptr;
 		}
 	}
 
@@ -261,16 +261,16 @@ void GuiText::SetStyle(u16 s)
 	style = s;
 }
 
-void GuiText::SetAlignment(int hor, int vert)
+void GuiText::SetAlignment(ALIGN_H hor, ALIGN_V vert)
 {
 	style = 0;
 
 	switch(hor)
 	{
-		case ALIGN_LEFT:
+		case ALIGN_H::LEFT:
 			style |= FTGX_JUSTIFY_LEFT;
 			break;
-		case ALIGN_RIGHT:
+		case ALIGN_H::RIGHT:
 			style |= FTGX_JUSTIFY_RIGHT;
 			break;
 		default:
@@ -279,10 +279,10 @@ void GuiText::SetAlignment(int hor, int vert)
 	}
 	switch(vert)
 	{
-		case ALIGN_TOP:
+		case ALIGN_V::TOP:
 			style |= FTGX_ALIGN_TOP;
 			break;
-		case ALIGN_BOTTOM:
+		case ALIGN_V::BOTTOM:
 			style |= FTGX_ALIGN_BOTTOM;
 			break;
 		default:
@@ -308,7 +308,7 @@ void GuiText::ResetText()
 		if(textDyn[i])
 		{
 			delete[] textDyn[i];
-			textDyn[i] = NULL;
+			textDyn[i] = nullptr;
 		}
 	}
 
@@ -356,7 +356,8 @@ void GuiText::Draw()
 	{
 		if(textDynNum == 0)
 		{
-			u32 n = 0, ch = 0;
+			int n = 0;
+			u32 ch = 0;
 			int linenum = 0;
 			int lastSpace = -1;
 			int lastSpaceIndex = -1;
@@ -402,7 +403,7 @@ void GuiText::Draw()
 		int lineheight = newSize + 6;
 		int voffset = 0;
 
-		if(alignmentVert == ALIGN_MIDDLE)
+		if(alignmentVert == ALIGN_V::MIDDLE)
 			voffset = (lineheight >> 1) * (1-textDynNum);
 
 		int left = this->GetLeft();
@@ -423,7 +424,7 @@ void GuiText::Draw()
 				textDyn[0][--len] = 0;
 		}
 
-		if(textScroll == SCROLL_HORIZONTAL)
+		if(textScroll == SCROLL::HORIZONTAL)
 		{
 			if(fontSystem[currentSize]->getWidth(text) > maxWidth && (FrameTimer % textScrollDelay == 0))
 			{

@@ -14,18 +14,18 @@
  */
 GuiImage::GuiImage()
 {
-	image = NULL;
+	image = nullptr;
 	width = 0;
 	height = 0;
 	imageangle = 0;
 	tile = -1;
 	stripe = 0;
-	imgType = IMAGE_DATA;
+	imgType = IMAGE::DATA;
 }
 
 GuiImage::GuiImage(GuiImageData * img)
 {
-	image = NULL;
+	image = nullptr;
 	width = 0;
 	height = 0;
 	if(img)
@@ -37,7 +37,7 @@ GuiImage::GuiImage(GuiImageData * img)
 	imageangle = 0;
 	tile = -1;
 	stripe = 0;
-	imgType = IMAGE_DATA;
+	imgType = IMAGE::DATA;
 }
 
 GuiImage::GuiImage(u8 * img, int w, int h)
@@ -48,7 +48,7 @@ GuiImage::GuiImage(u8 * img, int w, int h)
 	imageangle = 0;
 	tile = -1;
 	stripe = 0;
-	imgType = IMAGE_TEXTURE;
+	imgType = IMAGE::TEXTURE;
 }
 
 GuiImage::GuiImage(int w, int h, GXColor c)
@@ -59,7 +59,7 @@ GuiImage::GuiImage(int w, int h, GXColor c)
 	imageangle = 0;
 	tile = -1;
 	stripe = 0;
-	imgType = IMAGE_COLOR;
+	imgType = IMAGE::COLOR;
 
 	if(!image)
 		return;
@@ -83,7 +83,7 @@ GuiImage::GuiImage(int w, int h, GXColor c)
  */
 GuiImage::~GuiImage()
 {
-	if(imgType == IMAGE_COLOR && image)
+	if(imgType == IMAGE::COLOR && image)
 		free(image);
 }
 
@@ -94,7 +94,7 @@ u8 * GuiImage::GetImage()
 
 void GuiImage::SetImage(GuiImageData * img)
 {
-	image = NULL;
+	image = nullptr;
 	width = 0;
 	height = 0;
 	if(img)
@@ -103,7 +103,7 @@ void GuiImage::SetImage(GuiImageData * img)
 		width = img->GetWidth();
 		height = img->GetHeight();
 	}
-	imgType = IMAGE_DATA;
+	imgType = IMAGE::DATA;
 }
 
 void GuiImage::SetImage(u8 * img, int w, int h)
@@ -111,7 +111,7 @@ void GuiImage::SetImage(u8 * img, int w, int h)
 	image = img;
 	width = w;
 	height = h;
-	imgType = IMAGE_TEXTURE;
+	imgType = IMAGE::TEXTURE;
 }
 
 void GuiImage::SetAngle(float a)
@@ -249,7 +249,7 @@ void GuiImage::Draw()
 		int thisHeight = this->GetHeight();
 		int thisWidth = this->GetWidth();
 		for(int y=0; y < thisHeight; y+=6)
-			Menu_DrawRectangle(currLeft,thisTop+y,thisWidth,3,(GXColor){0, 0, 0, stripe},1);
+			Menu_DrawRectangle(currLeft,thisTop+y,thisWidth,3,(GXColor){0, 0, 0, (u8)stripe},1);
 	}
 	this->UpdateEffects();
 }
