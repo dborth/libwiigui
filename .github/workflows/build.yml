@@ -1,0 +1,67 @@
+name: libwiigui demo
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    container: devkitpro/devkitppc:latest
+
+    steps:
+    - name: Checkout libwiigui repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Compile
+      run: |
+        make -f Makefile
+
+    - name: Copy artifacts
+      run: |
+        cp libwiigui-demo.dol dist
+      
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: libwiigui
+        path: |
+          dist/
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+    - name: Checkout libwiigui repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Download Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: dist
+
+    - name: Re-zip artifact
+      run: |
+        cd dist/libwiigui
+        zip -r ../libwiigui.zip *
+
+    - name: Update Git Tag
+      run: |
+        git tag -f Pre-release
+        git push -f origin Pre-release
+
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      with:
+        prerelease: true
+        allowUpdates: true
+        removeArtifacts: true
+        replacesArtifacts: false
+        tag: Pre-release
+        artifacts: "dist/*.zip"

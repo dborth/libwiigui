@@ -1,3 +1,4 @@
 build/
 *.dol
 *.elf
+/.project
