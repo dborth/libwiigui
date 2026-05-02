@@ -8,6 +8,8 @@ $(error "Please set DEVKITPPC in your environment. export DEVKITPPC=<path to>dev
 endif
 
 include $(DEVKITPPC)/wii_rules
+export	FREETYPE_CFLAGS 	:=	`$(DEVKITPRO)/portlibs/ppc/bin/powerpc-eabi-pkg-config --cflags freetype2`
+export	FREETYPE_LIBS	:=	`$(DEVKITPRO)/portlibs/ppc/bin/powerpc-eabi-pkg-config --libs freetype2`
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
@@ -25,14 +27,14 @@ INCLUDES	:=	source
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS		=	-g -O2 -Wall -Wextra $(MACHDEP) $(INCLUDE) `freetype-config --cflags`
+CFLAGS		=	-g -O2 -Wall -Wextra $(MACHDEP) $(INCLUDE) $(FREETYPE_CFLAGS)
 CXXFLAGS	=	$(CFLAGS) -std=c++11
 LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS :=	-lpng `freetype-config --libs` -lz -lfat -lwiiuse -lbte -lasnd -logc -lvorbisidec -logg
+LIBS :=	-lpng -lz -lfat -lwiiuse -lbte -lasnd -logc -lvorbisidec -logg $(FREETYPE_LIBS)
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
@@ -82,8 +84,7 @@ export HFILES := $(addsuffix .h,$(subst .,_,$(BINFILES)))
 #---------------------------------------------------------------------------------
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 				$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-				-I$(CURDIR)/$(BUILD) -I$(LIBOGC_INC) \
-				$(foreach dir,$(PORTLIBS),-I$(dir)/include/freetype2) \
+				-I$(CURDIR)/$(BUILD) -I$(LIBOGC_INC)
 
 #---------------------------------------------------------------------------------
 # build a list of library paths
