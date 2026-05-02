@@ -226,7 +226,7 @@ UpdateGUI (void *arg)
 void
 InitGUIThreads()
 {
-	LWP_CreateThread (&guithread, UpdateGUI, nullptr, nullptr, 0, 70);
+	LWP_CreateThread (&guithread, UpdateGUI, nullptr, nullptr, 24576, 70);
 }
 
 /****************************************************************************
