@@ -42,7 +42,7 @@ public:
 	void ResetState();
 	//!Sets the window's state
 	//!\param s State
-	void SetState(STATE s);
+	void SetState(STATE s, int c = -1);
 	//!Gets the index of the GuiElement inside the window that is currently selected
 	//!\return index of selected GuiElement
 	int GetSelected();
